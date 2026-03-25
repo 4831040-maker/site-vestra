@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob: *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://gquytiqzeckptjttpaum.supabase.co;">
+    <title>VESTRA | AI Editorial Production</title>
+    <style>
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+        html { scrollbar-gutter: stable; }
+        
+        body { 
+            background: #fff; color: #000; 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            display: flex; flex-direction: column; align-items: center; width: 100%;
+        }
+
+        .site-header {
+            width: 100%;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .site-header-inner {
+            width: min(calc(100% - 48px), 1280px);
+            margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .site-header a {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .site-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-shrink: 0;
+        }
+        .header-auth-link,
+        .header-auth-primary {
+            border: none;
+            background: transparent;
+            font: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-auth-link {
+            padding: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6f6f6f;
+            transition: color 0.18s ease;
+        }
+        .header-auth-link:hover {
+            color: #000;
+        }
+        .header-auth-primary {
+            min-height: 38px;
+            padding: 0 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: #000;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 999px;
+            transition: background 0.18s ease, border-color 0.18s ease;
+        }
+        .header-auth-primary:hover {
+            background: #111;
+            border-color: rgba(0, 0, 0, 0.16);
+        }
+        .logo {
+            display: block;
+            width: min(150px, 100%);
+            max-width: 150px;
+            height: auto;
+        }
+        .top-section { width: min(calc(100% - 48px), 1280px); max-width: 800px; margin: 0 auto; padding: 56px 24px 20px; text-align: center; }
+        h1 { font-size: 62px; font-weight: 500; letter-spacing: 2.3px; margin-bottom: 22px; text-transform: uppercase; color: #1a1a1a; }
+        h1 .heading-prefix { color: #5c5c5c; font-weight: 400; }
+        .subtitle { color: #747474; font-size: 17px; font-weight: 300; margin-bottom: 40px; letter-spacing: 2px; }
+
+        .interaction-wrapper {
+            width: 100%; max-width: 600px; min-height: 220px; 
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 40px;
+        }
+
+        .upload-area {
+            width: 100%; height: 160px; border: 1px solid #d0d0d0; 
+            background: #f2f2f2; display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; text-transform: uppercase; letter-spacing: 2px; 
+            font-size: 11px; font-weight: 700; color: #444; cursor: pointer; 
+            transition: all 0.2s ease;
+        }
+        .upload-area:hover, .upload-area.dragover { background: #e8e8e8; border-color: #000; }
+        #file-input { display: none !important; }
+
+        #loader-container { display: none; width: 100%; text-align: center; padding: 60px 0; }
+        .progress-bar { width: 100%; height: 2px; background: #eee; margin-bottom: 15px; position: relative; overflow: hidden; }
+        .progress-fill { position: absolute; top: 0; left: 0; height: 100%; background: #000; width: 0%; transition: width 0.3s; }
+        .status-text { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #888; }
+        .upload-feedback {
+            min-height: 18px;
+            margin-top: 14px;
+            font-size: 11px;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8b8b8b;
+        }
+        .upload-feedback.is-error { color: #8f3b3b; }
+        .upload-feedback.is-success { color: #111; }
+
+        #result-container { display: none; width: 100%; max-width: 420px; text-align: center; }
+
+        /* ИСПРАВЛЕННАЯ ГЕОМЕТРИЯ (БЕЗ КВАДРАТА) */
+        .box { 
+            width: 100%; 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            grid-template-rows: 1fr; 
+            position: relative; 
+            background: #f8f8f8; 
+            overflow: hidden; 
+            touch-action: none; 
+        }
+        
+        .box img, .shutter, .shield { grid-area: 1 / 1; }
+        .shield { z-index: 20; background: transparent; }
+
+        .img-before { width: 100%; height: auto; display: block; z-index: 1; }
+        .img-after { width: 100%; height: auto; display: block; }
+
+        .shutter { 
+            position: relative; z-index: 2; width: 100%; height: 100%; overflow: hidden; --pos: 95%;
+            -webkit-mask-image: linear-gradient(to right, #000 0%, #000 var(--pos), rgba(0,0,0,0) var(--pos));
+            mask-image: linear-gradient(to right, #000 0%, #000 var(--pos), rgba(0,0,0,0) var(--pos));
+        }
+
+        /* ШЛЕЙФЫ */
+        .handle-glow {
+            position: absolute; top: 0; bottom: 0; z-index: 9;
+            left: 95%; width: 140px;
+            background: linear-gradient(to right, 
+                rgba(255,255,255,1.0) 0%, rgba(255,255,255,0.96) 6%, rgba(255,255,255,0.88) 14%, 
+                rgba(255,255,255,0.7) 28%, rgba(255,255,255,0.45) 45%, rgba(255,255,255,0.25) 65%, 
+                rgba(255,255,255,0.12) 80%, rgba(255,255,255,0.04) 92%, rgba(255,255,255,0) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* ИСПРАВЛЕННЫЕ КУРСОРЫ (ПОДНЯТЫ НАД ЩИТОМ) */
+        .handle-line-v { position: absolute; top: 0; bottom: 0; left: 95%; width: 20px; margin-left: -10px; z-index: 25; cursor: col-resize; }
+        .handle-line-v::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: #ffffff; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+        
+        .handle-premium { 
+            position: absolute; top: 50%; left: 95%; transform: translate(-50%, -50%); 
+            width: 20px; height: 48px; background: #000; z-index: 26; 
+            display: flex; gap: 4px; align-items: center; justify-content: center; 
+            border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); 
+            border: 1px solid rgba(255,255,255,0.15); cursor: col-resize; 
+        }
+        .line-mark { width: 1.5px; height: 14px; background: rgba(255,255,255,0.5); border-radius: 1px; }
+
+        .watermark-overlay { display: none !important; }
+        .watermark-text { font-size: 52px; font-weight: 800; letter-spacing: 14px; color: rgba(255,255,255,0.4); transform: rotate(-25deg); text-transform: uppercase; white-space: nowrap; }
+
+        .cta-button { background: #000; color: #fff; border: none; padding: 18px 36px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; margin-top: 20px; }
+        
+        /* СЕТКА (4 КАРТОЧКИ ВОССТАНОВЛЕНЫ) */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; width: min(calc(100% - 48px), 1280px); max-width: 1280px; margin: 0 auto; padding: 20px 24px 100px; }
+        .label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #bbb; margin-top: 12px; }
+
+        body.modal-open { overflow: hidden; }
+        #modal {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            z-index: 100;
+            padding: 24px;
+            visibility: hidden;
+            pointer-events: none;
+            transition: visibility 0s linear 220ms;
+        }
+        #modal.is-mounted {
+            visibility: visible;
+            transition: visibility 0s linear 0s;
+        }
+        #modal.is-open { pointer-events: auto; }
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.86);
+            opacity: 0;
+            transition: opacity 180ms ease-out;
+            will-change: opacity;
+        }
+        #modal.is-open .modal-backdrop {
+            opacity: 1;
+        }
+        .modal-panel {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            min-height: min(700px, calc(100vh - 36px));
+            margin-top: 36px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 220ms ease-out, transform 220ms ease-out;
+            will-change: opacity, transform;
+        }
+        #modal.is-open .modal-panel {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .modal-content {
+            position: relative;
+            background: #fff;
+            min-height: 100%;
+            padding: 42px 34px 56px;
+            width: 100%;
+            text-align: left;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.24);
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: #111;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .modal-kicker {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 12px;
+        }
+        .modal-title {
+            font-size: 32px;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            margin-bottom: 10px;
+        }
+        .modal-subtitle {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 28px;
+        }
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+        .auth-tab {
+            border: 1px solid #d6d6d6;
+            background: #f7f7f7;
+            color: #555;
+            padding: 12px 14px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .auth-tab.is-active {
+            background: #000;
+            border-color: #000;
+            color: #fff;
+        }
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .field-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: #666;
+        }
+        .field-helper {
+            margin-top: -2px;
+            font-size: 11px;
+            line-height: 1.45;
+            color: #8b8b8b;
+        }
+        .auth-input {
+            width: 100%;
+            border: 1px solid #d7d7d7;
+            background: #fff;
+            color: #111;
+            padding: 15px 16px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .auth-input:focus {
+            border-color: #000;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+        }
+        .field-group.is-invalid .auth-input {
+            border-color: #a74b4b;
+            box-shadow: 0 0 0 3px rgba(167,75,75,0.12);
+        }
+        .field-error {
+            min-height: 14px;
+            font-size: 11px;
+            color: #b42318;
+            opacity: 0;
+            transform: translateY(-2px);
+            transition: opacity 160ms ease, transform 160ms ease;
+        }
+        .field-group.is-invalid .field-error {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .field-group.error-pulse .auth-input {
+            animation: inputErrorPulse 360ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .field-group.error-pulse .field-error {
+            animation: errorTextPulse 360ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes inputErrorPulse {
+            0% { box-shadow: 0 0 0 0 rgba(167,75,75,0); }
+            35% { box-shadow: 0 0 0 5px rgba(167,75,75,0.18); }
+            100% { box-shadow: 0 0 0 3px rgba(167,75,75,0.12); }
+        }
+        @keyframes errorTextPulse {
+            0% { transform: translateY(0); opacity: 1; }
+            35% { transform: translateY(1px); opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .auth-submit,
+        .success-secondary {
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 16px 18px;
+        }
+        .auth-submit {
+            background: #000;
+            color: #fff;
+            margin-top: 4px;
+        }
+        .success-secondary {
+            background: #f3f3f3;
+            color: #111;
+            border: 1px solid #d8d8d8;
+        }
+        .auth-switch {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        .auth-switch button {
+            border: none;
+            background: transparent;
+            color: #000;
+            font: inherit;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .auth-success {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .success-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .hidden { display: none !important; }
+        .auth-feedback {
+            min-height: 18px;
+            margin-top: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            text-align: center;
+            color: #666;
+        }
+        .auth-feedback.is-error { color: #b42318; }
+        .auth-feedback.is-success { color: #111; }
+        @media (max-width: 640px) {
+            .site-header {
+                padding-inline: 16px;
+            }
+            .site-header-inner {
+                gap: 16px;
+            }
+            .site-header-actions {
+                gap: 12px;
+            }
+            .logo {
+                width: min(110px, 100%);
+                max-width: 110px;
+            }
+            .header-auth-link {
+                font-size: 13px;
+            }
+            .header-auth-primary {
+                min-height: 34px;
+                padding: 0 13px;
+                font-size: 12px;
+            }
+            .modal-panel {
+                min-height: min(620px, calc(100vh - 24px));
+                margin-top: 18px;
+            }
+            .modal-content { padding: 34px 22px 42px; }
+            .modal-title { font-size: 26px; }
+            .success-actions { grid-template-columns: 1fr; }
+        }
+    /* РАДИКАЛЬНОЕ КАШЕ ДЛЯ СКРЫТИЯ НОГ */
+.box { 
+    aspect-ratio: 3392 / 5000 !important; 
+    overflow: hidden !important; 
+}
+.box img, .img-before, .img-after { 
+    object-fit: cover !important; 
+    object-position: top !important; 
+    height: 100% !important;
+    width: 100% !important;
+}
+/* Режим готового результата: скрываем всё лишнее */
+        #result-container.is-ready .img-before, 
+        #result-container.is-ready .handle-line-v, 
+        #result-container.is-ready .handle-premium, 
+        #result-container.is-ready .handle-glow, 
+        #result-container.is-ready .shield { 
+            display: none !important; 
+        }
+
+        /* Убираем шторку, чтобы результат был виден полностью */
+        #result-container.is-ready .shutter { 
+            -webkit-mask-image: none !important; 
+            mask-image: none !important; 
+        }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a href="/" aria-label="VESTRA home">
+            <img src="/assets/images/logo.svg" alt="VESTRA" class="logo">
+        </a>
+        <div class="site-header-actions" aria-label="Authentication actions">
+            <button class="header-auth-link" type="button" onclick="openAuthModalWithMode('signin')">Sign in</button>
+            <button class="header-auth-primary" type="button" onclick="openAuthModalWithMode('create')">Sign up</button>
+        </div>
+    </div>
+</header>
+
+<div class="top-section">
+    <h1><span class="heading-prefix">AI</span> FASHION STUDIO</h1>
+    <p class="subtitle">PREMIUM AI EDITORIAL PRODUCTION</p>
+    <div class="interaction-wrapper">
+        <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <span>Drop Garment Here</span>
+            <input type="file" id="file-input" accept="image/*">
+        </div>
+        <div id="loader-container">
+            <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+            <div class="status-text" id="status">Analyzing Textures...</div>
+        </div>
+        <div id="result-container">
+            <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)" onpointercancel="stopSlide(event)">
+                <div class="shield"></div>
+                <img src="" class="img-before" id="preview-img">
+                <div class="shutter">
+                    <div class="watermark-overlay"><div class="watermark-text">VESTRA</div></div>
+                    <img src="" class="img-after" id="result-img">
+                </div>
+                <div class="handle-glow"></div>
+                <div class="handle-line-v"></div>
+                <div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div>
+            </div>
+            <button class="cta-button" id="auth-cta-button" type="button" onclick="openAuthModal()">Unlock High-Res Download</button>
+        </div>
+    </div>
+    <div class="upload-feedback" id="upload-feedback" aria-live="polite"></div>
+</div>
+
+<div class="grid" id="main-grid">
+    <div style="display: flex; flex-direction: column;">
+        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="001a.webp" class="img-before"><div class="shutter"><img src="001.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
+        <div class="label">Vestra Test 01</div>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="005bb.webp" class="img-before"><div class="shutter"><img src="005aa.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
+        <div class="label">Vestra Test 02</div>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="003a.webp" class="img-before"><div class="shutter"><img src="003.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
+        <div class="label">Vestra Test 03</div>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="004a.webp" class="img-before"><div class="shutter"><img src="004.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
+        <div class="label">Vestra Test 04</div>
+    </div>
+</div>
+
+<div id="modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" onclick="event.stopPropagation()">
+            <button class="modal-close" type="button" aria-label="Close modal" onclick="closeAuthModal()">&times;</button>
+            <div class="modal-kicker">VESTRA Access</div>
+            <div id="auth-default-view">
+                <h2 class="modal-title" id="auth-modal-title">Unlock Original Image</h2>
+                <p class="modal-subtitle">Create an account or sign in to continue.</p>
+                <div class="auth-tabs" aria-label="Authentication mode">
+                    <button class="auth-tab is-active" type="button" data-auth-tab="create" onclick="setAuthMode('create')">Create account</button>
+                    <button class="auth-tab" type="button" data-auth-tab="signin" onclick="setAuthMode('signin')">Sign in</button>
+                </div>
+                <form id="auth-form" class="auth-form" novalidate>
+                    <div class="field-group" id="email-field-group">
+                        <label class="field-label" for="auth-email">Email</label>
+                        <input class="auth-input" id="auth-email" name="email" type="email" autocomplete="email">
+                        <div class="field-error" data-error-for="email"></div>
+                    </div>
+                    <div class="field-group" id="password-field-group">
+                        <label class="field-label" for="auth-password">Password</label>
+                        <input class="auth-input" id="auth-password" name="password" type="password" autocomplete="current-password">
+                        <div class="field-helper" id="password-helper">At least 8 characters, including uppercase, lowercase and a number</div>
+                        <div class="field-error" data-error-for="password"></div>
+                    </div>
+                    <div class="field-group" id="confirm-password-group">
+                        <label class="field-label" for="auth-confirm-password">Confirm password</label>
+                        <input class="auth-input" id="auth-confirm-password" name="confirmPassword" type="password" autocomplete="new-password">
+                        <div class="field-error" data-error-for="confirmPassword"></div>
+                    </div>
+                <button class="auth-submit" id="auth-submit-button" type="submit">Create account</button>
+            </form>
+            <div class="auth-feedback" id="auth-feedback" aria-live="polite"></div>
+            <p class="auth-switch">
+                <span id="auth-switch-copy">Already have an account?</span>
+                <button id="auth-switch-button" type="button" onclick="toggleAuthMode()">Sign in</button>
+                </p>
+            </div>
+            <div id="auth-success-view" class="auth-success hidden">
+                <h2 class="modal-title">Check your email</h2>
+                <p class="modal-subtitle">A confirmation link will be sent to your email in the next step. Verify your account to continue.</p>
+                <div class="success-actions">
+                    <button class="auth-submit" type="button" onclick="setAuthMode('signin'); showAuthView('default');">Back to sign in</button>
+                    <button class="success-secondary" type="button" onclick="closeAuthModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://gquytiqzeckptjttpaum.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_UGVcuo8Ds_sZKVXc5k107A_RMeQE4SR';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Post-registration and post-verification destination.
+    const ACCOUNT_URL = `${window.location.origin}/account/`;
+
+    const dropZone = document.getElementById('drop-zone');
+    const loader = document.getElementById('loader-container');
+    const result = document.getElementById('result-container');
+    const grid = document.getElementById('main-grid');
+    const fill = document.getElementById('fill');
+    const status = document.getElementById('status');
+    const uploadFeedback = document.getElementById('upload-feedback');
+    const modal = document.getElementById('modal');
+    const authForm = document.getElementById('auth-form');
+    const authDefaultView = document.getElementById('auth-default-view');
+    const authSuccessView = document.getElementById('auth-success-view');
+    const authSubmitButton = document.getElementById('auth-submit-button');
+    const authCtaButton = document.getElementById('auth-cta-button');
+    const confirmPasswordGroup = document.getElementById('confirm-password-group');
+    const authSwitchCopy = document.getElementById('auth-switch-copy');
+    const authSwitchButton = document.getElementById('auth-switch-button');
+    const authTabs = Array.from(document.querySelectorAll('[data-auth-tab]'));
+    const authEmailInput = document.getElementById('auth-email');
+    const authPasswordInput = document.getElementById('auth-password');
+    const authConfirmPasswordInput = document.getElementById('auth-confirm-password');
+    const authFeedback = document.getElementById('auth-feedback');
+    const emailFieldGroup = document.getElementById('email-field-group');
+    const passwordFieldGroup = document.getElementById('password-field-group');
+    const passwordHelper = document.getElementById('password-helper');
+    const apiBaseUrl = window.location.origin.startsWith('http')
+        ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
+        : 'http://localhost:3000';
+    const COMMON_WEAK_PASSWORDS = new Set([
+        '123456',
+        '12345678',
+        'password',
+        'qwerty',
+        'abc123',
+        '11111111',
+        '00000000',
+        'password123'
+    ]);
+    let authMode = 'create';
+    let modalCloseTimer = null;
+    let modalOpenRaf = null;
+
+    function updateAuthenticatedUi(session) {
+        const isLoggedIn = Boolean(session?.user);
+        authCtaButton.textContent = isLoggedIn ? 'Account Active' : 'Unlock High-Res Download';
+    }
+
+    supabaseClient.auth.getSession().then(({ data }) => {
+        updateAuthenticatedUi(data.session);
+    });
+
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+        updateAuthenticatedUi(session);
+    });
+
+    async function parseJsonSafely(response) {
+        const text = await response.text();
+        try {
+            return {
+                ok: true,
+                data: text ? JSON.parse(text) : {},
+                raw: text,
+                contentType: response.headers.get('content-type') || '',
+                status: response.status
+            };
+        } catch (error) {
+            return {
+                ok: false,
+                raw: text,
+                contentType: response.headers.get('content-type') || '',
+                status: response.status
+            };
+        }
+    }
+
+    function setUploadFeedback(message, type = '') {
+        uploadFeedback.textContent = message;
+        uploadFeedback.className = 'upload-feedback';
+        if (type) {
+            uploadFeedback.classList.add(`is-${type}`);
+        }
+    }
+
+    function formatGenerationError(error, parsed) {
+        const raw = (parsed?.raw || '').trim();
+        const contentType = parsed?.contentType || '';
+        const statusCode = parsed?.status;
+
+        if (!raw) {
+            return statusCode
+                ? `The server returned an empty response (${statusCode}). Please try again.`
+                : 'The server returned an empty response. Please try again.';
+        }
+
+        if (raw.startsWith('<') || contentType.includes('text/html')) {
+            return statusCode === 404
+                ? 'The generation route is unavailable right now. Please reload and try again.'
+                : 'The server returned an invalid response. Please try again.';
+        }
+
+        return error?.message || 'Unable to process this image right now.';
+    }
+
+    function loadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error('Failed to load image'));
+            img.src = src;
+        });
+    }
+
+    async function createWatermarkedImage(src) {
+        const image = await loadImage(src);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const width = image.naturalWidth || image.width;
+        const height = image.naturalHeight || image.height;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.drawImage(image, 0, 0, width, height);
+
+        const fontSize = Math.max(36, Math.round(width / 18));
+        const stepX = Math.max(220, Math.round(width / 4));
+        const stepY = Math.max(180, Math.round(height / 6));
+
+        ctx.fillStyle = '#ffffff';
+        ctx.textBaseline = 'middle';
+
+        for (let y = 0, row = 0; y < height + stepY; y += stepY, row++) {
+            for (let x = -stepX; x < width + stepX; x += stepX) {
+                const offsetX = (row % 2 === 0) ? 0 : stepX / 2;
+
+                ctx.save();
+                ctx.translate(x + offsetX, y);
+                ctx.rotate(-25 * Math.PI / 180);
+                ctx.globalAlpha = 0.08;
+                ctx.font = `600 ${fontSize}px sans-serif`;
+                ctx.fillText('VESTRA', 0, 0);
+                ctx.restore();
+            }
+        }
+
+        return canvas.toDataURL('image/png');
+    }
+
+    function openAuthModal() {
+        showAuthView('default');
+        clearAuthErrors();
+        if (modalCloseTimer) {
+            window.clearTimeout(modalCloseTimer);
+            modalCloseTimer = null;
+        }
+        if (modalOpenRaf) {
+            window.cancelAnimationFrame(modalOpenRaf);
+            modalOpenRaf = null;
+        }
+        modal.classList.add('is-mounted');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        modalOpenRaf = window.requestAnimationFrame(() => {
+            modalOpenRaf = window.requestAnimationFrame(() => {
+                modal.classList.add('is-open');
+                modalOpenRaf = null;
+                window.setTimeout(() => document.getElementById('auth-email').focus(), 0);
+            });
+        });
+    }
+
+    function openAuthModalWithMode(mode) {
+        setAuthMode(mode === 'signin' ? 'signin' : 'create');
+        openAuthModal();
+    }
+
+    function closeAuthModal() {
+        if (!modal.classList.contains('is-mounted')) return;
+
+        if (modalOpenRaf) {
+            window.cancelAnimationFrame(modalOpenRaf);
+            modalOpenRaf = null;
+        }
+
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+
+        if (modalCloseTimer) window.clearTimeout(modalCloseTimer);
+        modalCloseTimer = window.setTimeout(() => {
+            modal.classList.remove('is-mounted');
+            clearAuthErrors();
+            authForm.reset();
+            showAuthView('default');
+            setAuthMode('create');
+            modalCloseTimer = null;
+        }, 220);
+    }
+
+    function showAuthView(view) {
+        const isSuccess = view === 'success';
+        authDefaultView.classList.toggle('hidden', isSuccess);
+        authSuccessView.classList.toggle('hidden', !isSuccess);
+    }
+
+    function setAuthMode(mode) {
+        authMode = mode;
+        const isCreate = mode === 'create';
+
+        authTabs.forEach(tab => {
+            tab.classList.toggle('is-active', tab.dataset.authTab === mode);
+        });
+
+        confirmPasswordGroup.classList.toggle('hidden', !isCreate);
+        passwordHelper.classList.toggle('hidden', !isCreate);
+        document.getElementById('auth-password').setAttribute('autocomplete', isCreate ? 'new-password' : 'current-password');
+        authSubmitButton.textContent = isCreate ? 'Create account' : 'Sign in';
+        authSwitchCopy.textContent = isCreate ? 'Already have an account?' : "Don't have an account?";
+        authSwitchButton.textContent = isCreate ? 'Sign in' : 'Create account';
+        clearAuthErrors();
+    }
+
+    function toggleAuthMode() {
+        setAuthMode(authMode === 'create' ? 'signin' : 'create');
+    }
+
+    function clearAuthErrors() {
+        document.querySelectorAll('[data-error-for]').forEach(errorNode => {
+            errorNode.textContent = '';
+        });
+        emailFieldGroup.classList.remove('is-invalid', 'error-pulse');
+        passwordFieldGroup.classList.remove('is-invalid', 'error-pulse');
+        confirmPasswordGroup.classList.remove('is-invalid', 'error-pulse');
+        authFeedback.textContent = '';
+        authFeedback.className = 'auth-feedback';
+    }
+
+    function setFieldError(fieldName, message) {
+        const errorNode = document.querySelector(`[data-error-for="${fieldName}"]`);
+        if (errorNode) errorNode.textContent = message;
+    }
+
+    function setAuthFeedback(message, type = '') {
+        authFeedback.textContent = message;
+        authFeedback.className = 'auth-feedback';
+        if (type) authFeedback.classList.add(`is-${type}`);
+    }
+
+    function normalizeEmail(value) {
+        return value.trim().toLowerCase();
+    }
+
+    function triggerFieldErrorFeedback(fieldGroup) {
+        fieldGroup.classList.remove('error-pulse');
+        void fieldGroup.offsetWidth;
+        fieldGroup.classList.add('error-pulse');
+    }
+
+    function setFieldValidityState(fieldGroup, isValid, shouldPulse = false) {
+        fieldGroup.classList.toggle('is-invalid', !isValid);
+
+        if (isValid) {
+            fieldGroup.classList.remove('error-pulse');
+            return;
+        }
+
+        if (shouldPulse) triggerFieldErrorFeedback(fieldGroup);
+    }
+
+    function setEmailValidityState(isValid, shouldPulse = false) {
+        setFieldValidityState(emailFieldGroup, isValid, shouldPulse);
+    }
+
+    function validateEmailSyntax(value) {
+        const email = normalizeEmail(value);
+
+        if (!email) return false;
+        if (/\s/.test(email)) return false;
+        if (/[^\x00-\x7F]/.test(email)) return false;
+
+        const atMatches = email.match(/@/g) || [];
+        if (atMatches.length !== 1) return false;
+
+        const [localPart, domainPart] = email.split('@');
+        if (!localPart || !domainPart) return false;
+        if (localPart.includes('..') || domainPart.includes('..')) return false;
+        if (localPart.startsWith('.') || localPart.endsWith('.')) return false;
+        if (domainPart.startsWith('.') || domainPart.endsWith('.')) return false;
+        if (!domainPart.includes('.')) return false;
+
+        const domainLabels = domainPart.split('.');
+        if (domainLabels.some(label => !label)) return false;
+
+        const topLevelDomain = domainLabels[domainLabels.length - 1];
+        if (!topLevelDomain) return false;
+
+        return /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)+$/i.test(email);
+    }
+
+    function validateEmailField(options = {}) {
+        const { shouldPulse = false } = options;
+        const normalizedEmail = normalizeEmail(authForm.email.value);
+        authForm.email.value = normalizedEmail;
+
+        if (!normalizedEmail) {
+            setFieldError('email', 'Email is required.');
+            setEmailValidityState(false, shouldPulse);
+            return false;
+        }
+
+        if (!validateEmailSyntax(normalizedEmail)) {
+            setFieldError('email', 'Enter a valid email address.');
+            setEmailValidityState(false, shouldPulse);
+            return false;
+        }
+
+        setFieldError('email', '');
+        setEmailValidityState(true);
+        return true;
+    }
+
+    function validatePasswordRules(password) {
+        return password.length >= 8
+            && /[a-z]/.test(password)
+            && /[A-Z]/.test(password)
+            && /\d/.test(password);
+    }
+
+    function validatePasswordField(options = {}) {
+        const { shouldPulse = false } = options;
+        const password = authForm.password.value;
+
+        if (!password) {
+            setFieldError('password', 'Password is required.');
+            setFieldValidityState(passwordFieldGroup, false, shouldPulse);
+            return false;
+        }
+
+        if (authMode !== 'create') {
+            setFieldError('password', '');
+            setFieldValidityState(passwordFieldGroup, true);
+            return true;
+        }
+
+        if (!validatePasswordRules(password)) {
+            setFieldError('password', 'Password must be at least 8 characters and include uppercase, lowercase and a number');
+            setFieldValidityState(passwordFieldGroup, false, shouldPulse);
+            return false;
+        }
+
+        if (COMMON_WEAK_PASSWORDS.has(password.toLowerCase())) {
+            setFieldError('password', 'This password is too common. Choose a stronger one');
+            setFieldValidityState(passwordFieldGroup, false, shouldPulse);
+            return false;
+        }
+
+        setFieldError('password', '');
+        setFieldValidityState(passwordFieldGroup, true);
+        return true;
+    }
+
+    function validateConfirmPasswordField(options = {}) {
+        const { shouldPulse = false } = options;
+
+        if (authMode !== 'create') {
+            setFieldError('confirmPassword', '');
+            setFieldValidityState(confirmPasswordGroup, true);
+            return true;
+        }
+
+        const password = authForm.password.value;
+        const confirmPassword = authForm.confirmPassword.value;
+
+        if (!confirmPassword) {
+            setFieldError('confirmPassword', 'Please confirm your password.');
+            setFieldValidityState(confirmPasswordGroup, false, shouldPulse);
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            setFieldError('confirmPassword', 'Passwords do not match.');
+            setFieldValidityState(confirmPasswordGroup, false, shouldPulse);
+            return false;
+        }
+
+        setFieldError('confirmPassword', '');
+        setFieldValidityState(confirmPasswordGroup, true);
+        return true;
+    }
+
+    function validateAuthForm() {
+        clearAuthErrors();
+
+        const email = normalizeEmail(authForm.email.value);
+        authForm.email.value = email;
+        let isValid = true;
+
+        if (!validateEmailField({ shouldPulse: true })) {
+            isValid = false;
+        }
+
+        if (!validatePasswordField({ shouldPulse: true })) {
+            isValid = false;
+        }
+
+        if (!validateConfirmPasswordField({ shouldPulse: true })) {
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    async function handleFiles(files) {
+        const IS_TEST_MODE = true;
+
+        if (!files.length) return;
+        setUploadFeedback('');
+        dropZone.style.display = 'none';
+        loader.style.display = 'block';
+
+        const reader = new FileReader();
+        reader.onload = e => document.getElementById('preview-img').src = e.target.result;
+        reader.readAsDataURL(files[0]);
+
+        const formData = new FormData();
+        formData.append('garment', files[0]);
+
+        // ПОЛОСКА ПРОГРЕССА
+        let p = 0;
+        const interval = setInterval(() => {
+            p += Math.random() * 5;
+            if (p > 95) p = 95;
+            fill.style.width = p + '%';
+            if (p > 40) status.innerText = "VESTRA AI Rendering...";
+        }, 300);
+
+        if (IS_TEST_MODE) {
+            await new Promise(resolve => {
+                if (reader.readyState === FileReader.DONE) {
+                    resolve();
+                    return;
+                }
+
+                reader.addEventListener('loadend', () => resolve(), { once: true });
+            });
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            fill.style.width = '100%';
+            document.getElementById('result-img').src = await createWatermarkedImage(document.getElementById('preview-img').src);
+            result.classList.add('is-ready');
+            setTimeout(() => {
+                loader.style.display = 'none';
+                result.style.display = 'block';
+                grid.style.display = 'none';
+            }, 500);
+            clearInterval(interval);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${apiBaseUrl}/api/generate`, { method: 'POST', body: formData });
+            const parsed = await parseJsonSafely(response);
+
+            clearInterval(interval);
+
+            if (!parsed.ok) {
+                throw new Error(formatGenerationError(null, parsed));
+            }
+
+            const data = parsed.data;
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || `Server error (${response.status})`);
+            }
+
+            fill.style.width = '100%';
+            setUploadFeedback('');
+
+            document.getElementById('result-img').src = await createWatermarkedImage(data.output_url);
+            result.classList.add('is-ready');
+            setTimeout(() => {
+                loader.style.display = 'none';
+                result.style.display = 'block';
+                grid.style.display = 'none';
+            }, 500);
+        } catch (err) {
+            clearInterval(interval);
+            fill.style.width = '0%';
+            loader.style.display = 'none';
+            dropZone.style.display = 'flex';
+            status.innerText = "Analyzing Textures...";
+            setUploadFeedback(err.message || 'Unable to process this image right now.', 'error');
+        }
+    }
+
+    function startSlide(e) { 
+        // Теперь кликабельность будет выше щита
+        if (!e.target.closest('.handle-premium') && !e.target.closest('.handle-line-v') && !e.target.closest('.shield')) return;
+        e.currentTarget.isDragging = true; 
+        updatePosition(e.currentTarget, e); 
+    }
+    function doSlide(e) { if (e.currentTarget.isDragging) updatePosition(e.currentTarget, e); }
+    function stopSlide(e) { e.currentTarget.isDragging = false; }
+    
+    function updatePosition(box, e) {
+        const rect = box.getBoundingClientRect();
+        let pos = ((e.clientX - rect.left) / rect.width) * 100;
+        if (pos < 0) pos = 0; if (pos > 100) pos = 100;
+        const dw = (1 - Math.pow(1 - (pos / 100), 3)) * 140;
+
+        box.querySelector('.shutter').style.setProperty('--pos', pos + '%');
+        box.querySelector('.handle-line-v').style.left = pos + '%';
+        box.querySelector('.handle-premium').style.left = pos + '%';
+        const glow = box.querySelector('.handle-glow');
+        if (glow) { glow.style.left = pos + '%'; glow.style.width = dw + 'px'; }
+    }
+
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('drop', e => { e.preventDefault(); handleFiles(e.dataTransfer.files); });
+    document.getElementById('file-input').addEventListener('change', e => handleFiles(e.target.files));
+    authEmailInput.addEventListener('blur', () => validateEmailField());
+    authEmailInput.addEventListener('input', () => {
+        if (!emailFieldGroup.classList.contains('is-invalid')) return;
+        validateEmailField();
+    });
+    authPasswordInput.addEventListener('blur', () => validatePasswordField());
+    authPasswordInput.addEventListener('input', () => {
+        if (passwordFieldGroup.classList.contains('is-invalid')) validatePasswordField();
+        if (authMode === 'create' && confirmPasswordGroup.classList.contains('is-invalid')) validateConfirmPasswordField();
+    });
+    authConfirmPasswordInput.addEventListener('blur', () => validateConfirmPasswordField());
+    authConfirmPasswordInput.addEventListener('input', () => {
+        if (!confirmPasswordGroup.classList.contains('is-invalid')) return;
+        validateConfirmPasswordField();
+    });
+    modal.addEventListener('click', closeAuthModal);
+    authForm.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        if (!validateAuthForm()) return;
+
+        if (authMode === 'create') {
+            setAuthFeedback('');
+            authSubmitButton.disabled = true;
+            authSubmitButton.textContent = 'Creating account...';
+
+            try {
+                const email = normalizeEmail(authForm.email.value);
+                const password = authForm.password.value;
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        // Verified users land on the authenticated account page after email confirmation.
+                        emailRedirectTo: ACCOUNT_URL
+                    }
+                });
+
+                if (error) {
+                    const message = error.message || 'Unable to create account right now.';
+                    if (/already registered|already exists|user already/i.test(message)) {
+                        setAuthFeedback('An account with this email already exists. Sign in instead.', 'error');
+                    } else {
+                        setAuthFeedback(message, 'error');
+                    }
+                    return;
+                }
+
+                // Supabase can obfuscate existing users depending on auth settings.
+                if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+                    setAuthFeedback('An account with this email already exists. Sign in instead.', 'error');
+                    return;
+                }
+
+                setAuthFeedback('Check your email', 'success');
+                showAuthView('success');
+            } catch (error) {
+                setAuthFeedback(error.message || 'Unable to create account right now.', 'error');
+            } finally {
+                authSubmitButton.disabled = false;
+                authSubmitButton.textContent = authMode === 'create' ? 'Create account' : 'Sign in';
+            }
+            return;
+        }
+
+        setAuthFeedback('');
+        authSubmitButton.disabled = true;
+        authSubmitButton.textContent = 'Signing in...';
+
+        try {
+            const email = normalizeEmail(authForm.email.value);
+            const password = authForm.password.value;
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                const message = error.message || 'Unable to sign in right now.';
+
+                if (/email not confirmed|email not verified/i.test(message)) {
+                    setAuthFeedback('Please confirm your email before signing in.', 'error');
+                } else if (/invalid login credentials|invalid credentials|invalid email or password/i.test(message)) {
+                    setAuthFeedback('Wrong email or password.', 'error');
+                } else {
+                    setAuthFeedback(message, 'error');
+                }
+                return;
+            }
+
+            if (data?.session) {
+                updateAuthenticatedUi(data.session);
+            }
+
+            setAuthFeedback('Logged in.', 'success');
+            window.location.href = ACCOUNT_URL;
+        } catch (error) {
+            setAuthFeedback(error.message || 'Unable to sign in right now.', 'error');
+        } finally {
+            authSubmitButton.disabled = false;
+            authSubmitButton.textContent = authMode === 'create' ? 'Create account' : 'Sign in';
+        }
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+            closeAuthModal();
+        }
+    });
+
+    // Твоя защита (полная)
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        const k = (e.key || '').toLowerCase();
+        if (e.ctrlKey && (k === 's' || k === 'p' || k === 'u' || k === 'i' || k === 'j' || k === 'c')) e.preventDefault();
+        if (e.key === 'F12') e.preventDefault();
+    });
+</script>
+</body>
+</html>

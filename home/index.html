@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob: *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://gquytiqzeckptjttpaum.supabase.co;">
+    <title>VESTRA | Home</title>
+    <link rel="stylesheet" href="/shared/app-shell.css">
+    <style>
+        .home-hero {
+            gap: 22px;
+            place-items: center;
+            text-align: center;
+            padding-block: clamp(40px, 8vw, 86px);
+        }
+
+        .home-hero h1 {
+            max-width: 11ch;
+        }
+
+        .home-hero p {
+            max-width: 560px;
+        }
+
+        .home-hero-actions,
+        .notice-actions,
+        .plan-summary-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .notice-card,
+        .recent-card,
+        .capability-card,
+        .plan-summary-card {
+            border: 1px solid var(--vestra-line);
+            background: #fff;
+        }
+
+        .notice-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 22px 24px;
+            flex-wrap: wrap;
+        }
+
+        .notice-card h2 {
+            font-size: clamp(22px, 2.5vw, 28px);
+        }
+
+        .recent-grid,
+        .capabilities-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .recent-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .recent-card,
+        .capability-card,
+        .plan-summary-card {
+            padding: 20px;
+        }
+
+        .recent-card {
+            display: grid;
+            gap: 14px;
+        }
+
+        .recent-preview,
+        .capability-visual {
+            border: 1px solid var(--vestra-line);
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0)),
+                var(--vestra-surface);
+        }
+
+        .recent-preview {
+            min-height: 172px;
+        }
+
+        .recent-card .meta-copy {
+            line-height: 1.5;
+        }
+
+        .capabilities-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .capability-card {
+            display: grid;
+            gap: 12px;
+        }
+
+        .capability-visual {
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .capability-visual::before,
+        .capability-visual::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+        .capability-visual.model::before {
+            inset: 14px 14px auto;
+            height: 34px;
+        }
+
+        .capability-visual.model::after {
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
+            height: 44px;
+        }
+
+        .capability-visual.pose::before {
+            width: 34px;
+            height: 74px;
+            left: 50%;
+            top: 22px;
+            transform: translateX(-50%);
+            border-radius: 999px;
+        }
+
+        .capability-visual.pose::after {
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
+            height: 20px;
+        }
+
+        .capability-visual.frame::before {
+            inset: 16px;
+        }
+
+        .capability-visual.frame::after {
+            inset: 32px 24px 32px 56px;
+        }
+
+        .capability-visual.outputs::before {
+            width: 42px;
+            inset: 18px auto auto 18px;
+            aspect-ratio: 1;
+        }
+
+        .capability-visual.outputs::after {
+            inset: 32px 18px 18px auto;
+            width: 76px;
+        }
+
+        .capability-label {
+            font-size: 14px;
+            letter-spacing: -0.2px;
+            font-weight: 600;
+        }
+
+        .plan-summary-shell {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .plan-summary-card {
+            flex: 1 1 210px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .plan-summary-actions {
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        @media (max-width: 980px) {
+            .recent-grid,
+            .capabilities-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .home-hero {
+                place-items: start;
+                text-align: left;
+            }
+
+            .home-hero-actions,
+            .notice-actions {
+                justify-content: flex-start;
+            }
+
+            .notice-card {
+                align-items: flex-start;
+            }
+
+            .recent-grid,
+            .capabilities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-shell" data-app-shell>
+        <main class="app-main">
+            <div class="page-stack">
+                <section class="page-hero home-hero">
+                    <div class="page-eyebrow">Home</div>
+                    <h1>Create AI fashion images</h1>
+                    <p>Start a new generation, check your remaining credits, and jump back into your latest outputs.</p>
+                    <div class="home-hero-actions">
+                        <a class="app-button" href="/dashboard/generations/">Start new generation</a>
+                    </div>
+                </section>
+
+                <section class="section-card" data-home-notice>
+                    <div class="notice-card">
+                        <div>
+                            <div class="section-eyebrow">Ready</div>
+                            <h2>Your free result is ready</h2>
+                            <p class="section-copy">This notice hides after the first visit to the generations dashboard.</p>
+                        </div>
+                        <div class="notice-actions">
+                            <a class="app-button-secondary" href="/dashboard/generations/">Open Dashboard</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Quick Access</div>
+                            <h2>Recent generations</h2>
+                        </div>
+                        <a class="app-inline-link" href="/dashboard/generations/">View all</a>
+                    </div>
+                    <div class="recent-grid">
+                        <article class="recent-card">
+                            <div class="micro-label">Look 01</div>
+                            <div class="recent-preview"></div>
+                            <p class="meta-copy">Editorial crop</p>
+                        </article>
+                        <article class="recent-card">
+                            <div class="micro-label">Look 02</div>
+                            <div class="recent-preview"></div>
+                            <p class="meta-copy">Studio portrait</p>
+                        </article>
+                        <article class="recent-card">
+                            <div class="micro-label">Look 03</div>
+                            <div class="recent-preview"></div>
+                            <p class="meta-copy">Full-length variation</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Capabilities</div>
+                            <h2>Generation controls</h2>
+                        </div>
+                    </div>
+                    <div class="capabilities-grid">
+                        <article class="capability-card">
+                            <div class="capability-visual model" aria-hidden="true"></div>
+                            <div class="capability-label">Model selection</div>
+                        </article>
+                        <article class="capability-card">
+                            <div class="capability-visual pose" aria-hidden="true"></div>
+                            <div class="capability-label">Pose control</div>
+                        </article>
+                        <article class="capability-card">
+                            <div class="capability-visual frame" aria-hidden="true"></div>
+                            <div class="capability-label">Framing options</div>
+                        </article>
+                        <article class="capability-card">
+                            <div class="capability-visual outputs" aria-hidden="true"></div>
+                            <div class="capability-label">Multiple outputs</div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Plan Summary</div>
+                            <h2>Account overview</h2>
+                        </div>
+                    </div>
+                    <div class="plan-summary-shell">
+                        <article class="plan-summary-card">
+                            <div class="micro-label">Current plan</div>
+                            <div class="stat-pair"><strong data-plan-name>Starter</strong></div>
+                        </article>
+                        <article class="plan-summary-card">
+                            <div class="micro-label">Credits left</div>
+                            <div class="stat-pair"><strong data-credit-count>12</strong></div>
+                        </article>
+                        <div class="plan-summary-actions">
+                            <a class="app-button-ghost" href="/plans/">Upgrade</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        window.VESTRA_APP_PAGE = {
+            routeKey: 'home'
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/shared/app-shell.js"></script>
+</body>
+</html>

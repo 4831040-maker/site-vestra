@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob: *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://gquytiqzeckptjttpaum.supabase.co;">
+    <title>VESTRA | Dashboard</title>
+    <link rel="stylesheet" href="/shared/app-shell.css">
+</head>
+<body>
+    <div class="app-shell" data-app-shell>
+        <main class="app-main">
+            <div class="page-stack">
+                <section class="page-hero">
+                    <div class="page-eyebrow">Dashboard Header</div>
+                    <h1>Dashboard</h1>
+                    <p>Signed-in control surface with clean structure first and room for the next data pass.</p>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Quick Stats</div>
+                            <h2>Quick Stats</h2>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <article>
+                            <div class="micro-label">Total Generations</div>
+                            <div class="stat-value">--</div>
+                            <p class="placeholder-copy">Placeholder metric</p>
+                        </article>
+                        <article>
+                            <div class="micro-label">Saved Assets</div>
+                            <div class="stat-value">--</div>
+                            <p class="placeholder-copy">Placeholder metric</p>
+                        </article>
+                        <article>
+                            <div class="micro-label">Plan Status</div>
+                            <div class="stat-value">--</div>
+                            <p class="placeholder-copy">Placeholder metric</p>
+                        </article>
+                        <article>
+                            <div class="micro-label">Billing Cycle</div>
+                            <div class="stat-value">--</div>
+                            <p class="placeholder-copy">Placeholder metric</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Recent Generations</div>
+                            <h2>Recent Generations</h2>
+                        </div>
+                        <a class="app-inline-link" href="/dashboard/generations/">Open Generations</a>
+                    </div>
+                    <div class="account-rows">
+                        <div class="account-row">
+                            <div class="micro-label">Generation Slot 01</div>
+                            <p class="meta-copy">Placeholder item</p>
+                        </div>
+                        <div class="account-row">
+                            <div class="micro-label">Generation Slot 02</div>
+                            <p class="meta-copy">Placeholder item</p>
+                        </div>
+                        <div class="account-row">
+                            <div class="micro-label">Generation Slot 03</div>
+                            <p class="meta-copy">Placeholder item</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Saved Assets</div>
+                            <h2>Saved Assets</h2>
+                        </div>
+                    </div>
+                    <div class="placeholder-grid">
+                        <article>
+                            <div class="micro-label">Asset 01</div>
+                            <div class="placeholder-block"></div>
+                        </article>
+                        <article>
+                            <div class="micro-label">Asset 02</div>
+                            <div class="placeholder-block"></div>
+                        </article>
+                        <article>
+                            <div class="micro-label">Asset 03</div>
+                            <div class="placeholder-block"></div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Billing Summary</div>
+                            <h2>Billing Summary</h2>
+                        </div>
+                    </div>
+                    <div class="split-grid">
+                        <div class="account-rows">
+                            <div class="account-row">
+                                <div class="micro-label">Current Plan</div>
+                                <p class="meta-copy">Placeholder summary</p>
+                            </div>
+                            <div class="account-row">
+                                <div class="micro-label">Next Renewal</div>
+                                <p class="meta-copy">Placeholder summary</p>
+                            </div>
+                        </div>
+                        <div class="account-actions-panel">
+                            <div class="micro-label">Account Area</div>
+                            <p class="meta-copy" data-status>Ready.</p>
+                            <div class="account-actions">
+                                <a class="app-button-secondary" href="/plans/">View Plans</a>
+                                <button class="app-button-ghost" data-sign-out type="button">Sign Out</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        window.VESTRA_APP_PAGE = {
+            routeKey: 'dashboard'
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/shared/app-shell.js"></script>
+</body>
+</html>

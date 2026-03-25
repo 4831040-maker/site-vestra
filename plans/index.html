@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob: *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://gquytiqzeckptjttpaum.supabase.co;">
+    <title>VESTRA | Plans</title>
+    <link rel="stylesheet" href="/shared/app-shell.css">
+</head>
+<body>
+    <div class="app-shell" data-app-shell>
+        <main class="app-main">
+            <div class="page-stack">
+                <section class="page-hero">
+                    <div class="page-eyebrow">Plans Hero</div>
+                    <h1>Plans</h1>
+                    <p>Structural pricing surface for authenticated users, aligned with the existing VESTRA restraint.</p>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Pricing Cards</div>
+                            <h2>Pricing Cards</h2>
+                        </div>
+                    </div>
+                    <div class="plans-grid">
+                        <article>
+                            <div class="plan-name">Starter</div>
+                            <div class="placeholder-lines">
+                                <span></span>
+                                <span class="medium"></span>
+                                <span class="short"></span>
+                            </div>
+                        </article>
+                        <article>
+                            <div class="plan-name">Core</div>
+                            <div class="placeholder-lines">
+                                <span></span>
+                                <span class="medium"></span>
+                                <span class="short"></span>
+                            </div>
+                        </article>
+                        <article>
+                            <div class="plan-name">Studio</div>
+                            <div class="placeholder-lines">
+                                <span></span>
+                                <span class="medium"></span>
+                                <span class="short"></span>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <div class="section-eyebrow">Plan Comparison</div>
+                            <h2>Plan Comparison</h2>
+                        </div>
+                    </div>
+                    <div class="comparison-table">
+                        <div class="comparison-row">
+                            <h3>Generation Access</h3>
+                            <div class="comparison-value">Starter</div>
+                            <div class="comparison-value">Core</div>
+                            <div class="comparison-value">Studio</div>
+                        </div>
+                        <div class="comparison-row">
+                            <h3>Download Rights</h3>
+                            <div class="comparison-value">Placeholder</div>
+                            <div class="comparison-value">Placeholder</div>
+                            <div class="comparison-value">Placeholder</div>
+                        </div>
+                        <div class="comparison-row">
+                            <h3>Support Level</h3>
+                            <div class="comparison-value">Placeholder</div>
+                            <div class="comparison-value">Placeholder</div>
+                            <div class="comparison-value">Placeholder</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        window.VESTRA_APP_PAGE = {
+            routeKey: 'plans'
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/shared/app-shell.js"></script>
+</body>
+</html>
