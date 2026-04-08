@@ -13,6 +13,68 @@
             background: #fff; color: #000; 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             display: flex; flex-direction: column; align-items: center; width: 100%;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .hero-editorial-panel {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 50vw;
+            background-image: url('assets/images/007.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero-editorial-panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.04));
+            z-index: 0;
+        }
+        .hero-editorial-panel::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 18%;
+            z-index: 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            mask-image: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 0.9) 26%,
+                rgba(0, 0, 0, 0.48) 58%,
+                rgba(0, 0, 0, 0.14) 82%,
+                rgba(0, 0, 0, 0) 100%
+            );
+            -webkit-mask-image: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 0.9) 26%,
+                rgba(0, 0, 0, 0.48) 58%,
+                rgba(0, 0, 0, 0.14) 82%,
+                rgba(0, 0, 0, 0) 100%
+            );
+            pointer-events: none;
+        }
+        .hero-editorial-copy {
+            position: absolute;
+            left: 50%;
+            bottom: 38px;
+            transform: translateX(-50%);
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .site-header {
@@ -20,20 +82,166 @@
             padding: 16px 20px;
             display: flex;
             justify-content: center;
+            position: relative;
+            z-index: 2;
         }
         .site-header-inner {
             width: min(calc(100% - 48px), 1280px);
-            margin: 0 auto;
+            margin-top: 0;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: max(24px, calc(25vw - 284px));
             padding-left: 24px;
             padding-right: 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 24px;
+        }
+        .site-header-brand {
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .site-header-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+            min-width: 0;
+        }
+        .site-header-nav {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-width: 0;
+        }
+        .site-header-nav-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: -10px;
         }
         .site-header a {
             display: inline-flex;
             align-items: center;
             text-decoration: none;
+        }
+        .site-header-nav-link {
+            font: inherit;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.35px;
+            color: #848484;
+            transition: color 0.18s ease, text-shadow 0.22s ease;
+        }
+        .site-header-nav-item > .site-header-nav-link,
+        .site-header-nav-link.is-underlined {
+            position: relative;
+        }
+        .site-header-nav-item > .site-header-nav-link::after,
+        .site-header-nav-link.is-underlined::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: center center;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .site-header-nav-link:hover {
+            color: #5f5f5f;
+        }
+        .site-header-nav-item:hover > .site-header-nav-link,
+        .site-header-nav-item:focus-within > .site-header-nav-link,
+        .site-header-nav-link.is-underlined:hover,
+        .site-header-nav-link.is-underlined:focus-visible {
+            color: #5a5a5a;
+            text-shadow:
+                0 0 4px rgba(0, 0, 0, 0.12),
+                0 0 8px rgba(0, 0, 0, 0.08);
+        }
+        .site-header-nav-item:hover > .site-header-nav-link::after,
+        .site-header-nav-item:focus-within > .site-header-nav-link::after,
+        .site-header-nav-link.is-underlined:hover::after,
+        .site-header-nav-link.is-underlined:focus-visible::after {
+            transform: scaleX(1);
+        }
+        .site-header-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 40;
+            width: fit-content;
+            padding: 16px 20px;
+            border-radius: 8px;
+            background:
+                linear-gradient(180deg, rgba(28, 28, 30, 0.55), rgba(40, 40, 44, 0.62));
+            box-shadow:
+                0 12px 32px rgba(0, 0, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(22px) saturate(140%);
+            -webkit-backdrop-filter: blur(22px) saturate(140%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(0.9);
+            transform-origin: 50% 0%;
+            transition:
+                opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition-delay: 0.15s, 0.15s, 0.15s;
+        }
+        .site-header-dropdown::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+            pointer-events: none;
+        }
+        .site-header-dropdown-menu {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            z-index: 1;
+        }
+        .site-header-dropdown-link {
+            justify-content: flex-start;
+            min-height: 0;
+            padding: 0;
+            border-radius: 14px;
+            font: inherit;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.25;
+            letter-spacing: 0.28px;
+            color: rgba(255, 255, 255, 0.96);
+            text-shadow: 0 1px 14px rgba(0, 0, 0, 0.18);
+            transition: color 0.22s ease, opacity 0.22s ease, text-shadow 0.22s ease;
+        }
+        .site-header-dropdown-link:hover {
+            color: #000;
+            opacity: 1;
+            text-shadow:
+                0 0 4px rgba(0, 0, 0, 0.12),
+                0 0 8px rgba(0, 0, 0, 0.08);
+        }
+        .site-header-nav-item:hover .site-header-dropdown,
+        .site-header-nav-item:focus-within .site-header-dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: scale(1);
+            transition-delay: 0s, 0s, 0s;
         }
         .site-header-actions {
             display: flex;
@@ -54,28 +262,71 @@
         }
         .header-auth-link {
             padding: 0;
-            font-size: 14px;
-            font-weight: 600;
-            color: #6f6f6f;
-            transition: color 0.18s ease;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.35px;
+            color: #848484;
+            position: relative;
+            transition: color 0.18s ease, text-shadow 0.22s ease;
+        }
+        .header-auth-link.header-signin-link {
+            color: #444444;
+        }
+        .header-auth-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: center center;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .header-auth-link:hover {
-            color: #000;
+            color: #5a5a5a;
+            text-shadow:
+                0 0 4px rgba(0, 0, 0, 0.12),
+                0 0 8px rgba(0, 0, 0, 0.08);
+        }
+        .header-auth-link:hover::after,
+        .header-auth-link:focus-visible::after {
+            transform: scaleX(1);
+        }
+        .header-auth-link:focus-visible {
+            color: #5a5a5a;
+            text-shadow:
+                0 0 4px rgba(0, 0, 0, 0.12),
+                0 0 8px rgba(0, 0, 0, 0.08);
         }
         .header-auth-primary {
             min-height: 38px;
             padding: 0 16px;
             border: 1px solid rgba(0, 0, 0, 0.1);
-            background: #000;
-            color: #fff;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 999px;
-            transition: background 0.18s ease, border-color 0.18s ease;
+            background-color: #000;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.35px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
         .header-auth-primary:hover {
-            background: #111;
+            background-color: #303030;
             border-color: rgba(0, 0, 0, 0.16);
+            animation: headerPrimaryPulse 0.26s cubic-bezier(0.22, 1, 0.36, 1) 1;
+        }
+        @keyframes headerPrimaryPulse {
+            0% {
+                transform: scale(1);
+            }
+            40% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
         .logo {
             display: block;
@@ -83,25 +334,223 @@
             max-width: 150px;
             height: auto;
         }
-        .top-section { width: min(calc(100% - 48px), 1280px); max-width: 800px; margin: 0 auto; padding: 56px 24px 20px; text-align: center; }
-        h1 { font-size: 62px; font-weight: 500; letter-spacing: 2.3px; margin-bottom: 22px; text-transform: uppercase; color: #1a1a1a; }
-        h1 .heading-prefix { color: #5c5c5c; font-weight: 400; }
-        .subtitle { color: #747474; font-size: 17px; font-weight: 300; margin-bottom: 40px; letter-spacing: 2px; }
+        .top-section {
+            width: 100%;
+            padding: 56px 20px 20px;
+            position: relative;
+            z-index: 1;
+            min-height: calc(100vh - 84px);
+        }
+        .top-section-inner {
+            width: min(calc(100% - 48px), 1280px);
+            margin-top: 0;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: max(24px, calc(25vw - 284px));
+            padding-left: 24px;
+            padding-right: 24px;
+            display: flex;
+            align-items: stretch;
+            min-height: calc(100vh - 140px);
+        }
+        .hero-left-column {
+            width: min(calc(50% - 40px), 520px);
+            display: flex;
+            flex: 0 0 min(calc(50% - 40px), 520px);
+            flex-direction: column;
+            align-items: stretch;
+            gap: 40px;
+            min-height: calc(100vh - 160px);
+        }
+        .hero-intro-layout {
+            width: 100%;
+            display: block;
+            margin-bottom: 0;
+        }
+        .hero-intro-left {
+            min-width: 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .hero-intro-copy {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .hero-intro-left .hero-intro-copy {
+            max-width: 470px;
+            text-align: left;
+        }
+        .hero-eyebrow {
+            color: #171717;
+            font-size: 36px;
+            line-height: 1.08;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+            max-width: 420px;
+            text-wrap: balance;
+        }
+        .hero-body {
+            margin-top: 20px;
+            max-width: 410px;
+            color: #747474;
+            font-size: 17px;
+            line-height: 1.35;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+        }
+        .hero-editorial-copy > h1,
+        .hero-editorial-copy > .subtitle {
+            max-width: 520px;
+            width: 100%;
+        }
+        h1 { font-size: 45px; font-weight: 400; letter-spacing: 2.6px; line-height: 1; margin-bottom: 8px; text-transform: uppercase; color: #1a1a1a; white-space: nowrap; }
+        .subtitle { color: #5f5f5f; font-size: 17px; font-weight: 300; margin-bottom: 0; letter-spacing: 2px; }
 
+        .hero-main-layout {
+            width: 100%;
+            display: flex;
+            flex: 1 1 auto;
+            align-items: stretch;
+            min-height: 0;
+            padding-bottom: 80px;
+        }
+        .hero-lower-left {
+            min-width: 0;
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: flex-start;
+        }
+        .hero-lower-stack {
+            width: 100%;
+            max-width: none;
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            align-items: stretch;
+            min-height: 0;
+            gap: 14px;
+        }
+        .hero-upload-column {
+            display: flex;
+            align-items: stretch;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
         .interaction-wrapper {
-            width: 100%; max-width: 600px; min-height: 220px; 
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 40px;
+            width: 100%; max-width: none; min-height: 0;
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 14px;
+            margin: 0;
         }
 
-        .upload-area {
-            width: 100%; height: 160px; border: 1px solid #d0d0d0; 
-            background: #f2f2f2; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; text-transform: uppercase; letter-spacing: 2px; 
-            font-size: 11px; font-weight: 700; color: #444; cursor: pointer; 
-            transition: all 0.2s ease;
+        .upload-area,
+        .video-preview-card {
+            width: 100%;
+            margin-right: 0;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            border-radius: 12px;
+            background: #f6f6f4;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         }
-        .upload-area:hover, .upload-area.dragover { background: #e8e8e8; border-color: #000; }
+        .upload-area {
+            flex: 0 0 auto;
+            aspect-ratio: 2.25;
+            min-height: 0;
+            height: auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #575757;
+            cursor: pointer;
+            transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: #f1f1ee;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.055);
+        }
+        .upload-main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateY(-16px);
+        }
+        .video-preview-card {
+            flex: 0 0 auto;
+            aspect-ratio: 1 / 1;
+            min-height: unset;
+            height: auto;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .video-preview-card::after {
+            content: none;
+        }
+        .video-preview-player {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            background: #ecece7;
+        }
+        .upload-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 18px;
+            color: #666666;
+            opacity: 0.82;
+            flex-shrink: 0;
+        }
+        .upload-primary {
+            display: block;
+            font-size: 17px;
+            font-weight: 400;
+            letter-spacing: 2.4px;
+            margin-bottom: 8px;
+            color: #656565;
+        }
+        .upload-secondary {
+            margin-top: 0;
+            font-size: 13px;
+            line-height: 1.75;
+            letter-spacing: 1px;
+            text-transform: none;
+            font-weight: 500;
+            color: #707070;
+            max-width: 520px;
+        }
+        .upload-note {
+            position: absolute;
+            left: 50%;
+            bottom: 14px;
+            display: inline-block;
+            width: auto;
+            font-size: 11px;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+            text-transform: none;
+            font-weight: 400;
+            color: #a8a8a8;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: none;
+            white-space: nowrap;
+        }
         #file-input { display: none !important; }
 
         #loader-container { display: none; width: 100%; text-align: center; padding: 60px 0; }
@@ -119,6 +568,54 @@
         }
         .upload-feedback.is-error { color: #8f3b3b; }
         .upload-feedback.is-success { color: #111; }
+        .site-footer {
+            position: absolute;
+            left: 0;
+            bottom: 38px;
+            width: 50%;
+            padding: 8px 0 0;
+            color: #767676;
+            display: flex;
+            justify-content: center;
+        }
+        .site-footer-inner {
+            width: fit-content;
+            max-width: 100%;
+            margin: 0 auto;
+            padding-left: 0;
+            padding-right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+        .site-footer-links-group {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 11px;
+            line-height: 1.45;
+            letter-spacing: 0.18px;
+        }
+        .site-footer-copy {
+            font-size: 11px;
+            line-height: 1.5;
+            color: #8c8c8c;
+            text-align: center;
+        }
+        .site-footer-link {
+            color: #5d5d5d;
+            text-decoration: none;
+            text-underline-offset: 3px;
+            transition: color 0.18s ease;
+        }
+        .site-footer-link:hover,
+        .site-footer-link:focus-visible {
+            color: #2f2f2f;
+            text-decoration: underline;
+        }
 
         #result-container { display: none; width: 100%; max-width: 420px; text-align: center; }
 
@@ -176,10 +673,6 @@
 
         .cta-button { background: #000; color: #fff; border: none; padding: 18px 36px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; margin-top: 20px; }
         
-        /* СЕТКА (4 КАРТОЧКИ ВОССТАНОВЛЕНЫ) */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; width: min(calc(100% - 48px), 1280px); max-width: 1280px; margin: 0 auto; padding: 20px 24px 100px; }
-        .label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #bbb; margin-top: 12px; }
-
         body.modal-open { overflow: hidden; }
         #modal {
             position: fixed;
@@ -200,7 +693,9 @@
         .modal-backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.86);
+            background: rgba(17, 17, 17, 0.52);
+            backdrop-filter: blur(18px) saturate(105%);
+            -webkit-backdrop-filter: blur(18px) saturate(105%);
             opacity: 0;
             transition: opacity 180ms ease-out;
             will-change: opacity;
@@ -212,9 +707,9 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 440px;
-            min-height: min(700px, calc(100vh - 36px));
-            margin-top: 36px;
+            max-width: 472px;
+            min-height: min(660px, calc(100vh - 40px));
+            margin-top: 24px;
             opacity: 0;
             transform: translateY(8px);
             transition: opacity 220ms ease-out, transform 220ms ease-out;
@@ -226,105 +721,184 @@
         }
         .modal-content {
             position: relative;
-            background: #fff;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(252, 252, 250, 0.97));
             min-height: 100%;
-            padding: 42px 34px 56px;
+            padding: 24px 24px 24px;
             width: 100%;
             text-align: left;
-            border: 1px solid rgba(0,0,0,0.08);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.24);
+            border: 1px solid rgba(0,0,0,0.09);
+            border-radius: 16px;
+            box-shadow:
+                0 32px 90px rgba(0,0,0,0.14),
+                0 8px 28px rgba(0,0,0,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.78);
         }
         .modal-close {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: transparent;
-            color: #111;
+            top: 18px;
+            right: 18px;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.72);
+            color: #373737;
             font-size: 20px;
             line-height: 1;
             cursor: pointer;
+            transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+        }
+        .modal-close:hover,
+        .modal-close:focus-visible {
+            background: #fff;
+            color: #111;
+            border-color: rgba(0, 0, 0, 0.14);
         }
         .modal-kicker {
             font-size: 10px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 12px;
-        }
-        .modal-title {
-            font-size: 32px;
-            line-height: 1.05;
-            letter-spacing: -1.5px;
+            color: #7b7b7b;
             margin-bottom: 10px;
         }
+        .modal-title {
+            font-size: 34px;
+            line-height: 1.02;
+            letter-spacing: -1.8px;
+            margin-bottom: 8px;
+            color: #111111;
+        }
         .modal-subtitle {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #666;
-            margin-bottom: 28px;
+            font-size: 20px;
+            line-height: 1.5;
+            color: #6f6f6f;
+            margin-bottom: 18px;
         }
-        .auth-tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 22px;
+        .auth-step-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 18px;
+            margin-bottom: 10px;
         }
-        .auth-tab {
-            border: 1px solid #d6d6d6;
-            background: #f7f7f7;
-            color: #555;
-            padding: 12px 14px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1.8px;
-            text-transform: uppercase;
+        .auth-step-back {
+            border: none;
+            background: transparent;
+            color: #5c5c5c;
+            font: inherit;
+            font-size: 12px;
+            letter-spacing: 0.02em;
             cursor: pointer;
         }
-        .auth-tab.is-active {
-            background: #000;
-            border-color: #000;
-            color: #fff;
+        .auth-social {
+            display: grid;
+            gap: 10px;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        .auth-social-button {
+            width: 100%;
+            min-height: 52px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            background: #ffffff;
+            color: #202020;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 20px;
+            font: inherit;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.15px;
+            cursor: pointer;
+            transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .auth-social-button:hover,
+        .auth-social-button:focus-visible {
+            background: #fff;
+            border-color: rgba(0, 0, 0, 0.14);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.05);
+        }
+        .auth-social-button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+            transform: none;
+        }
+        .auth-social-icon {
+            width: 24px;
+            height: 24px;
+            flex: 0 0 auto;
+        }
+        .auth-social-copy {
+            flex: 0 1 auto;
+        }
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 0;
+            padding: 22px 0;
+            color: #7f7f7f;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+            flex: 1 1 auto;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.09);
         }
         .auth-form {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 10px;
         }
         .field-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 5px;
         }
         .field-label {
-            font-size: 10px;
+            font-size: 13px;
             font-weight: 700;
-            letter-spacing: 1.8px;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: #666;
+            color: #575757;
         }
         .field-helper {
-            margin-top: -2px;
-            font-size: 11px;
-            line-height: 1.45;
-            color: #8b8b8b;
+            margin-top: 0;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #919191;
         }
         .auth-input {
             width: 100%;
-            border: 1px solid #d7d7d7;
-            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.09);
+            border-radius: 10px;
+            background: #ffffff;
             color: #111;
-            padding: 15px 16px;
-            font-size: 14px;
+            padding: 12px 16px;
+            font-size: 18px;
+            line-height: normal;
             outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
         }
         .auth-input:focus {
-            border-color: #000;
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+            border-color: rgba(0, 0, 0, 0.26);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+        }
+        .auth-input[readonly] {
+            color: #555;
+            cursor: default;
         }
         .field-group.is-invalid .auth-input {
             border-color: #a74b4b;
@@ -360,28 +934,56 @@
         }
         .auth-submit,
         .success-secondary {
-            border: none;
+            min-height: 52px;
+            border-radius: 10px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 16px 18px;
+            letter-spacing: 1.2px;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 12px 20px;
+            transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
         }
         .auth-submit {
-            background: #000;
-            color: #fff;
-            margin-top: 4px;
+            background: #161616;
+            color: rgba(255,255,255,0.88);
+            margin-top: 6px;
+            margin-bottom: 0;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.14);
         }
         .success-secondary {
-            background: #f3f3f3;
+            background: rgba(255, 255, 255, 0.78);
             color: #111;
-            border: 1px solid #d8d8d8;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .auth-submit:hover,
+        .auth-submit:focus-visible,
+        .success-secondary:hover,
+        .success-secondary:focus-visible {
+            transform: translateY(-1px);
+        }
+        .auth-submit:hover,
+        .auth-submit:focus-visible {
+            background: #222222;
+            border-color: rgba(0, 0, 0, 0.18);
+        }
+        .success-secondary:hover,
+        .success-secondary:focus-visible {
+            background: #fff;
+            border-color: rgba(0, 0, 0, 0.16);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+        }
+        .auth-submit:disabled,
+        .success-secondary:disabled {
+            opacity: 0.72;
+            cursor: wait;
+            transform: none;
         }
         .auth-switch {
-            margin-top: 8px;
+            margin-top: 18px;
             font-size: 12px;
-            color: #666;
+            color: #6a6a6a;
             text-align: center;
         }
         .auth-switch button {
@@ -390,8 +992,7 @@
             color: #000;
             font: inherit;
             cursor: pointer;
-            text-decoration: underline;
-            text-underline-offset: 3px;
+            font-weight: 600;
         }
         .auth-success {
             display: flex;
@@ -416,11 +1017,97 @@
         .auth-feedback.is-error { color: #b42318; }
         .auth-feedback.is-success { color: #111; }
         @media (max-width: 640px) {
+            .hero-editorial-panel {
+                display: none;
+            }
             .site-header {
                 padding-inline: 16px;
             }
             .site-header-inner {
+                margin: 0 auto;
                 gap: 16px;
+            }
+            .site-header-main {
+                gap: 0;
+                justify-content: space-between;
+            }
+            .site-header-nav {
+                display: none;
+            }
+            .hero-intro-layout {
+                grid-template-columns: 1fr;
+                margin-bottom: 40px;
+            }
+            .top-section {
+                min-height: auto;
+            }
+            .top-section-inner {
+                display: block;
+                margin: 0 auto;
+                min-height: auto;
+            }
+            .hero-left-column {
+                flex: none;
+                width: 100%;
+                gap: 40px;
+                min-height: auto;
+            }
+            .hero-intro-left {
+                justify-content: center;
+            }
+            .hero-intro-left .hero-intro-copy {
+                max-width: 520px;
+                align-items: center;
+                text-align: center;
+            }
+            .hero-eyebrow {
+                font-size: 30px;
+                max-width: 440px;
+            }
+            .hero-body {
+                max-width: 500px;
+            }
+            .hero-main-layout {
+                display: block;
+                min-height: auto;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+            .hero-lower-left {
+                flex: none;
+                justify-content: center;
+            }
+            .hero-lower-stack {
+                flex: none;
+                max-width: none;
+                gap: 24px;
+                min-height: auto;
+            }
+            .hero-upload-column {
+                flex: none;
+                order: 1;
+            }
+            .interaction-wrapper {
+                flex: none;
+            }
+            .video-preview-card {
+                flex: 0 0 auto;
+                min-height: unset;
+                height: auto;
+            }
+            .site-footer {
+                padding: 20px 0 0;
+            }
+            .site-footer-inner {
+                width: fit-content;
+                max-width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+                gap: 12px;
+            }
+            .site-footer-links-group {
+                justify-content: center;
+                gap: 14px;
             }
             .site-header-actions {
                 gap: 12px;
@@ -430,18 +1117,18 @@
                 max-width: 110px;
             }
             .header-auth-link {
-                font-size: 13px;
+                font-size: 16px;
             }
             .header-auth-primary {
                 min-height: 34px;
                 padding: 0 13px;
-                font-size: 12px;
+                font-size: 16px;
             }
             .modal-panel {
-                min-height: min(620px, calc(100vh - 24px));
+                min-height: min(580px, calc(100vh - 24px));
                 margin-top: 18px;
             }
-            .modal-content { padding: 34px 22px 42px; }
+            .modal-content { padding: 20px 18px 20px; border-radius: 14px; }
             .modal-title { font-size: 26px; }
             .success-actions { grid-template-columns: 1fr; }
         }
@@ -474,65 +1161,117 @@
 </head>
 <body>
 
+<div class="hero-editorial-panel" id="hero-editorial-panel" aria-hidden="true">
+    <div class="hero-editorial-copy">
+        <h1>AI FASHION STUDIO</h1>
+        <p class="subtitle">PREMIUM AI EDITORIAL PRODUCTION</p>
+    </div>
+</div>
+
 <header class="site-header">
     <div class="site-header-inner">
-        <a href="/" aria-label="VESTRA home">
+        <a href="/" aria-label="VESTRA home" class="site-header-brand">
             <img src="/assets/images/logo.svg" alt="VESTRA" class="logo">
         </a>
-        <div class="site-header-actions" aria-label="Authentication actions">
-            <button class="header-auth-link" type="button" onclick="openAuthModalWithMode('signin')">Sign in</button>
-            <button class="header-auth-primary" type="button" onclick="openAuthModalWithMode('create')">Sign up</button>
+        <div class="site-header-main">
+            <nav class="site-header-nav" aria-label="Primary navigation">
+                <div class="site-header-nav-item">
+                    <a href="#" class="site-header-nav-link" aria-haspopup="true">Product</a>
+                    <div class="site-header-dropdown" role="menu" aria-label="Product submenu">
+                        <div class="site-header-dropdown-menu">
+                            <a href="#" class="site-header-dropdown-link" role="menuitem">On Model</a>
+                            <a href="#" class="site-header-dropdown-link" role="menuitem">Flat Lay</a>
+                            <a href="#" class="site-header-dropdown-link" role="menuitem">Mannequin</a>
+                            <a href="#" class="site-header-dropdown-link" role="menuitem">Video</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="site-header-nav-link is-underlined">Pricing</a>
+                <a href="#" class="site-header-nav-link is-underlined">Contact us</a>
+            </nav>
+            <div class="site-header-actions" aria-label="Authentication actions">
+                <button class="header-auth-link header-signin-link" type="button" onclick="openAuthModalWithMode('signin')">Sign in</button>
+                <button class="header-auth-primary" type="button" onclick="openAuthModalWithMode('create')">Get started</button>
+            </div>
         </div>
     </div>
 </header>
 
 <div class="top-section">
-    <h1><span class="heading-prefix">AI</span> FASHION STUDIO</h1>
-    <p class="subtitle">PREMIUM AI EDITORIAL PRODUCTION</p>
-    <div class="interaction-wrapper">
-        <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
-            <span>Drop Garment Here</span>
-            <input type="file" id="file-input" accept="image/*">
-        </div>
-        <div id="loader-container">
-            <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
-            <div class="status-text" id="status">Analyzing Textures...</div>
-        </div>
-        <div id="result-container">
-            <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)" onpointercancel="stopSlide(event)">
-                <div class="shield"></div>
-                <img src="" class="img-before" id="preview-img">
-                <div class="shutter">
-                    <div class="watermark-overlay"><div class="watermark-text">VESTRA</div></div>
-                    <img src="" class="img-after" id="result-img">
+    <div class="top-section-inner">
+        <div class="hero-left-column">
+            <div class="hero-intro-layout">
+                <div class="hero-intro-left">
+                    <div class="hero-intro-copy">
+                        <h2 class="hero-eyebrow">AI-powered model imagery for fashion brands</h2>
+                        <p class="hero-body">Vestra helps brands create catalog-ready images faster, with consistent results from a single product image to an entire collection.</p>
+                    </div>
                 </div>
-                <div class="handle-glow"></div>
-                <div class="handle-line-v"></div>
-                <div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div>
             </div>
-            <button class="cta-button" id="auth-cta-button" type="button" onclick="openAuthModal()">Unlock High-Res Download</button>
+            <div class="hero-main-layout">
+                <div class="hero-lower-left">
+                    <div class="hero-lower-stack">
+                        <div class="hero-upload-column">
+                            <div class="interaction-wrapper">
+                                <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                                <div class="upload-main-content">
+                                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path d="M12 16V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                                        <path d="M8.5 9.5L12 6l3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M5 18.5H19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                                    </svg>
+                                    <span class="upload-primary">Drop Garment Here</span>
+                                    <span class="upload-secondary">PNG, JPG, WEBP, HEIC • High resolution recommended</span>
+                                </div>
+                                <span class="upload-note">Your images are processed securely and never used without permission.</span>
+                                <input type="file" id="file-input" accept="image/*">
+                                </div>
+                                <div class="video-preview-card" aria-label="Video preview card">
+                                    <video
+                                        class="video-preview-player"
+                                        id="video-preview-player"
+                                        muted
+                                        loop
+                                        playsinline
+                                        preload="metadata"
+                                    ></video>
+                                </div>
+                                <div id="loader-container">
+                                    <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+                                    <div class="status-text" id="status">Analyzing Textures...</div>
+                                </div>
+                                <div id="result-container">
+                                <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)" onpointercancel="stopSlide(event)">
+                                    <div class="shield"></div>
+                                    <img src="" class="img-before" id="preview-img">
+                                    <div class="shutter">
+                                        <div class="watermark-overlay"><div class="watermark-text">VESTRA</div></div>
+                                        <img src="" class="img-after" id="result-img">
+                                    </div>
+                                    <div class="handle-glow"></div>
+                                    <div class="handle-line-v"></div>
+                                    <div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div>
+                                </div>
+                                <button class="cta-button" id="auth-cta-button" type="button" onclick="openAuthModal()">Unlock High-Res Download</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="site-footer">
+                <div class="site-footer-inner">
+                    <div class="site-footer-links-group">
+                        <a href="#" class="site-footer-link">Terms of Service</a>
+                        <a href="#" class="site-footer-link">Privacy Policy</a>
+                        <a href="#" class="site-footer-link">Support</a>
+                    </div>
+                    <div class="site-footer-copy">&copy; 2026 Vestra. All rights reserved.</div>
+                </div>
+            </footer>
         </div>
     </div>
     <div class="upload-feedback" id="upload-feedback" aria-live="polite"></div>
-</div>
-
-<div class="grid" id="main-grid">
-    <div style="display: flex; flex-direction: column;">
-        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="001a.webp" class="img-before"><div class="shutter"><img src="001.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
-        <div class="label">Vestra Test 01</div>
-    </div>
-    <div style="display: flex; flex-direction: column;">
-        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="005bb.webp" class="img-before"><div class="shutter"><img src="005aa.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
-        <div class="label">Vestra Test 02</div>
-    </div>
-    <div style="display: flex; flex-direction: column;">
-        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="003a.webp" class="img-before"><div class="shutter"><img src="003.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
-        <div class="label">Vestra Test 03</div>
-    </div>
-    <div style="display: flex; flex-direction: column;">
-        <div class="box" onpointerdown="startSlide(event)" onpointermove="doSlide(event)" onpointerup="stopSlide(event)"><div class="shield"></div><img src="004a.webp" class="img-before"><div class="shutter"><img src="004.webp" class="img-after"></div><div class="handle-glow"></div><div class="handle-line-v"></div><div class="handle-premium"><div class="line-mark"></div><div class="line-mark"></div></div></div>
-        <div class="label">Vestra Test 04</div>
-    </div>
 </div>
 
 <div id="modal" aria-hidden="true">
@@ -544,9 +1283,8 @@
             <div id="auth-default-view">
                 <h2 class="modal-title" id="auth-modal-title">Unlock Original Image</h2>
                 <p class="modal-subtitle">Create an account or sign in to continue.</p>
-                <div class="auth-tabs" aria-label="Authentication mode">
-                    <button class="auth-tab is-active" type="button" data-auth-tab="create" onclick="setAuthMode('create')">Create account</button>
-                    <button class="auth-tab" type="button" data-auth-tab="signin" onclick="setAuthMode('signin')">Sign in</button>
+                <div class="auth-step-header">
+                    <button class="auth-step-back hidden" id="auth-step-back" type="button" onclick="goToCreateEmailStep()">Back</button>
                 </div>
                 <form id="auth-form" class="auth-form" novalidate>
                     <div class="field-group" id="email-field-group">
@@ -567,6 +1305,24 @@
                     </div>
                 <button class="auth-submit" id="auth-submit-button" type="submit">Create account</button>
             </form>
+                <div class="auth-divider" id="auth-divider" aria-hidden="true">or</div>
+                <div class="auth-social" id="auth-social-section" aria-label="Social authentication">
+                    <button class="auth-social-button" type="button" data-oauth-provider="google">
+                        <svg class="auth-social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#4285F4" d="M21.6 12.23c0-.68-.06-1.34-.18-1.97H12v3.73h5.39a4.6 4.6 0 0 1-2 3.02v2.5h3.24c1.9-1.75 2.97-4.33 2.97-7.28Z"/>
+                            <path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.61-2.44l-3.24-2.5c-.9.6-2.05.96-3.37.96-2.59 0-4.78-1.75-5.56-4.1H3.09v2.58A9.98 9.98 0 0 0 12 22Z"/>
+                            <path fill="#FBBC05" d="M6.44 13.92A5.98 5.98 0 0 1 6.13 12c0-.67.11-1.32.31-1.92V7.5H3.09A9.98 9.98 0 0 0 2 12c0 1.61.38 3.13 1.09 4.5l3.35-2.58Z"/>
+                            <path fill="#EA4335" d="M12 5.98c1.47 0 2.8.5 3.84 1.49l2.88-2.88C16.95 2.95 14.69 2 12 2A9.98 9.98 0 0 0 3.09 7.5l3.35 2.58c.78-2.35 2.97-4.1 5.56-4.1Z"/>
+                        </svg>
+                        <span class="auth-social-copy">Continue with Google</span>
+                    </button>
+                    <button class="auth-social-button" type="button" data-oauth-provider="apple">
+                        <svg class="auth-social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="currentColor" d="M16.7 12.78c.03 3.12 2.74 4.16 2.77 4.17-.02.07-.43 1.49-1.42 2.95-.85 1.26-1.73 2.52-3.12 2.55-1.36.03-1.8-.81-3.36-.81-1.56 0-2.05.79-3.34.84-1.34.05-2.37-1.35-3.23-2.6-1.76-2.54-3.1-7.18-1.3-10.3.89-1.55 2.49-2.53 4.24-2.56 1.32-.03 2.57.89 3.37.89.8 0 2.31-1.1 3.9-.94.67.03 2.55.27 3.76 2.04-.1.06-2.25 1.31-2.27 3.77Zm-2.23-6.43c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.24 1.98-1.08 3.15 1.14.09 2.3-.58 3.01-1.44Z"/>
+                        </svg>
+                        <span class="auth-social-copy">Continue with Apple</span>
+                    </button>
+                </div>
             <div class="auth-feedback" id="auth-feedback" aria-live="polite"></div>
             <p class="auth-switch">
                 <span id="auth-switch-copy">Already have an account?</span>
@@ -583,6 +1339,7 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -596,7 +1353,6 @@
     const dropZone = document.getElementById('drop-zone');
     const loader = document.getElementById('loader-container');
     const result = document.getElementById('result-container');
-    const grid = document.getElementById('main-grid');
     const fill = document.getElementById('fill');
     const status = document.getElementById('status');
     const uploadFeedback = document.getElementById('upload-feedback');
@@ -607,9 +1363,13 @@
     const authSubmitButton = document.getElementById('auth-submit-button');
     const authCtaButton = document.getElementById('auth-cta-button');
     const confirmPasswordGroup = document.getElementById('confirm-password-group');
+    const authSocialSection = document.getElementById('auth-social-section');
+    const authDivider = document.getElementById('auth-divider');
+    const authStepBackButton = document.getElementById('auth-step-back');
     const authSwitchCopy = document.getElementById('auth-switch-copy');
     const authSwitchButton = document.getElementById('auth-switch-button');
     const authTabs = Array.from(document.querySelectorAll('[data-auth-tab]'));
+    const oauthButtons = Array.from(document.querySelectorAll('[data-oauth-provider]'));
     const authEmailInput = document.getElementById('auth-email');
     const authPasswordInput = document.getElementById('auth-password');
     const authConfirmPasswordInput = document.getElementById('auth-confirm-password');
@@ -631,19 +1391,74 @@
         'password123'
     ]);
     let authMode = 'create';
+    let authStep = 'email';
     let modalCloseTimer = null;
     let modalOpenRaf = null;
+    let authServiceAvailable = true;
+    let authAvailabilityMessage = '';
+
+    function isSupabaseUnavailableError(error) {
+        const text = [
+            error?.message,
+            error?.name,
+            error?.code,
+            error?.status
+        ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+        return /failed to fetch|fetch failed|networkerror|load failed|web server is down|cloudflare|error 521|unexpected token </.test(text);
+    }
+
+    function getAuthUnavailableMessage() {
+        return authAvailabilityMessage || 'Authentication is temporarily unavailable because the auth service is not responding. Please try again shortly.';
+    }
+
+    function setAuthServiceUnavailable(error) {
+        authServiceAvailable = false;
+        authAvailabilityMessage = 'Authentication is temporarily unavailable because the auth service is not responding. Please try again shortly.';
+        console.error('Supabase auth unavailable:', error);
+        updateAuthenticatedUi(null);
+        setOauthButtonsDisabled(true);
+
+        if (modal.classList.contains('is-mounted')) {
+            setAuthFeedback(getAuthUnavailableMessage(), 'error');
+        }
+    }
+
+    function ensureAuthAvailable() {
+        if (authServiceAvailable) return true;
+
+        setAuthFeedback(getAuthUnavailableMessage(), 'error');
+        authSubmitButton.disabled = true;
+        setOauthButtonsDisabled(true);
+        return false;
+    }
 
     function updateAuthenticatedUi(session) {
         const isLoggedIn = Boolean(session?.user);
-        authCtaButton.textContent = isLoggedIn ? 'Account Active' : 'Unlock High-Res Download';
+        authCtaButton.textContent = authServiceAvailable
+            ? (isLoggedIn ? 'Account Active' : 'Unlock High-Res Download')
+            : 'Auth Temporarily Unavailable';
     }
 
-    supabaseClient.auth.getSession().then(({ data }) => {
-        updateAuthenticatedUi(data.session);
-    });
+    supabaseClient.auth.getSession()
+        .then(({ data, error }) => {
+            if (error) throw error;
+            updateAuthenticatedUi(data.session);
+        })
+        .catch((error) => {
+            if (isSupabaseUnavailableError(error)) {
+                setAuthServiceUnavailable(error);
+                return;
+            }
+
+            console.error('Unable to restore auth session:', error);
+        });
 
     supabaseClient.auth.onAuthStateChange((_event, session) => {
+        if (!authServiceAvailable) return;
         updateAuthenticatedUi(session);
     });
 
@@ -758,6 +1573,11 @@
             modalOpenRaf = window.requestAnimationFrame(() => {
                 modal.classList.add('is-open');
                 modalOpenRaf = null;
+                if (!authServiceAvailable) {
+                    authSubmitButton.disabled = true;
+                    setOauthButtonsDisabled(true);
+                    setAuthFeedback(getAuthUnavailableMessage(), 'error');
+                }
                 window.setTimeout(() => document.getElementById('auth-email').focus(), 0);
             });
         });
@@ -787,6 +1607,7 @@
             authForm.reset();
             showAuthView('default');
             setAuthMode('create');
+            resetAuthActionState();
             modalCloseTimer = null;
         }, 220);
     }
@@ -797,25 +1618,60 @@
         authSuccessView.classList.toggle('hidden', !isSuccess);
     }
 
+    function syncAuthStepUi() {
+        const isCreate = authMode === 'create';
+        const isPasswordStep = isCreate && authStep === 'password';
+        const isSignIn = authMode === 'signin';
+
+        authSocialSection.classList.toggle('hidden', isPasswordStep);
+        authDivider.classList.toggle('hidden', isPasswordStep);
+        passwordFieldGroup.classList.toggle('hidden', !isPasswordStep && !isSignIn);
+        confirmPasswordGroup.classList.toggle('hidden', !isPasswordStep);
+        passwordHelper.classList.toggle('hidden', !isPasswordStep);
+        authStepBackButton.classList.toggle('hidden', !isPasswordStep);
+
+        authEmailInput.readOnly = isPasswordStep;
+        authEmailInput.setAttribute('autocomplete', 'email');
+        authPasswordInput.setAttribute('autocomplete', isCreate ? 'new-password' : 'current-password');
+        authSubmitButton.textContent = isCreate
+            ? (isPasswordStep ? 'Create account' : 'Continue')
+            : 'Sign in';
+        authSubmitButton.disabled = !authServiceAvailable;
+        authSwitchCopy.textContent = isCreate ? 'Already have an account?' : "Don't have an account?";
+        authSwitchButton.textContent = isCreate ? 'Sign in' : 'Create account';
+        setOauthButtonsDisabled(!authServiceAvailable);
+    }
+
     function setAuthMode(mode) {
         authMode = mode;
-        const isCreate = mode === 'create';
-
+        authStep = mode === 'create' ? 'email' : 'password';
         authTabs.forEach(tab => {
             tab.classList.toggle('is-active', tab.dataset.authTab === mode);
         });
-
-        confirmPasswordGroup.classList.toggle('hidden', !isCreate);
-        passwordHelper.classList.toggle('hidden', !isCreate);
-        document.getElementById('auth-password').setAttribute('autocomplete', isCreate ? 'new-password' : 'current-password');
-        authSubmitButton.textContent = isCreate ? 'Create account' : 'Sign in';
-        authSwitchCopy.textContent = isCreate ? 'Already have an account?' : "Don't have an account?";
-        authSwitchButton.textContent = isCreate ? 'Sign in' : 'Create account';
+        syncAuthStepUi();
         clearAuthErrors();
     }
 
     function toggleAuthMode() {
         setAuthMode(authMode === 'create' ? 'signin' : 'create');
+    }
+
+    function goToCreateEmailStep() {
+        authMode = 'create';
+        authStep = 'email';
+        authPasswordInput.value = '';
+        authConfirmPasswordInput.value = '';
+        syncAuthStepUi();
+        clearAuthErrors();
+        window.setTimeout(() => authEmailInput.focus(), 0);
+    }
+
+    function goToCreatePasswordStep() {
+        authMode = 'create';
+        authStep = 'password';
+        syncAuthStepUi();
+        clearAuthErrors();
+        window.setTimeout(() => authPasswordInput.focus(), 0);
     }
 
     function clearAuthErrors() {
@@ -838,6 +1694,31 @@
         authFeedback.textContent = message;
         authFeedback.className = 'auth-feedback';
         if (type) authFeedback.classList.add(`is-${type}`);
+    }
+
+    function setOauthButtonsDisabled(isDisabled, activeProvider = '') {
+        oauthButtons.forEach(button => {
+            const label = button.querySelector('.auth-social-copy');
+            const defaultLabel = button.dataset.defaultLabel || label.textContent;
+
+            button.disabled = isDisabled;
+
+            if (!button.dataset.defaultLabel) {
+                button.dataset.defaultLabel = defaultLabel;
+            }
+
+            if (isDisabled && button.dataset.oauthProvider === activeProvider) {
+                label.textContent = 'Redirecting...';
+            } else {
+                label.textContent = button.dataset.defaultLabel;
+            }
+        });
+    }
+
+    function resetAuthActionState() {
+        authSubmitButton.disabled = !authServiceAvailable;
+        syncAuthStepUi();
+        setOauthButtonsDisabled(!authServiceAvailable);
     }
 
     function normalizeEmail(value) {
@@ -987,21 +1868,56 @@
 
         const email = normalizeEmail(authForm.email.value);
         authForm.email.value = email;
-        let isValid = true;
 
         if (!validateEmailField({ shouldPulse: true })) {
-            isValid = false;
+            return false;
         }
+
+        if (authMode === 'create' && authStep === 'email') {
+            return true;
+        }
+
+        let isValid = true;
 
         if (!validatePasswordField({ shouldPulse: true })) {
             isValid = false;
         }
 
-        if (!validateConfirmPasswordField({ shouldPulse: true })) {
+        if (authMode === 'create' && !validateConfirmPasswordField({ shouldPulse: true })) {
             isValid = false;
         }
 
         return isValid;
+    }
+
+    async function handleOauthSignIn(provider) {
+        if (!ensureAuthAvailable()) return;
+
+        setAuthFeedback('');
+        authSubmitButton.disabled = true;
+        setOauthButtonsDisabled(true, provider);
+
+        try {
+            const { error } = await supabaseClient.auth.signInWithOAuth({
+                provider,
+                options: {
+                    redirectTo: ACCOUNT_URL
+                }
+            });
+
+            if (error) {
+                throw error;
+            }
+
+            setAuthFeedback('Redirecting...', 'success');
+        } catch (error) {
+            if (isSupabaseUnavailableError(error)) {
+                setAuthServiceUnavailable(error);
+                return;
+            }
+            setAuthFeedback(error.message || 'Unable to continue with this provider right now.', 'error');
+            resetAuthActionState();
+        }
     }
 
     async function handleFiles(files) {
@@ -1045,7 +1961,6 @@
             setTimeout(() => {
                 loader.style.display = 'none';
                 result.style.display = 'block';
-                grid.style.display = 'none';
             }, 500);
             clearInterval(interval);
             return;
@@ -1075,7 +1990,6 @@
             setTimeout(() => {
                 loader.style.display = 'none';
                 result.style.display = 'block';
-                grid.style.display = 'none';
             }, 500);
         } catch (err) {
             clearInterval(interval);
@@ -1127,11 +2041,24 @@
         if (!confirmPasswordGroup.classList.contains('is-invalid')) return;
         validateConfirmPasswordField();
     });
+    setAuthMode('create');
+    oauthButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            handleOauthSignIn(button.dataset.oauthProvider);
+        });
+    });
     modal.addEventListener('click', closeAuthModal);
     authForm.addEventListener('submit', async e => {
         e.preventDefault();
 
+        if (!ensureAuthAvailable()) return;
+
         if (!validateAuthForm()) return;
+
+        if (authMode === 'create' && authStep === 'email') {
+            goToCreatePasswordStep();
+            return;
+        }
 
         if (authMode === 'create') {
             setAuthFeedback('');
@@ -1169,10 +2096,13 @@
                 setAuthFeedback('Check your email', 'success');
                 showAuthView('success');
             } catch (error) {
+                if (isSupabaseUnavailableError(error)) {
+                    setAuthServiceUnavailable(error);
+                    return;
+                }
                 setAuthFeedback(error.message || 'Unable to create account right now.', 'error');
             } finally {
-                authSubmitButton.disabled = false;
-                authSubmitButton.textContent = authMode === 'create' ? 'Create account' : 'Sign in';
+                resetAuthActionState();
             }
             return;
         }
@@ -1209,10 +2139,13 @@
             setAuthFeedback('Logged in.', 'success');
             window.location.href = ACCOUNT_URL;
         } catch (error) {
+            if (isSupabaseUnavailableError(error)) {
+                setAuthServiceUnavailable(error);
+                return;
+            }
             setAuthFeedback(error.message || 'Unable to sign in right now.', 'error');
         } finally {
-            authSubmitButton.disabled = false;
-            authSubmitButton.textContent = authMode === 'create' ? 'Create account' : 'Sign in';
+            resetAuthActionState();
         }
     });
     document.addEventListener('keydown', e => {

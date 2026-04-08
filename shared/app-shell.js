@@ -6,15 +6,20 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const pageConfig = window.VESTRA_APP_PAGE || {};
     const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    const TOP_NAV_STORAGE_KEY = 'vestra-top-nav-active';
+    const SUBNAV_STORAGE_KEY = 'vestra-subnav-active';
 
     const state = {
-        session: null
+        session: null,
+        authUnavailable: false,
+        topNavActive: null,
+        subnavActive: null
     };
 
     const navItems = [
-        { href: '/home/', label: 'Home', match: ['/home'] },
-        { href: '/dashboard/', label: 'Studio', match: ['/dashboard', '/dashboard/generations'] },
-        { href: '/plans/', label: 'Plans', match: ['/plans'] }
+        { href: '/batch', label: 'Batch', match: ['/batch'] },
+        { href: '/creative', label: 'Creative', match: ['/creative'] },
+        { href: '/pricing', label: 'Pricing', match: ['/pricing'] }
     ];
 
     function normalizePath(pathname) {
@@ -53,15 +58,135 @@
         window.location.replace(APP_HOME_URL);
     }
 
-    function setActiveNav() {
+    function isSupabaseUnavailableError(error) {
+        const text = [
+            error?.message,
+            error?.name,
+            error?.code,
+            error?.status
+        ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+        return /failed to fetch|fetch failed|networkerror|load failed|web server is down|cloudflare|error 521|unexpected token </.test(text);
+    }
+
+    function getAuthUnavailableMessage() {
+        return 'Authentication is temporarily unavailable because the auth service is not responding. Please try again shortly.';
+    }
+
+    function updateStatus(message) {
+        document.querySelectorAll('[data-status]').forEach((node) => {
+            node.textContent = message;
+        });
+    }
+
+    function setServiceNotice(message) {
+        const shell = document.querySelector('[data-app-shell]');
+        if (!shell) return;
+
+        let notice = shell.querySelector('[data-service-notice]');
+        if (!notice) {
+            notice = document.createElement('section');
+            notice.className = 'app-service-notice';
+            notice.setAttribute('data-service-notice', '');
+            shell.insertBefore(notice, shell.firstChild);
+        }
+
+        notice.innerHTML = `<strong>Service Notice</strong><p>${message}</p>`;
+    }
+
+    function handleAuthUnavailable(error) {
+        if (state.authUnavailable) return;
+
+        state.authUnavailable = true;
+        const message = getAuthUnavailableMessage();
+        console.error('Supabase auth unavailable:', error);
+        updateStatus(message);
+        setServiceNotice(message);
+    }
+
+    function normalizeStoredValue(value) {
+        return typeof value === 'string' && value.trim() ? value.trim() : null;
+    }
+
+    function resolveTopNavActive() {
+        const pathMatch = navItems.find((item) => item.match.includes(currentPath))?.href || null;
+        if (pathMatch) return pathMatch;
+
+        // The default authenticated dashboard should not highlight any top-level item.
+        if (pageConfig.routeKey === 'account') return null;
+
+        return normalizeStoredValue(window.sessionStorage.getItem(TOP_NAV_STORAGE_KEY));
+    }
+
+    function resolveSubnavActive() {
+        if (pageConfig.routeKey !== 'account') return null;
+
+        return normalizeStoredValue(window.sessionStorage.getItem(SUBNAV_STORAGE_KEY)) || 'all-projects';
+    }
+
+    function applyTopNavState() {
         document.querySelectorAll('[data-nav-link]').forEach((link) => {
-            const matchPaths = (link.getAttribute('data-match') || '')
-                .split(',')
-                .map((item) => item.trim())
-                .filter(Boolean);
-            const isActive = matchPaths.includes(currentPath);
+            const target = link.getAttribute('href') || '';
+            const isActive = Boolean(state.topNavActive) && target === state.topNavActive;
             link.classList.toggle('is-active', isActive);
             link.setAttribute('aria-current', isActive ? 'page' : 'false');
+        });
+    }
+
+    function applySubnavState() {
+        document.querySelectorAll('[data-subnav-link]').forEach((link) => {
+            const key = link.getAttribute('data-subnav-link') || '';
+            const isActive = Boolean(state.subnavActive) && key === state.subnavActive;
+            link.classList.toggle('is-active', isActive);
+            link.setAttribute('aria-current', isActive ? 'page' : 'false');
+        });
+    }
+
+    function syncNavigationState() {
+        state.topNavActive = resolveTopNavActive();
+        state.subnavActive = resolveSubnavActive();
+
+        if (state.topNavActive) {
+            window.sessionStorage.setItem(TOP_NAV_STORAGE_KEY, state.topNavActive);
+        } else {
+            window.sessionStorage.removeItem(TOP_NAV_STORAGE_KEY);
+        }
+
+        if (state.subnavActive) {
+            window.sessionStorage.setItem(SUBNAV_STORAGE_KEY, state.subnavActive);
+        } else {
+            window.sessionStorage.removeItem(SUBNAV_STORAGE_KEY);
+        }
+
+        applyTopNavState();
+        applySubnavState();
+    }
+
+    function bindNavigationState() {
+        document.querySelectorAll('[data-nav-link]').forEach((link) => {
+            link.addEventListener('click', () => {
+                const href = normalizeStoredValue(link.getAttribute('href'));
+                if (!href) return;
+
+                state.topNavActive = href;
+                window.sessionStorage.setItem(TOP_NAV_STORAGE_KEY, href);
+                applyTopNavState();
+            });
+        });
+
+        document.querySelectorAll('[data-subnav-link]').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const key = normalizeStoredValue(link.getAttribute('data-subnav-link'));
+                if (!key) return;
+
+                state.subnavActive = key;
+                window.sessionStorage.setItem(SUBNAV_STORAGE_KEY, key);
+                applySubnavState();
+            });
         });
     }
 
@@ -110,20 +235,40 @@
                     statusTarget.textContent = 'Signing out...';
                 }
 
-                await supabaseClient.auth.signOut();
-                redirectHome();
+                try {
+                    await supabaseClient.auth.signOut();
+                    redirectHome();
+                } catch (error) {
+                    if (isSupabaseUnavailableError(error)) {
+                        handleAuthUnavailable(error);
+                        return;
+                    }
+
+                    console.error('Sign-out failed:', error);
+                    updateStatus('Unable to sign out right now. Please try again.');
+                }
             });
         });
     }
 
     function renderLayout() {
         const shell = document.querySelector('[data-app-shell]');
-        if (!shell) return;
+        if (!shell || shell.querySelector('.app-header')) return;
 
         const headerNav = navItems.map((item) => {
             const matches = item.match.join(',');
             return `<a class="app-nav-link" data-nav-link data-match="${matches}" href="${item.href}">${item.label}</a>`;
         }).join('');
+
+        const contextRowMarkup = pageConfig.routeKey === 'account'
+            ? `
+            <div class="app-context-row">
+                <div class="app-subnav-inner app-context-inner">
+                    <div class="projects-range-label app-context-label">Last 30 days</div>
+                </div>
+            </div>
+        `
+            : '';
 
         const headerMarkup = `
             <header class="app-header">
@@ -157,10 +302,32 @@
                     </div>
                 </div>
             </header>
+            <div class="app-subnav" aria-label="Secondary navigation">
+                <div class="app-subnav-inner">
+                    <nav class="app-subnav-nav" aria-label="Project filters">
+                        <a class="app-subnav-link" data-subnav-link="all-projects" href="#">All Projects</a>
+                        <a class="app-subnav-link" data-subnav-link="active" href="#">Active</a>
+                        <a class="app-subnav-link" data-subnav-link="revisions" href="#">Revisions</a>
+                        <a class="app-subnav-link" data-subnav-link="archived" href="#">Archived</a>
+                    </nav>
+                    <div class="app-subnav-controls">
+                        <label class="app-subnav-search" aria-label="Search projects">
+                            <svg class="app-subnav-search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"></circle>
+                                <path d="M16 16L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                            </svg>
+                            <input class="app-subnav-search-input" type="search" placeholder="Search projects">
+                        </label>
+                        <button class="app-subnav-primary" type="button">New Project</button>
+                    </div>
+                </div>
+            </div>
+            ${contextRowMarkup}
         `;
 
         shell.insertAdjacentHTML('afterbegin', headerMarkup);
-        setActiveNav();
+        syncNavigationState();
+        bindNavigationState();
     }
 
     function attachHeaderMenus() {
@@ -247,8 +414,18 @@
         document.querySelectorAll('[data-sign-out]').forEach(btn => btn.addEventListener('click', async (e) => {
             e.preventDefault();
             closeAll();
-            await supabaseClient.auth.signOut();
-            window.location.replace('/');
+            try {
+                await supabaseClient.auth.signOut();
+                window.location.replace('/');
+            } catch (error) {
+                if (isSupabaseUnavailableError(error)) {
+                    handleAuthUnavailable(error);
+                    return;
+                }
+
+                console.error('Sign-out failed:', error);
+                updateStatus('Unable to sign out right now. Please try again.');
+            }
         }));
     }
 
@@ -278,7 +455,19 @@
         attachHeaderMenus();
         bindSignOut();
 
-        const { data } = await supabaseClient.auth.getSession();
+        let data;
+
+        try {
+            const result = await supabaseClient.auth.getSession();
+            data = result.data;
+        } catch (error) {
+            if (isSupabaseUnavailableError(error)) {
+                handleAuthUnavailable(error);
+                return;
+            }
+
+            throw error;
+        }
 
         if (data.session) {
             applyPageState(data.session);
@@ -297,6 +486,8 @@
     }
 
     supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (state.authUnavailable) return;
+
         if (session?.user) {
             applyPageState(session);
             return;

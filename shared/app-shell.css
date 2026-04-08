@@ -56,14 +56,192 @@ select {
 }
 
 .app-header-inner {
-    width: min(calc(100% - 48px), var(--vestra-max));
-    margin: 0 auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
     min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
     padding: 16px 24px;
+}
+
+.app-subnav {
+    position: sticky;
+    top: 80px;
+    z-index: 19;
+    background: rgba(255, 255, 255, 0.94);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.app-subnav-inner {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 24px;
+}
+
+.app-context-inner {
+    min-height: auto;
+    justify-content: flex-start;
+    padding-top: 24px;
+    padding-bottom: 14px;
+}
+
+.app-subnav-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.app-subnav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+.app-subnav-link,
+.app-nav-link {
+    text-decoration: none;
+    padding: 0 12px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: #353535;
+    position: relative;
+    transition: color 0.18s ease;
+}
+
+.app-context-label {
+    padding: 0 12px;
+}
+
+.app-subnav-link::after,
+.app-nav-link::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    bottom: -5px;
+    width: calc(100% - 24px);
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: center center;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app-subnav-link:hover,
+.app-nav-link:hover {
+    color: #000000;
+}
+
+.app-subnav-link:focus-visible,
+.app-subnav-link.is-active {
+    color: #5a5a5a;
+}
+
+.app-nav-link:focus-visible,
+.app-nav-link.is-active {
+    color: #5a5a5a;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.12),
+        0 0 8px rgba(0, 0, 0, 0.08);
+}
+
+.app-subnav-link:hover::after,
+.app-subnav-link:focus-visible::after,
+.app-subnav-link.is-active::after,
+.app-nav-link:hover::after,
+.app-nav-link:focus-visible::after,
+.app-nav-link.is-active::after {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: scaleX(1);
+}
+
+.app-subnav-search {
+    position: relative;
+    width: 320px;
+    max-width: 100%;
+    flex: 0 1 320px;
+}
+
+.app-subnav-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
+    color: #7a7a7a;
+    pointer-events: none;
+}
+
+.app-subnav-search-input {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 14px 0 40px;
+    border: 1px solid var(--vestra-line);
+    border-radius: 8px;
+    background: #fff;
+    color: #353535;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.app-subnav-search-input::placeholder {
+    color: #8b8b8b;
+}
+
+.app-subnav-search-input:focus {
+    border-color: var(--vestra-line-strong);
+}
+
+.app-subnav-primary {
+    min-height: 52px;
+    padding: 0 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #000;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.35px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.app-subnav-primary:hover {
+    background-color: #303030;
+    border-color: rgba(0, 0, 0, 0.16);
+    animation: headerPrimaryPulse 0.26s cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+
+@keyframes headerPrimaryPulse {
+    0% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .app-wordmark {
@@ -89,15 +267,6 @@ select {
     flex: 1;
     flex-wrap: wrap;
 }
-.app-nav-link {
-    text-decoration: none;
-    padding: 0 12px;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.2px;
-    text-transform: none;
-    color: var(--vestra-muted);
-}
 
 .app-meta-chip,
 .app-user-chip,
@@ -114,30 +283,17 @@ select {
     transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-.app-nav-link:hover,
-.app-nav-link.is-active {
-    color: var(--vestra-fg);
-}
-
 /* Header right controls */
 .app-header-controls {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.app-header-controls .icon-btn {
-    background: transparent;
-    border: none;
-    padding: 8px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--vestra-muted);
-}
 .credits-text {
-    font-size: 13px;
-    color: var(--vestra-muted);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: #353535;
 }
 .avatar {
     border: none;
@@ -247,6 +403,29 @@ select {
     width: min(calc(100% - 48px), var(--vestra-max));
     margin: 0 auto;
     padding: 34px 24px 80px;
+}
+
+.app-service-notice {
+    margin: 0 auto 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(146, 64, 14, 0.14);
+    background: linear-gradient(180deg, rgba(255, 248, 235, 0.98), rgba(255, 252, 245, 0.98));
+    color: #8a4b0f;
+    box-shadow: 0 16px 34px rgba(146, 64, 14, 0.08);
+}
+
+.app-service-notice strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+.app-service-notice p {
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .page-stack {
@@ -563,6 +742,22 @@ select {
     .app-nav {
         width: 100%;
         justify-content: flex-start;
+    }
+
+    .app-subnav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .app-subnav-controls {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .app-subnav-search {
+        width: 100%;
+        flex: 1 1 220px;
     }
 
     .app-meta-chip,

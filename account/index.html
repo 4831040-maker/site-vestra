@@ -135,8 +135,9 @@
 
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 18px;
+            align-items: stretch;
         }
 
         .asset-card {
@@ -288,10 +289,61 @@
             color: var(--vestra-soft);
         }
 
-        @media (max-width: 1080px) {
-            .results-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+        .projects-section {
+            width: calc(100vw - 48px);
+            max-width: none;
+            margin-inline: calc(50% - 50vw + 24px);
+        }
+
+        .projects-section {
+            padding: 0 24px 48px;
+        }
+
+        .projects-range-label {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            color: #353535;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .project-card {
+            aspect-ratio: 3 / 4;
+            min-width: 0;
+            padding: 24px;
+            border: 1px solid var(--vestra-line);
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: none;
+            display: grid;
+            align-content: space-between;
+            gap: 18px;
+        }
+
+        .project-card-top {
+            display: grid;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .project-card-title {
+            font-size: 24px;
+            line-height: 1.05;
+            letter-spacing: -0.8px;
+            font-weight: 600;
+        }
+
+        .project-card-foot {
+            font-size: 12px;
+            color: var(--vestra-soft);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
         }
 
         @media (max-width: 900px) {
@@ -301,10 +353,6 @@
         }
 
         @media (max-width: 760px) {
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-
             .account-hero-top,
             .asset-heading,
             .asset-meta,
@@ -318,282 +366,66 @@
                 width: 100%;
             }
         }
+
+        .app-main {
+            padding: 0;
+        }
     </style>
 </head>
 <body>
     <div class="app-shell" data-app-shell>
         <main class="app-main">
-            <div class="page-stack">
-                <section class="page-hero account-hero">
-                    <div class="account-hero-top">
-                        <div class="page-eyebrow">Account</div>
-                        <div class="account-hero-actions">
-                            <div class="account-email-chip" id="account-email">Loading...</div>
-                            <button class="app-button-ghost" data-sign-out type="button">Log out</button>
-                        </div>
-                    </div>
-                    <h1>Your images are ready</h1>
-                    <p>Access watermarked previews and unlock original files.</p>
-                    <div class="generation-mode" id="generation-mode">
-                        <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
-                            <div>
-                                <div class="section-eyebrow">Generation Mode</div>
-                                <div class="mode-toggle" role="tablist" aria-label="Generation Mode">
-                                    <button type="button" class="mode-btn is-active" data-mode="projects">Projects</button>
-                                    <button type="button" class="mode-btn" data-mode="batch">Batch</button>
-                                </div>
-                            </div>
-                            <div id="mode-action">
-                                <button class="app-button" id="mode-create-button">+ New Project</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="account-overview">
-                    <article class="overview-card">
-                        <div class="section-eyebrow">Account active</div>
-                        <h2>Access watermarked previews now and unlock originals when needed.</h2>
-                        <div class="access-stack">
-                            <div class="access-row">
-                                <div class="access-copy">
-                                    <strong>Preview access</strong>
-                                    <span>Available immediately for review and sharing.</span>
-                                </div>
-                                <span class="status-badge is-preview">Preview available</span>
-                            </div>
-                            <div class="access-row">
-                                <div class="access-copy">
-                                    <strong>Original files</strong>
-                                    <span>Kept separate so premium downloads stay clear and intentional.</span>
-                                </div>
-                                <span class="status-badge is-locked">Original locked</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="overview-card">
-                        <div class="section-eyebrow">Post-Verification Route</div>
-                        <h2>Authenticated destination</h2>
-                        <p class="meta-copy">This page is the intended first screen after registration, verification, and sign-in.</p>
-                        <p class="route-note">Auth redirect target: <span>/account/</span></p>
-                    </article>
-                </section>
-
-                <section class="empty-state-card" data-empty-state>
-                    <div class="section-eyebrow">No Results Yet</div>
-                    <h2>Upload a garment image to create your first on-model result</h2>
-                    <div class="empty-state-actions">
-                        <a class="app-button" href="/">Upload image</a>
-                    </div>
-                </section>
-
-                <section class="results-shell" data-results-state>
-                    <div class="results-header">
-                        <div>
-                            <div class="section-eyebrow">Generated Images</div>
-                            <h2>Your generated results</h2>
-                        </div>
-                        <div class="account-grid-actions">
-                            <a class="app-button-secondary" href="/">Upload image</a>
-                        </div>
-                    </div>
-                    <div class="results-grid" data-results-grid></div>
-                </section>
-            </div>
+            <section class="projects-section">
+                <div class="projects-grid" data-projects-grid></div>
+            </section>
         </main>
     </div>
 
-    <template id="asset-card-template">
-        <article class="asset-card">
-            <div class="asset-thumb" data-asset-thumb data-overlay=""></div>
-            <div class="asset-body">
-                <div class="asset-heading">
-                    <div class="asset-title">
-                        <div class="micro-label" data-asset-label></div>
-                        <h3 data-asset-name></h3>
-                    </div>
-                    <span class="status-badge" data-asset-status></span>
-                </div>
-                <p class="meta-copy" data-asset-description></p>
-                <div class="asset-meta">
-                    <span data-asset-preview-state></span>
-                    <span data-asset-original-state></span>
-                </div>
-                <div class="asset-actions" data-asset-actions></div>
-            </div>
-        </article>
-    </template>
-
     <script>
+        const MOCK_PROJECTS = [
+            'Spring Editorial Set',
+            'Studio Basics',
+            'Marketplace Batch',
+            'Resort Launch',
+            'Denim Core Update',
+            'Holiday Selects',
+            'Essentials Retouch',
+            'Campaign Review',
+            'Lookbook Drop 01',
+            'Studio Retake Set',
+            'Marketplace Refresh',
+            'Outerwear Batch'
+        ];
+
         window.VESTRA_APP_PAGE = {
             routeKey: 'account',
-            allowAuthParams: true,
-            onAuthenticated(session) {
-                const user = session?.user;
-                if (!user) return;
-
-                document.getElementById('account-email').textContent = user.email || 'No email available';
-
-                // TODO: Replace this mock array with real generation records for the signed-in user.
-                // Set `window.VESTRA_ACCOUNT_RESULTS = []` before this script to preview the empty state.
-                const results = Array.isArray(window.VESTRA_ACCOUNT_RESULTS)
-                    ? window.VESTRA_ACCOUNT_RESULTS
-                    : [
-                        {
-                            id: 'look-01',
-                            label: 'Generation 01',
-                            name: 'Studio front look',
-                            description: 'Watermarked preview is ready. Original export remains locked.',
-                            previewHref: '#',
-                            originalHref: '#',
-                            previewState: 'Preview available',
-                            originalState: 'Original locked',
-                            status: 'Original locked',
-                            thumbSrc: '/001.webp',
-                            thumbOverlay: 'Preview',
-                            originalUnlocked: false
-                        },
-                        {
-                            id: 'look-02',
-                            label: 'Generation 02',
-                            name: 'Editorial crop',
-                            description: 'Preview is available now and the original file has already been unlocked.',
-                            previewHref: '#',
-                            originalHref: '/003.webp',
-                            previewState: 'Preview available',
-                            originalState: 'Original unlocked',
-                            status: 'Original unlocked',
-                            thumbSrc: '/003.webp',
-                            thumbOverlay: 'Original',
-                            originalUnlocked: true
-                        },
-                        {
-                            id: 'look-03',
-                            label: 'Generation 03',
-                            name: 'Full-length variation',
-                            description: 'Preview access is immediate. Unlock the source file when you need the final asset.',
-                            previewHref: '#',
-                            originalHref: '#',
-                            previewState: 'Preview available',
-                            originalState: 'Original locked',
-                            status: 'Preview available',
-                            thumbSrc: '/004.webp',
-                            thumbOverlay: 'Preview',
-                            originalUnlocked: false
-                        }
-                    ];
-
-                renderAccountResults(results);
-                // keep a reference for filtering between modes
-                window._vestraAccountResults = Array.isArray(results) ? results : [];
-                window._vestraMode = window._vestraMode || 'projects';
-            }
+            allowAuthParams: true
         };
 
-        function buildActionLink(className, href, label, disabled = false) {
-            const link = document.createElement('a');
-            link.className = className;
-            link.href = href || '#';
-            link.textContent = label;
+        function renderProjects(projects) {
+            const grid = document.querySelector('[data-projects-grid]');
+            if (!grid) return;
 
-            if (disabled) {
-                link.setAttribute('aria-disabled', 'true');
-                link.addEventListener('click', (event) => event.preventDefault());
-            }
-
-            return link;
-        }
-
-        function getStatusClass(status) {
-            if (status === 'Original unlocked') return 'is-unlocked';
-            if (status === 'Original locked') return 'is-locked';
-            return 'is-preview';
-        }
-
-        function renderAccountResults(results) {
-            const emptyState = document.querySelector('[data-empty-state]');
-            const resultsState = document.querySelector('[data-results-state]');
-            const grid = document.querySelector('[data-results-grid]');
-            const template = document.getElementById('asset-card-template');
-
-            if (!emptyState || !resultsState || !grid || !template) return;
-
-            const assets = Array.isArray(results) ? results : [];
             grid.innerHTML = '';
 
-            if (assets.length === 0) {
-                emptyState.classList.add('is-visible');
-                resultsState.classList.add('is-hidden');
-                return;
-            }
+            const fragment = document.createDocumentFragment();
 
-            emptyState.classList.remove('is-visible');
-            resultsState.classList.remove('is-hidden');
-
-            assets.forEach((asset) => {
-                const fragment = template.content.cloneNode(true);
-                const thumb = fragment.querySelector('[data-asset-thumb]');
-                const label = fragment.querySelector('[data-asset-label]');
-                const name = fragment.querySelector('[data-asset-name]');
-                const status = fragment.querySelector('[data-asset-status]');
-                const description = fragment.querySelector('[data-asset-description]');
-                const previewState = fragment.querySelector('[data-asset-preview-state]');
-                const originalState = fragment.querySelector('[data-asset-original-state]');
-                const actions = fragment.querySelector('[data-asset-actions]');
-
-                label.textContent = asset.label || 'Generation';
-                name.textContent = asset.name || 'Generated image';
-                status.textContent = asset.status || 'Preview available';
-                status.classList.add(getStatusClass(asset.status));
-                description.textContent = asset.description || 'Generated asset ready.';
-                previewState.textContent = asset.previewState || 'Preview available';
-                originalState.textContent = asset.originalState || 'Original locked';
-                thumb.setAttribute('data-overlay', asset.thumbOverlay || 'Preview');
-
-                if (asset.thumbSrc) {
-                    const image = document.createElement('img');
-                    image.src = asset.thumbSrc;
-                    image.alt = asset.name || 'Generated image preview';
-                    thumb.appendChild(image);
-                }
-
-                actions.appendChild(buildActionLink('app-button-secondary', asset.previewHref, 'View preview'));
-
-                if (asset.originalUnlocked) {
-                    actions.appendChild(buildActionLink('app-button', asset.originalHref, 'Download original'));
-                } else {
-                    actions.appendChild(buildActionLink('app-button-ghost', asset.originalHref, 'Unlock original'));
-                }
-
-                const article = fragment.querySelector('article.asset-card');
-                if (article) article.setAttribute('data-mode', asset.mode || 'projects');
-                grid.appendChild(fragment);
+            projects.forEach((projectName) => {
+                const card = document.createElement('article');
+                card.className = 'project-card';
+                card.innerHTML = `
+                    <div class="project-card-top">
+                        <h2 class="project-card-title">${projectName}</h2>
+                    </div>
+                    <div class="project-card-foot">Project</div>
+                `;
+                fragment.appendChild(card);
             });
+
+            grid.appendChild(fragment);
         }
 
-        // Mode toggle behaviour
-        (function attachModeToggle(){
-            const container = document.getElementById('generation-mode');
-            if (!container) return;
-            const buttons = Array.from(container.querySelectorAll('.mode-btn'));
-            const createBtn = document.getElementById('mode-create-button');
-
-            function applyMode(mode){
-                window._vestraMode = mode;
-                buttons.forEach(b => b.classList.toggle('is-active', b.dataset.mode === mode));
-                if (createBtn) createBtn.textContent = mode === 'projects' ? '+ New Project' : '+ New Batch';
-                // re-render filtered results if we have originals
-                const all = Array.isArray(window._vestraAccountResults) ? window._vestraAccountResults : [];
-                const filtered = all.filter(a => (a.mode || 'projects') === mode);
-                renderAccountResults(filtered);
-            }
-
-            buttons.forEach(btn => btn.addEventListener('click', () => applyMode(btn.dataset.mode)));
-
-            if (!window._vestraMode) window._vestraMode = 'projects';
-            applyMode(window._vestraMode);
-        })();
+        renderProjects(MOCK_PROJECTS);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/shared/app-shell.js"></script>
