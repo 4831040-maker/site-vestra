@@ -119,6 +119,7 @@ select {
     letter-spacing: 0.2px;
     color: #353535;
     position: relative;
+    outline: none;
     transition: color 0.18s ease;
 }
 
@@ -148,11 +149,13 @@ select {
 .app-subnav-link:focus-visible,
 .app-subnav-link.is-active {
     color: #5a5a5a;
+    outline: none;
 }
 
 .app-nav-link:focus-visible,
 .app-nav-link.is-active {
     color: #5a5a5a;
+    outline: none;
     text-shadow:
         0 0 4px rgba(0, 0, 0, 0.12),
         0 0 8px rgba(0, 0, 0, 0.08);

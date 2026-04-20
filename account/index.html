@@ -313,6 +313,10 @@
             align-items: stretch;
         }
 
+        .account-view[hidden] {
+            display: none !important;
+        }
+
         .project-card {
             aspect-ratio: 3 / 4;
             min-width: 0;
@@ -346,9 +350,319 @@
             text-transform: uppercase;
         }
 
+        .batch-back-row {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 10px 0 40px;
+        }
+
+        .batch-back-inner {
+            display: flex;
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            min-height: 56px;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0;
+            padding: 8px 24px;
+        }
+
+        .batch-section {
+            width: min(100%, 960px);
+            margin: 0 auto;
+            padding: 0 24px 56px;
+        }
+
+        .batch-shell {
+            display: grid;
+            gap: 24px;
+        }
+
+        .batch-header {
+            display: grid;
+            gap: 20px;
+            max-width: 860px;
+        }
+
+        .batch-back {
+            width: fit-content;
+            min-height: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            background: #fff;
+            padding: 0 14px 0 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            color: #353535;
+            cursor: pointer;
+            transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+        }
+
+        .batch-back::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-left: 1.5px solid currentColor;
+            border-bottom: 1.5px solid currentColor;
+            transform: rotate(45deg);
+            margin-left: 1px;
+        }
+
+        .batch-back:hover,
+        .batch-back:focus-visible {
+            color: #111;
+            border-color: rgba(0, 0, 0, 0.14);
+            background: var(--vestra-surface);
+            outline: none;
+        }
+
+        .batch-copy {
+            display: grid;
+            gap: 10px;
+            max-width: 980px;
+        }
+
+        .batch-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: #7f7f7f;
+        }
+
+        .batch-copy h1 {
+            max-width: 24ch;
+            font-size: clamp(28px, 3.2vw, 38px);
+            line-height: 0.88;
+            letter-spacing: 0.012em;
+            font-weight: 300;
+        }
+
+        .batch-copy p,
+        .batch-preview-copy,
+        .batch-upload-copy,
+        .batch-file-summary {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--vestra-muted);
+        }
+
+        .batch-card {
+            border: 1px solid var(--vestra-line);
+            border-radius: 16px;
+            background: #fff;
+            padding: 22px;
+        }
+
+        .batch-card-header {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .batch-card-header h2 {
+            font-size: 20px;
+            line-height: 1.1;
+            letter-spacing: -0.6px;
+            font-weight: 600;
+        }
+
+        .batch-gender-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+
+        .batch-gender-button {
+            min-height: 56px;
+            min-width: 152px;
+            border: 1px solid var(--vestra-line);
+            border-radius: 10px;
+            background: #fff;
+            padding: 0 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.1px;
+            color: #353535;
+            transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+        }
+
+        .batch-gender-button:hover,
+        .batch-gender-button:focus-visible {
+            border-color: var(--vestra-line-strong);
+            background: var(--vestra-surface);
+            color: #111;
+            outline: none;
+        }
+
+        .batch-gender-button.is-selected {
+            border-color: #111;
+            background: #111;
+            color: #fff;
+        }
+
+        .batch-gender-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+            background: rgba(246, 246, 244, 0.9);
+        }
+
+        .batch-gender-button.is-selected .batch-gender-icon {
+            border-color: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .batch-gender-text {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .batch-gender-text strong {
+            font-size: 15px;
+            line-height: 1;
+            letter-spacing: 0.1px;
+            font-weight: 600;
+        }
+
+        .batch-upload-zone {
+            position: relative;
+            display: grid;
+            gap: 10px;
+            min-height: 204px;
+            padding: 34px 28px;
+            border: 1px dashed rgba(0, 0, 0, 0.14);
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(246, 246, 244, 0.4), rgba(255, 255, 255, 0.96));
+            cursor: pointer;
+            justify-items: center;
+            align-content: center;
+            text-align: center;
+        }
+
+        .batch-upload-zone:hover,
+        .batch-upload-zone:focus-within {
+            border-color: rgba(0, 0, 0, 0.22);
+        }
+
+        .batch-upload-zone input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .batch-upload-top {
+            display: grid;
+            gap: 8px;
+            justify-items: center;
+        }
+
+        .batch-upload-copy strong {
+            display: block;
+            font-size: 18px;
+            line-height: 1.1;
+            letter-spacing: -0.4px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .batch-upload-copy span {
+            display: block;
+            margin-top: 8px;
+        }
+
+        .batch-file-summary.is-empty {
+            color: var(--vestra-soft);
+        }
+
+        .batch-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .batch-preview-card {
+            border: 1px solid var(--vestra-line);
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+            min-width: 0;
+        }
+
+        .batch-preview-media {
+            aspect-ratio: 4 / 5;
+            background: var(--vestra-surface);
+        }
+
+        .batch-preview-media img,
+        .batch-preview-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .batch-preview-body {
+            display: grid;
+            gap: 4px;
+            padding: 12px;
+        }
+
+        .batch-preview-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--vestra-soft);
+        }
+
+        .batch-preview-title {
+            font-size: 13px;
+            line-height: 1.35;
+            color: #111;
+        }
+
+        .batch-actions {
+            padding-top: 4px;
+        }
+
+        .batch-generate {
+            min-width: 168px;
+        }
+
+        .batch-generate[disabled] {
+            opacity: 0.4;
+            cursor: default;
+        }
+
         @media (max-width: 900px) {
             .account-overview {
                 grid-template-columns: 1fr;
+            }
+
+            .batch-preview-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
@@ -365,6 +679,18 @@
             .asset-actions button {
                 width: 100%;
             }
+
+            .batch-section {
+                padding-inline: 20px;
+            }
+
+            .batch-preview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .batch-gender-row {
+                align-items: flex-start;
+            }
         }
 
         .app-main {
@@ -374,9 +700,113 @@
 </head>
 <body>
     <div class="app-shell" data-app-shell>
+        <section class="batch-back-row account-view" data-account-view="batch" hidden>
+            <div class="app-header-inner batch-back-inner">
+                <button class="batch-back" type="button" data-batch-back>Back to Projects</button>
+            </div>
+        </section>
+
         <main class="app-main">
-            <section class="projects-section">
+            <section class="projects-section account-view" data-account-view="projects">
                 <div class="projects-grid" data-projects-grid></div>
+            </section>
+
+            <section class="batch-section account-view" data-account-view="batch" hidden>
+                <div class="batch-shell">
+                    <div class="batch-header">
+                        <div class="batch-copy">
+                            <h1>Catalog-ready visuals at scale</h1>
+                        </div>
+                    </div>
+
+                    <div class="batch-gender-row" aria-label="Gender selector">
+                        <button class="batch-gender-button" type="button" data-gender-option="male" aria-pressed="false">
+                            <span class="batch-gender-icon" aria-hidden="true">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"></circle>
+                                    <path d="M7.5 18.5C7.5 15.8 9.51 14 12 14C14.49 14 16.5 15.8 16.5 18.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                                </svg>
+                            </span>
+                            <span class="batch-gender-text">
+                                <strong>Male</strong>
+                            </span>
+                        </button>
+                        <button class="batch-gender-button" type="button" data-gender-option="female" aria-pressed="false">
+                            <span class="batch-gender-icon" aria-hidden="true">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="7.8" r="3.2" stroke="currentColor" stroke-width="1.8"></circle>
+                                    <path d="M8.4 18.5C8.9 15.76 10.16 14.12 12 14.12C13.84 14.12 15.1 15.76 15.6 18.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                                </svg>
+                            </span>
+                            <span class="batch-gender-text">
+                                <strong>Female</strong>
+                            </span>
+                        </button>
+                    </div>
+
+                    <section aria-labelledby="batch-upload-heading">
+                        <h2 id="batch-upload-heading" hidden>Upload your batch</h2>
+                        <label class="batch-upload-zone">
+                            <input type="file" data-batch-input accept=".zip,image/*" multiple>
+                            <div class="batch-upload-top">
+                                <div class="batch-upload-copy">
+                                    <strong>Drop a ZIP or select multiple images</strong>
+                                    <span>UI only for now. This batch must contain products from the selected gender category only.</span>
+                                </div>
+                            </div>
+                            <p class="batch-file-summary is-empty" data-batch-file-summary>No files selected yet.</p>
+                        </label>
+                    </section>
+
+                    <section class="batch-card" aria-labelledby="batch-preview-heading">
+                        <div class="batch-card-header">
+                            <h2 id="batch-preview-heading">Result preview</h2>
+                            <p class="batch-preview-copy">Each batch returns a compact set of polished catalog outputs with stills plus one motion-ready preview.</p>
+                        </div>
+                        <div class="batch-preview-grid">
+                            <article class="batch-preview-card">
+                                <div class="batch-preview-media">
+                                    <img src="/assets/images/006.webp" alt="Catalog still preview placeholder one">
+                                </div>
+                                <div class="batch-preview-body">
+                                    <div class="batch-preview-label">Preview 01</div>
+                                    <div class="batch-preview-title">Front-facing catalog still</div>
+                                </div>
+                            </article>
+                            <article class="batch-preview-card">
+                                <div class="batch-preview-media">
+                                    <img src="/assets/images/007.webp" alt="Catalog still preview placeholder two">
+                                </div>
+                                <div class="batch-preview-body">
+                                    <div class="batch-preview-label">Preview 02</div>
+                                    <div class="batch-preview-title">Consistent styling output</div>
+                                </div>
+                            </article>
+                            <article class="batch-preview-card">
+                                <div class="batch-preview-media">
+                                    <img src="/assets/images/007d.webp" alt="Catalog still preview placeholder three">
+                                </div>
+                                <div class="batch-preview-body">
+                                    <div class="batch-preview-label">Preview 03</div>
+                                    <div class="batch-preview-title">Alternate product framing</div>
+                                </div>
+                            </article>
+                            <article class="batch-preview-card">
+                                <div class="batch-preview-media">
+                                    <video src="/assets/video/001_0.mp4" autoplay muted loop playsinline aria-label="Looping motion preview placeholder"></video>
+                                </div>
+                                <div class="batch-preview-body">
+                                    <div class="batch-preview-label">Motion</div>
+                                    <div class="batch-preview-title">Looping motion-ready preview</div>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+
+                    <div class="batch-actions">
+                        <button class="app-subnav-primary batch-generate" type="button" data-batch-generate disabled>Generate</button>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
@@ -399,7 +829,13 @@
 
         window.VESTRA_APP_PAGE = {
             routeKey: 'account',
-            allowAuthParams: true
+            allowAuthParams: true,
+            wordmarkHref: '/account/',
+            navHrefMap: {
+                '/batch': '/account/?view=batch',
+                '/creative': '/account/',
+                '/pricing': '/account/'
+            }
         };
 
         function renderProjects(projects) {
@@ -426,6 +862,198 @@
         }
 
         renderProjects(MOCK_PROJECTS);
+
+        (function () {
+            const ACCOUNT_PATH = '/account/';
+            const TOP_NAV_STORAGE_KEY = 'vestra-top-nav-active';
+            const VIEW_QUERY_KEY = 'view';
+            const PROJECTS_VIEW = 'projects';
+            const BATCH_VIEW = 'batch';
+            const state = {
+                currentView: PROJECTS_VIEW,
+                selectedGender: null,
+                files: []
+            };
+
+            function resolveViewFromUrl() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(VIEW_QUERY_KEY) === BATCH_VIEW ? BATCH_VIEW : PROJECTS_VIEW;
+            }
+
+            function getTopNavLinks() {
+                return Array.from(document.querySelectorAll('[data-nav-link]'));
+            }
+
+            function setTopNavActive(href) {
+                getTopNavLinks().forEach((link) => {
+                    const target = link.getAttribute('data-nav-key') || link.getAttribute('href') || '';
+                    const isActive = Boolean(href) && target === href;
+                    link.classList.toggle('is-active', isActive);
+                    link.setAttribute('aria-current', isActive ? 'page' : 'false');
+                });
+
+                if (href) {
+                    window.sessionStorage.setItem(TOP_NAV_STORAGE_KEY, href);
+                } else {
+                    window.sessionStorage.removeItem(TOP_NAV_STORAGE_KEY);
+                }
+            }
+
+            function setProjectsChromeVisible(isVisible) {
+                const subnav = document.querySelector('.app-subnav');
+                const contextRow = document.querySelector('.app-context-row');
+                if (subnav) subnav.hidden = !isVisible;
+                if (contextRow) contextRow.hidden = !isVisible;
+            }
+
+            function renderView() {
+                document.querySelectorAll('[data-account-view]').forEach((section) => {
+                    section.hidden = section.getAttribute('data-account-view') !== state.currentView;
+                });
+
+                const onProjectsView = state.currentView === PROJECTS_VIEW;
+                setProjectsChromeVisible(onProjectsView);
+                setTopNavActive(getTopNavForView(state.currentView));
+            }
+
+            function getTopNavForView(view) {
+                if (view === BATCH_VIEW) return '/batch';
+                return null;
+            }
+
+            function syncUrlForView(view, replaceState = false) {
+                const url = new URL(window.location.href);
+                url.pathname = ACCOUNT_PATH;
+
+                if (view === BATCH_VIEW) {
+                    url.searchParams.set(VIEW_QUERY_KEY, BATCH_VIEW);
+                } else {
+                    url.searchParams.delete(VIEW_QUERY_KEY);
+                }
+
+                const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+                const historyMethod = replaceState ? 'replaceState' : 'pushState';
+                window.history[historyMethod]({ view }, '', nextUrl);
+            }
+
+            function updateGenderUI() {
+                document.querySelectorAll('[data-gender-option]').forEach((button) => {
+                    const isSelected = button.getAttribute('data-gender-option') === state.selectedGender;
+                    button.classList.toggle('is-selected', isSelected);
+                    button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+                });
+            }
+
+            function updateFileSummary() {
+                const summary = document.querySelector('[data-batch-file-summary]');
+                if (!summary) return;
+
+                if (!state.files.length) {
+                    summary.textContent = 'No files selected yet.';
+                    summary.classList.add('is-empty');
+                    return;
+                }
+
+                const label = state.files.length === 1
+                    ? state.files[0].name
+                    : `${state.files.length} files selected`;
+
+                summary.textContent = label;
+                summary.classList.remove('is-empty');
+            }
+
+            function updateGenerateButton() {
+                const button = document.querySelector('[data-batch-generate]');
+                if (!button) return;
+
+                button.disabled = !(state.selectedGender && state.files.length);
+            }
+
+            function syncBatchUI() {
+                updateGenderUI();
+                updateFileSummary();
+                updateGenerateButton();
+            }
+
+            function showProjectsView(replaceState = false) {
+                state.currentView = PROJECTS_VIEW;
+                syncUrlForView(PROJECTS_VIEW, replaceState);
+                renderView();
+            }
+
+            function showBatchView(replaceState = false) {
+                state.currentView = BATCH_VIEW;
+                syncUrlForView(BATCH_VIEW, replaceState);
+                renderView();
+            }
+
+            document.addEventListener('click', (event) => {
+                const wordmark = event.target.closest('.app-wordmark');
+                if (wordmark) {
+                    event.preventDefault();
+                    showProjectsView();
+                    return;
+                }
+
+                const topNavLink = event.target.closest('[data-nav-link]');
+                if (topNavLink) {
+                    const navKey = topNavLink.getAttribute('data-nav-key') || topNavLink.getAttribute('href');
+                    if (navKey === '/batch') {
+                        event.preventDefault();
+                        showBatchView();
+                        return;
+                    }
+
+                    if (navKey === '/creative' || navKey === '/pricing') {
+                        event.preventDefault();
+                        showProjectsView();
+                        return;
+                    }
+                }
+
+                const backButton = event.target.closest('[data-batch-back]');
+                if (backButton) {
+                    event.preventDefault();
+                    showProjectsView();
+                    return;
+                }
+
+                const genderButton = event.target.closest('[data-gender-option]');
+                if (genderButton) {
+                    state.selectedGender = genderButton.getAttribute('data-gender-option');
+                    syncBatchUI();
+                }
+            }, true);
+
+            document.addEventListener('change', (event) => {
+                const input = event.target.closest('[data-batch-input]');
+                if (!input) return;
+
+                state.files = Array.from(input.files || []);
+                syncBatchUI();
+            });
+
+            window.addEventListener('popstate', () => {
+                state.currentView = resolveViewFromUrl();
+                renderView();
+            });
+
+            const shell = document.querySelector('[data-app-shell]');
+            if (shell) {
+                const shellObserver = new MutationObserver(() => {
+                    if (!document.querySelector('.app-header')) return;
+                    renderView();
+                    shellObserver.disconnect();
+                });
+
+                shellObserver.observe(shell, { childList: true, subtree: true });
+            }
+
+            state.currentView = resolveViewFromUrl();
+            syncBatchUI();
+            syncUrlForView(state.currentView, true);
+            renderView();
+        }());
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/shared/app-shell.js"></script>

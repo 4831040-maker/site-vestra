@@ -21,6 +21,12 @@
         { href: '/creative', label: 'Creative', match: ['/creative'] },
         { href: '/pricing', label: 'Pricing', match: ['/pricing'] }
     ];
+    const navHrefMap = pageConfig.navHrefMap || {};
+    const renderedNavItems = navItems.map((item) => ({
+        ...item,
+        renderedHref: navHrefMap[item.href] || item.href
+    }));
+    const wordmarkHref = pageConfig.wordmarkHref || APP_HOME_URL;
 
     function normalizePath(pathname) {
         return pathname.replace(/\/+$/, '') || '/';
@@ -129,7 +135,7 @@
 
     function applyTopNavState() {
         document.querySelectorAll('[data-nav-link]').forEach((link) => {
-            const target = link.getAttribute('href') || '';
+            const target = link.getAttribute('data-nav-key') || link.getAttribute('href') || '';
             const isActive = Boolean(state.topNavActive) && target === state.topNavActive;
             link.classList.toggle('is-active', isActive);
             link.setAttribute('aria-current', isActive ? 'page' : 'false');
@@ -168,7 +174,7 @@
     function bindNavigationState() {
         document.querySelectorAll('[data-nav-link]').forEach((link) => {
             link.addEventListener('click', () => {
-                const href = normalizeStoredValue(link.getAttribute('href'));
+                const href = normalizeStoredValue(link.getAttribute('data-nav-key') || link.getAttribute('href'));
                 if (!href) return;
 
                 state.topNavActive = href;
@@ -255,9 +261,9 @@
         const shell = document.querySelector('[data-app-shell]');
         if (!shell || shell.querySelector('.app-header')) return;
 
-        const headerNav = navItems.map((item) => {
+        const headerNav = renderedNavItems.map((item) => {
             const matches = item.match.join(',');
-            return `<a class="app-nav-link" data-nav-link data-match="${matches}" href="${item.href}">${item.label}</a>`;
+            return `<a class="app-nav-link" data-nav-link data-nav-key="${item.href}" data-match="${matches}" href="${item.renderedHref}">${item.label}</a>`;
         }).join('');
 
         const contextRowMarkup = pageConfig.routeKey === 'account'
@@ -274,7 +280,7 @@
             <header class="app-header">
                 <div class="app-header-inner">
                     <div style="display:flex;align-items:center;gap:16px;">
-                        <a class="app-wordmark" href="/home/">
+                        <a class="app-wordmark" href="${wordmarkHref}">
                             <img src="/assets/images/logo.svg" alt="VESTRA" class="logo">
                         </a>
                         <nav class="app-nav" aria-label="Main navigation">
