@@ -743,13 +743,15 @@
 
         .creative-card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 350px));
+            grid-template-columns: repeat(auto-fit, minmax(clamp(300px, 30vw, 350px), 1fr));
             gap: 18px;
             align-items: stretch;
             justify-content: start;
         }
 
         .creative-card {
+            width: clamp(300px, 30vw, 350px);
+            max-width: 100%;
             min-width: 0;
             border: 1px solid rgba(0, 0, 0, 0.07);
             border-radius: 18px;
@@ -854,7 +856,7 @@
             }
 
             .creative-card-grid {
-                grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 350px));
+                grid-template-columns: repeat(auto-fit, minmax(clamp(300px, 30vw, 350px), 1fr));
             }
         }
 
@@ -889,7 +891,7 @@
             }
 
             .creative-card-grid {
-                grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 350px));
+                grid-template-columns: repeat(auto-fit, minmax(clamp(300px, 30vw, 350px), 1fr));
             }
 
             .creative-card {
