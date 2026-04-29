@@ -18,7 +18,7 @@
 
     const navItems = [
         { href: '/batch', label: 'Batch', match: ['/batch'] },
-        { href: '/creative', label: 'Creative', match: ['/creative'] },
+        { href: '/creative', label: 'Studio', match: ['/creative'] },
         { href: '/pricing', label: 'Pricing', match: ['/pricing'] }
     ];
     const navHrefMap = pageConfig.navHrefMap || {};

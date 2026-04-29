@@ -129,6 +129,30 @@
             align-items: center;
             text-decoration: none;
         }
+        .site-header-brand,
+        .site-header-nav-link,
+        .site-header-dropdown-link,
+        .header-auth-link,
+        .header-auth-primary {
+            outline: none;
+        }
+        .site-header-brand:focus,
+        .site-header-brand:active,
+        .site-header-nav-link:focus,
+        .site-header-nav-link:active,
+        .site-header-dropdown-link:focus,
+        .site-header-dropdown-link:active,
+        .header-auth-link:focus,
+        .header-auth-link:active,
+        .header-auth-primary:focus,
+        .header-auth-primary:active {
+            outline: none;
+            box-shadow: none;
+        }
+        .site-header-brand:focus-visible {
+            border-radius: 10px;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.14);
+        }
         .site-header-nav-link {
             font: inherit;
             font-size: 16px;
@@ -159,6 +183,7 @@
         }
         .site-header-nav-item:hover > .site-header-nav-link,
         .site-header-nav-item:focus-within > .site-header-nav-link,
+        .site-header-nav-link:focus-visible,
         .site-header-nav-link.is-underlined:hover,
         .site-header-nav-link.is-underlined:focus-visible {
             color: #5a5a5a;
@@ -168,6 +193,7 @@
         }
         .site-header-nav-item:hover > .site-header-nav-link::after,
         .site-header-nav-item:focus-within > .site-header-nav-link::after,
+        .site-header-nav-link:focus-visible::after,
         .site-header-nav-link.is-underlined:hover::after,
         .site-header-nav-link.is-underlined:focus-visible::after {
             transform: scaleX(1);
@@ -229,6 +255,13 @@
             transition: color 0.22s ease, opacity 0.22s ease, text-shadow 0.22s ease;
         }
         .site-header-dropdown-link:hover {
+            color: #000;
+            opacity: 1;
+            text-shadow:
+                0 0 4px rgba(0, 0, 0, 0.12),
+                0 0 8px rgba(0, 0, 0, 0.08);
+        }
+        .site-header-dropdown-link:focus-visible {
             color: #000;
             opacity: 1;
             text-shadow:
@@ -316,6 +349,10 @@
             background-color: #303030;
             border-color: rgba(0, 0, 0, 0.16);
             animation: headerPrimaryPulse 0.26s cubic-bezier(0.22, 1, 0.36, 1) 1;
+        }
+        .header-auth-primary:focus-visible {
+            border-color: rgba(0, 0, 0, 0.18);
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.12);
         }
         @keyframes headerPrimaryPulse {
             0% {
@@ -468,18 +505,21 @@
             align-items: center;
             justify-content: center;
             padding: 14px 24px;
+            border: 1px solid #dddddd;
+            background: #f7f7f7;
+            box-shadow: none;
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 11px;
             font-weight: 600;
-            color: #575757;
+            color: #626262;
             cursor: pointer;
-            transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+            transition: background-color 0.18s ease, border-color 0.18s ease;
         }
         .upload-area:hover, .upload-area.dragover {
-            background: #f1f1ee;
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.055);
+            background: #f3f3f3;
+            border-color: #cfcfcf;
         }
         .upload-main-content {
             display: flex;
@@ -509,11 +549,15 @@
             background: #ecece7;
         }
         .upload-icon {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 18px;
-            color: #666666;
-            opacity: 0.82;
+            width: 28px;
+            height: 28px;
+            margin-bottom: 16px;
+            color: #7d7d7d;
+            opacity: 0.6;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
             flex-shrink: 0;
         }
         .upload-primary {

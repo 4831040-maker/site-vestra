@@ -375,15 +375,34 @@
             padding: 0 24px 56px;
         }
 
+        .creative-section {
+            width: min(calc(100vw - 48px), 2100px);
+            margin-left: calc(50% - 50vw + 24px);
+            margin-right: calc(50% - 50vw + 24px);
+            padding: 0 24px 56px;
+        }
+
         .batch-shell {
             display: grid;
             gap: 24px;
+        }
+
+        .creative-shell {
+            display: grid;
+            gap: 28px;
         }
 
         .batch-header {
             display: grid;
             gap: 20px;
             max-width: 860px;
+        }
+
+        .creative-header {
+            display: grid;
+            gap: 10px;
+            max-width: 760px;
+            min-height: 160px;
         }
 
         .batch-back {
@@ -436,7 +455,8 @@
             color: #7f7f7f;
         }
 
-        .batch-copy h1 {
+        .batch-copy h1,
+        .creative-header h1 {
             max-width: 24ch;
             font-size: clamp(28px, 3.2vw, 38px);
             line-height: 0.88;
@@ -444,10 +464,21 @@
             font-weight: 300;
         }
 
+        .creative-header h1 {
+            max-width: 14ch;
+        }
+
         .batch-copy p,
         .batch-preview-copy,
         .batch-upload-copy,
         .batch-file-summary {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--vestra-muted);
+        }
+
+        .creative-header p,
+        .creative-card-description {
             font-size: 15px;
             line-height: 1.65;
             color: var(--vestra-muted);
@@ -482,22 +513,22 @@
         }
 
         .batch-gender-button {
-            min-height: 56px;
+            min-height: 52px;
             min-width: 152px;
+            position: relative;
             border: 1px solid var(--vestra-line);
             border-radius: 10px;
             background: #fff;
-            padding: 0 24px;
+            padding: 0 28px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 600;
-            letter-spacing: 0.1px;
+            letter-spacing: 0.02em;
             color: #353535;
-            transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+            transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
         }
 
         .batch-gender-button:hover,
@@ -505,6 +536,7 @@
             border-color: var(--vestra-line-strong);
             background: var(--vestra-surface);
             color: #111;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
             outline: none;
         }
 
@@ -512,56 +544,47 @@
             border-color: #111;
             background: #111;
             color: #fff;
-        }
-
-        .batch-gender-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 999px;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #111;
-            background: rgba(246, 246, 244, 0.9);
-        }
-
-        .batch-gender-button.is-selected .batch-gender-icon {
-            border-color: rgba(255, 255, 255, 0.18);
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
         }
 
         .batch-gender-text {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         .batch-gender-text strong {
-            font-size: 15px;
+            font-size: 17px;
             line-height: 1;
-            letter-spacing: 0.1px;
+            letter-spacing: 0.02em;
             font-weight: 600;
         }
 
         .batch-upload-zone {
             position: relative;
             display: grid;
-            gap: 10px;
-            min-height: 204px;
-            padding: 34px 28px;
-            border: 1px dashed rgba(0, 0, 0, 0.14);
-            border-radius: 18px;
-            background: linear-gradient(180deg, rgba(246, 246, 244, 0.4), rgba(255, 255, 255, 0.96));
+            grid-template-rows: auto auto 1fr auto;
+            gap: 0;
+            min-height: 228px;
+            padding: 24px 30px 18px;
+            border: 1px solid #e3e3e3;
+            border-radius: 16px;
+            background: #fbfbfb;
+            background-image: none;
+            box-shadow: none;
+            filter: none;
             cursor: pointer;
             justify-items: center;
-            align-content: center;
             text-align: center;
+            transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
         }
 
         .batch-upload-zone:hover,
+        .batch-upload-zone.dragover,
         .batch-upload-zone:focus-within {
-            border-color: rgba(0, 0, 0, 0.22);
+            background: #f5f5f5;
+            border-color: #d6d6d6;
         }
 
         .batch-upload-zone input {
@@ -573,26 +596,97 @@
 
         .batch-upload-top {
             display: grid;
-            gap: 8px;
             justify-items: center;
+            grid-row: 1 / -1;
+            align-self: center;
+            margin: 0;
         }
 
-        .batch-upload-copy strong {
-            display: block;
-            font-size: 18px;
-            line-height: 1.1;
-            letter-spacing: -0.4px;
-            font-weight: 600;
-            color: #111;
+        .batch-upload-icon {
+            width: 92px;
+            height: 92px;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            background-image: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #9e9e9e;
+            opacity: 0.8;
+            box-shadow: none;
+            filter: none;
         }
 
-        .batch-upload-copy span {
-            display: block;
+        .batch-upload-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .batch-upload-copy {
+            display: grid;
+            align-self: start;
+            gap: 10px;
+            justify-items: center;
+            align-content: start;
+            min-height: 0;
+            padding: 0 12px;
             margin-top: 8px;
+            margin-bottom: 18px;
         }
 
-        .batch-file-summary.is-empty {
-            color: var(--vestra-soft);
+        .batch-upload-copy strong,
+        .batch-upload-copy h3,
+        .batch-upload-copy .title {
+            display: block;
+            font-size: 21px;
+            line-height: 1.08;
+            letter-spacing: 0.14em;
+            font-weight: 400;
+            color: #4a4a4a;
+            text-align: center;
+        }
+
+        .batch-upload-primary,
+        .batch-upload-copy p,
+        .batch-upload-copy .subtitle {
+            font-size: 15px;
+            line-height: 1.55;
+            color: #7a7a7a;
+            text-align: center;
+        }
+
+        .batch-upload-support {
+            display: block;
+            font-size: 13px;
+            line-height: 1.55;
+            color: inherit;
+            text-align: center;
+        }
+
+        .batch-upload-bottom {
+            display: grid;
+            align-self: end;
+            justify-items: center;
+            gap: 0;
+            width: 100%;
+            padding-top: 20px;
+            color: #b5b5b5;
+        }
+
+        .batch-generate {
+            min-width: 168px;
+            min-height: 52px;
+            border-color: #111;
+            background: #111;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+        }
+
+        .batch-generate:hover {
+            background: #242424;
+            border-color: #242424;
         }
 
         .batch-preview-grid {
@@ -647,13 +741,107 @@
             padding-top: 4px;
         }
 
-        .batch-generate {
-            min-width: 168px;
+        .creative-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 350px));
+            gap: 18px;
+            align-items: stretch;
+            justify-content: start;
         }
 
-        .batch-generate[disabled] {
-            opacity: 0.4;
-            cursor: default;
+        .creative-card {
+            min-width: 0;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 18px;
+            background: #fff;
+            padding: 13px;
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 10px;
+            align-content: start;
+            aspect-ratio: 1.04 / 1;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .creative-card-media {
+            width: 100%;
+            aspect-ratio: 1.45 / 1;
+            overflow: hidden;
+            border-radius: 13px;
+            background: var(--vestra-surface);
+        }
+
+        .creative-card-media img,
+        .creative-card-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .creative-card-copy {
+            height: 72px;
+            display: grid;
+            grid-template-rows: minmax(0, auto) minmax(0, 1fr);
+            align-content: start;
+            gap: 4px;
+            overflow: hidden;
+        }
+
+        .creative-card-title {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            font-size: 19px;
+            line-height: 1.12;
+            letter-spacing: -0.03em;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .creative-card-description {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            line-height: 1.45;
+            max-height: calc(2 * 1.45em);
+        }
+
+        .batch-gender-button.missing-outline,
+        .batch-upload-zone.missing-outline {
+            isolation: isolate;
+        }
+
+        .batch-gender-button.missing-outline::after,
+        .batch-upload-zone.missing-outline::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            border: 1px solid rgba(224, 90, 90, 0.78);
+            box-shadow: 0 0 0 1px rgba(224, 90, 90, 0.08);
+            opacity: 0;
+            pointer-events: none;
+            animation: missingOutlineFade 2.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes missingOutlineFade {
+            0% {
+                opacity: 0;
+            }
+            12% {
+                opacity: 1;
+            }
+            32% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
         }
 
         @media (max-width: 900px) {
@@ -663,6 +851,10 @@
 
             .batch-preview-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .creative-card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 350px));
             }
         }
 
@@ -691,9 +883,23 @@
             .batch-gender-row {
                 align-items: flex-start;
             }
+
+            .creative-section {
+                padding-inline: 20px;
+            }
+
+            .creative-card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 350px));
+            }
+
+            .creative-card {
+                aspect-ratio: auto;
+            }
         }
 
         .app-main {
+            width: min(calc(100% - 48px), 1620px);
+            margin: 0 auto;
             padding: 0;
         }
     </style>
@@ -703,6 +909,12 @@
         <section class="batch-back-row account-view" data-account-view="batch" hidden>
             <div class="app-header-inner batch-back-inner">
                 <button class="batch-back" type="button" data-batch-back>Back to Projects</button>
+            </div>
+        </section>
+
+        <section class="batch-back-row account-view" data-account-view="creative" hidden>
+            <div class="app-header-inner batch-back-inner">
+                <button class="batch-back" type="button" data-creative-back>Back to Projects</button>
             </div>
         </section>
 
@@ -721,23 +933,11 @@
 
                     <div class="batch-gender-row" aria-label="Gender selector">
                         <button class="batch-gender-button" type="button" data-gender-option="male" aria-pressed="false">
-                            <span class="batch-gender-icon" aria-hidden="true">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"></circle>
-                                    <path d="M7.5 18.5C7.5 15.8 9.51 14 12 14C14.49 14 16.5 15.8 16.5 18.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-                                </svg>
-                            </span>
                             <span class="batch-gender-text">
                                 <strong>Male</strong>
                             </span>
                         </button>
                         <button class="batch-gender-button" type="button" data-gender-option="female" aria-pressed="false">
-                            <span class="batch-gender-icon" aria-hidden="true">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="7.8" r="3.2" stroke="currentColor" stroke-width="1.8"></circle>
-                                    <path d="M8.4 18.5C8.9 15.76 10.16 14.12 12 14.12C13.84 14.12 15.1 15.76 15.6 18.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-                                </svg>
-                            </span>
                             <span class="batch-gender-text">
                                 <strong>Female</strong>
                             </span>
@@ -748,13 +948,22 @@
                         <h2 id="batch-upload-heading" hidden>Upload your batch</h2>
                         <label class="batch-upload-zone">
                             <input type="file" data-batch-input accept=".zip,image/*" multiple>
-                            <div class="batch-upload-top">
-                                <div class="batch-upload-copy">
-                                    <strong>Drop a ZIP or select multiple images</strong>
-                                    <span>UI only for now. This batch must contain products from the selected gender category only.</span>
-                                </div>
+                            <div class="batch-upload-copy">
+                                <strong>Drop files to upload</strong>
+                                <span class="batch-upload-primary">ZIP archive or multiple images</span>
                             </div>
-                            <p class="batch-file-summary is-empty" data-batch-file-summary>No files selected yet.</p>
+                            <div class="batch-upload-top">
+                                <span class="batch-upload-icon" aria-hidden="true">
+                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 16V6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                                        <path d="M8.5 9.5L12 6L15.5 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M5 17.5C5 18.88 6.12 20 7.5 20H16.5C17.88 20 19 18.88 19 17.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="batch-upload-bottom">
+                                <span class="batch-upload-support">Use only products that match the selected gender.</span>
+                            </div>
                         </label>
                     </section>
 
@@ -804,8 +1013,71 @@
                     </section>
 
                     <div class="batch-actions">
-                        <button class="app-subnav-primary batch-generate" type="button" data-batch-generate disabled>Generate</button>
+                        <button class="app-subnav-primary batch-generate" type="button" data-batch-generate>Generate</button>
                     </div>
+                </div>
+            </section>
+
+            <section class="creative-section account-view" data-account-view="creative" hidden>
+                <div class="creative-shell">
+                    <div class="creative-header">
+                        <h1>Choose a scenario</h1>
+                    </div>
+
+                    <section aria-labelledby="creative-scenarios-heading">
+                        <h2 id="creative-scenarios-heading" hidden>Studio scenarios</h2>
+                        <div class="creative-card-grid">
+                            <article class="creative-card">
+                                <div class="creative-card-media">
+                                    <img src="/assets/images/006.webp" alt="Flat-lay to Model scenario preview">
+                                </div>
+                                <div class="creative-card-copy">
+                                    <h3 class="creative-card-title">Flat-lay to Model</h3>
+                                    <p class="creative-card-description">Turn flat product captures into styled on-model imagery with consistent body framing and garment realism.</p>
+                                </div>
+                            </article>
+
+                            <article class="creative-card">
+                                <div class="creative-card-media">
+                                    <img src="/assets/images/007.webp" alt="On-Model Reshoot scenario preview">
+                                </div>
+                                <div class="creative-card-copy">
+                                    <h3 class="creative-card-title">On-Model Reshoot</h3>
+                                    <p class="creative-card-description">Refresh existing model photography with new composition, lighting direction, and studio polish.</p>
+                                </div>
+                            </article>
+
+                            <article class="creative-card">
+                                <div class="creative-card-media">
+                                    <img src="/assets/images/007d.webp" alt="Model Swap scenario preview">
+                                </div>
+                                <div class="creative-card-copy">
+                                    <h3 class="creative-card-title">Model Swap</h3>
+                                    <p class="creative-card-description">Keep the garment consistent while changing the talent, pose tone, or casting profile for new audience needs.</p>
+                                </div>
+                            </article>
+
+                            <article class="creative-card">
+                                <div class="creative-card-media">
+                                    <img src="/assets/images/007f.webp" alt="Campaign and Marketing scenario preview">
+                                </div>
+                                <div class="creative-card-copy">
+                                    <h3 class="creative-card-title">Campaign / Marketing</h3>
+                                    <p class="creative-card-description">Build elevated branded scenes for launches, paid media, and editorial storytelling beyond core catalog output.</p>
+                                </div>
+                            </article>
+
+                            <article class="creative-card">
+                                <div class="creative-card-media">
+                                    <img src="/assets/images/fashn-export-1774564899950.png" alt="Video and Animate scenario preview">
+                                </div>
+                                <div class="creative-card-copy">
+                                    <h3 class="creative-card-title">Video / Animate</h3>
+                                    <p class="creative-card-description">Prepare motion-oriented creative starting points for short loops, animated product moments, and social-ready clips.</p>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
                 </div>
             </section>
         </main>
@@ -833,7 +1105,7 @@
             wordmarkHref: '/account/',
             navHrefMap: {
                 '/batch': '/account/?view=batch',
-                '/creative': '/account/',
+                '/creative': '/account/?view=creative',
                 '/pricing': '/account/'
             }
         };
@@ -869,6 +1141,7 @@
             const VIEW_QUERY_KEY = 'view';
             const PROJECTS_VIEW = 'projects';
             const BATCH_VIEW = 'batch';
+            const CREATIVE_VIEW = 'creative';
             const state = {
                 currentView: PROJECTS_VIEW,
                 selectedGender: null,
@@ -877,7 +1150,10 @@
 
             function resolveViewFromUrl() {
                 const params = new URLSearchParams(window.location.search);
-                return params.get(VIEW_QUERY_KEY) === BATCH_VIEW ? BATCH_VIEW : PROJECTS_VIEW;
+                const requestedView = params.get(VIEW_QUERY_KEY);
+                if (requestedView === BATCH_VIEW) return BATCH_VIEW;
+                if (requestedView === CREATIVE_VIEW) return CREATIVE_VIEW;
+                return PROJECTS_VIEW;
             }
 
             function getTopNavLinks() {
@@ -918,6 +1194,7 @@
 
             function getTopNavForView(view) {
                 if (view === BATCH_VIEW) return '/batch';
+                if (view === CREATIVE_VIEW) return '/creative';
                 return null;
             }
 
@@ -927,6 +1204,8 @@
 
                 if (view === BATCH_VIEW) {
                     url.searchParams.set(VIEW_QUERY_KEY, BATCH_VIEW);
+                } else if (view === CREATIVE_VIEW) {
+                    url.searchParams.set(VIEW_QUERY_KEY, CREATIVE_VIEW);
                 } else {
                     url.searchParams.delete(VIEW_QUERY_KEY);
                 }
@@ -962,17 +1241,33 @@
                 summary.classList.remove('is-empty');
             }
 
-            function updateGenerateButton() {
-                const button = document.querySelector('[data-batch-generate]');
-                if (!button) return;
-
-                button.disabled = !(state.selectedGender && state.files.length);
-            }
-
             function syncBatchUI() {
                 updateGenderUI();
                 updateFileSummary();
-                updateGenerateButton();
+            }
+
+            function guideToElement(element, highlightedElements = [element]) {
+                if (!element) return;
+
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                window.setTimeout(() => {
+                    highlightedElements.forEach((node) => {
+                        if (!node) return;
+                        node.classList.remove('missing-outline');
+                        void node.offsetWidth;
+                        node.classList.add('missing-outline');
+                        node.addEventListener('animationend', () => {
+                            node.classList.remove('missing-outline');
+                        }, { once: true });
+                    });
+                }, 220);
+            }
+
+            function runBatchGeneration() {
+                console.info('Batch generation is ready to proceed.', {
+                    gender: state.selectedGender,
+                    files: state.files.length
+                });
             }
 
             function showProjectsView(replaceState = false) {
@@ -984,6 +1279,12 @@
             function showBatchView(replaceState = false) {
                 state.currentView = BATCH_VIEW;
                 syncUrlForView(BATCH_VIEW, replaceState);
+                renderView();
+            }
+
+            function showCreativeView(replaceState = false) {
+                state.currentView = CREATIVE_VIEW;
+                syncUrlForView(CREATIVE_VIEW, replaceState);
                 renderView();
             }
 
@@ -1004,7 +1305,13 @@
                         return;
                     }
 
-                    if (navKey === '/creative' || navKey === '/pricing') {
+                    if (navKey === '/creative') {
+                        event.preventDefault();
+                        showCreativeView();
+                        return;
+                    }
+
+                    if (navKey === '/pricing') {
                         event.preventDefault();
                         showProjectsView();
                         return;
@@ -1018,10 +1325,42 @@
                     return;
                 }
 
+                const creativeBackButton = event.target.closest('[data-creative-back]');
+                if (creativeBackButton) {
+                    event.preventDefault();
+                    showProjectsView();
+                    return;
+                }
+
                 const genderButton = event.target.closest('[data-gender-option]');
                 if (genderButton) {
                     state.selectedGender = genderButton.getAttribute('data-gender-option');
                     syncBatchUI();
+                    return;
+                }
+
+                const generateButton = event.target.closest('[data-batch-generate]');
+                if (generateButton) {
+                    const genderButtons = Array.from(document.querySelectorAll('[data-gender-option]'));
+                    const genderRow = document.querySelector('.batch-gender-row');
+                    const uploadZone = document.querySelector('.batch-upload-zone');
+                    const missingGender = !state.selectedGender;
+                    const missingFiles = !state.files.length;
+
+                    if (missingGender || missingFiles) {
+                        const firstMissingTarget = missingGender
+                            ? (genderRow || genderButtons[0])
+                            : uploadZone;
+                        const highlightTargets = [
+                            ...(missingGender ? genderButtons : []),
+                            ...(missingFiles && uploadZone ? [uploadZone] : [])
+                        ];
+
+                        guideToElement(firstMissingTarget, highlightTargets);
+                        return;
+                    }
+
+                    runBatchGeneration();
                 }
             }, true);
 
@@ -1032,6 +1371,26 @@
                 state.files = Array.from(input.files || []);
                 syncBatchUI();
             });
+
+            const batchUploadZone = document.querySelector('.batch-upload-zone');
+            if (batchUploadZone) {
+                batchUploadZone.addEventListener('dragenter', () => {
+                    batchUploadZone.classList.add('dragover');
+                });
+
+                batchUploadZone.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                    batchUploadZone.classList.add('dragover');
+                });
+
+                batchUploadZone.addEventListener('dragleave', () => {
+                    batchUploadZone.classList.remove('dragover');
+                });
+
+                batchUploadZone.addEventListener('drop', () => {
+                    batchUploadZone.classList.remove('dragover');
+                });
+            }
 
             window.addEventListener('popstate', () => {
                 state.currentView = resolveViewFromUrl();

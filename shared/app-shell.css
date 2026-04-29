@@ -123,6 +123,34 @@ select {
     transition: color 0.18s ease;
 }
 
+.app-wordmark,
+.app-nav-link,
+.app-subnav-link,
+.app-subnav-primary,
+.avatar,
+.dropdown-menu a,
+.dropdown-menu button {
+    outline: none;
+}
+
+.app-wordmark:focus,
+.app-wordmark:active,
+.app-nav-link:focus,
+.app-nav-link:active,
+.app-subnav-link:focus,
+.app-subnav-link:active,
+.app-subnav-primary:focus,
+.app-subnav-primary:active,
+.avatar:focus,
+.avatar:active,
+.dropdown-menu a:focus,
+.dropdown-menu a:active,
+.dropdown-menu button:focus,
+.dropdown-menu button:active {
+    outline: none;
+    box-shadow: none;
+}
+
 .app-context-label {
     padding: 0 12px;
 }
@@ -159,6 +187,12 @@ select {
     text-shadow:
         0 0 4px rgba(0, 0, 0, 0.12),
         0 0 8px rgba(0, 0, 0, 0.08);
+}
+
+.app-wordmark:focus-visible {
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.14);
 }
 
 .app-subnav-link:hover::after,
@@ -233,6 +267,12 @@ select {
     background-color: #303030;
     border-color: rgba(0, 0, 0, 0.16);
     animation: headerPrimaryPulse 0.26s cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+
+.app-subnav-primary:focus-visible {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.18);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.12);
 }
 
 @keyframes headerPrimaryPulse {
@@ -311,6 +351,11 @@ select {
     color: inherit;
 }
 
+.avatar:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.12);
+}
+
 /* Dropdown menu */
 .dropdown-menu {
     position: absolute;
@@ -360,6 +405,11 @@ select {
     background: rgba(0,0,0,0.028);
     color: #111;
     outline: none;
+}
+
+.dropdown-menu a:focus-visible,
+.dropdown-menu button:focus-visible {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 .dropdown-menu-logout {
     border-top: 1px solid var(--vestra-line);
