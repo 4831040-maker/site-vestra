@@ -369,6 +369,15 @@
             padding: 8px 24px;
         }
 
+        .batch-back-inner.flatlay-topbar {
+            justify-content: flex-start;
+            gap: 14px;
+        }
+
+        .flatlay-heading-row {
+            padding: 4px 24px 0;
+        }
+
         .batch-section {
             width: min(100%, 960px);
             margin: 0 auto;
@@ -376,10 +385,14 @@
         }
 
         .creative-section {
+            --creative-inline-pad: 24px;
+            --creative-heading-optical-offset: 8px;
+            --creative-heading-vertical-offset: -30px;
+            --creative-grid-offset: -58px;
             width: min(calc(100vw - 48px), 2100px);
             margin-left: calc(50% - 50vw + 24px);
             margin-right: calc(50% - 50vw + 24px);
-            padding: 0 24px 56px;
+            padding: 0 var(--creative-inline-pad) 56px;
         }
 
         .batch-shell {
@@ -403,6 +416,12 @@
             gap: 10px;
             max-width: 760px;
             min-height: 160px;
+            margin-top: var(--creative-heading-vertical-offset);
+            margin-left: calc(-1 * var(--creative-inline-pad) + var(--creative-heading-optical-offset));
+        }
+
+        .creative-shell > section[aria-labelledby="creative-scenarios-heading"] {
+            margin-top: var(--creative-grid-offset);
         }
 
         .batch-back {
@@ -767,6 +786,19 @@
             overflow: hidden;
         }
 
+        .creative-card[data-scenario-trigger] {
+            cursor: pointer;
+            transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .creative-card[data-scenario-trigger]:hover,
+        .creative-card[data-scenario-trigger]:focus-visible {
+            transform: translateY(-2px);
+            border-color: rgba(0, 0, 0, 0.12);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.06);
+            outline: none;
+        }
+
         .creative-card-media {
             width: 100%;
             aspect-ratio: 1.45 / 1;
@@ -832,6 +864,701 @@
             animation: missingOutlineFade 2.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
+        .studio-detail-section {
+            width: min(calc(100vw - 48px), 1440px);
+            margin: 0 auto;
+            padding: 0 24px 64px;
+        }
+
+        .studio-detail-shell {
+            display: grid;
+            gap: 28px;
+        }
+
+        .studio-step-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0 2px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .flatlay-topbar .studio-step-nav {
+            flex: 1 1 auto;
+            justify-content: flex-start;
+            padding: 0;
+        }
+
+        .studio-step-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .studio-step-button {
+            position: relative;
+            border: 0;
+            border-radius: 10px;
+            background: transparent;
+            min-height: 40px;
+            padding: 0 2px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            color: #9a9a9a;
+            cursor: default;
+            white-space: nowrap;
+            transition: color 0.16s ease, background-color 0.16s ease;
+        }
+
+        .studio-step-button:hover,
+        .studio-step-button:focus-visible {
+            outline: none;
+        }
+
+        .studio-step-button.is-active {
+            color: #111;
+            min-height: 40px;
+            padding: 0 14px;
+            background: #f1f1f1;
+        }
+
+        .studio-step-button[aria-disabled="true"] {
+            color: #a3a3a3;
+            pointer-events: none;
+        }
+
+        .studio-detail-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .studio-main-column,
+        .studio-side-column {
+            display: grid;
+            gap: 18px;
+            min-width: 0;
+        }
+
+        .studio-empty-heading {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            min-height: 40px;
+            padding: 0 14px;
+            border-radius: 10px;
+            background: #f1f1f1;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            color: #111;
+            margin-left: 0;
+        }
+
+        .studio-detail-grid.is-empty {
+            grid-template-columns: minmax(0, 7fr) minmax(300px, 3fr);
+        }
+
+        .studio-upload-zone {
+            position: relative;
+            min-height: 360px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 24px;
+            background: #f7f7f7;
+            overflow: hidden;
+            cursor: default;
+            transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .studio-upload-zone.is-empty-state {
+            min-height: 420px;
+            border-color: transparent;
+            background: transparent;
+            box-shadow: none;
+            overflow: visible;
+        }
+
+        .studio-upload-zone:hover,
+        .studio-upload-zone:focus-within {
+            transform: scale(1.01);
+            border-color: rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.04);
+        }
+
+        .studio-upload-zone.is-empty-state:hover,
+        .studio-upload-zone.is-empty-state:focus-within {
+            transform: none;
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        .studio-upload-zone input[type="file"] {
+            display: none;
+        }
+
+        .studio-upload-art {
+            position: absolute;
+            inset: 0;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        .studio-upload-layer {
+            position: absolute;
+            width: clamp(218px, 24vw, 278px);
+            aspect-ratio: 4 / 5;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+            isolation: isolate;
+            cursor: pointer;
+        }
+
+        .studio-upload-layer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(0.92) saturate(0.68) contrast(0.88) brightness(1.05);
+        }
+
+        .studio-upload-layer::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 42%;
+            background: linear-gradient(180deg, rgba(247, 247, 247, 0), #f7f7f7 92%);
+            pointer-events: none;
+        }
+
+        .studio-upload-layer.layer-one {
+            top: 7%;
+            left: 8%;
+            transform: rotate(-12deg);
+            z-index: 1;
+        }
+
+        .studio-upload-layer.layer-two {
+            top: 4%;
+            right: 8%;
+            transform: rotate(10deg);
+            z-index: 1;
+        }
+
+        .studio-upload-layer.layer-three {
+            top: 8%;
+            left: 50%;
+            transform: translateX(-50%) rotate(-4deg);
+            z-index: 2;
+        }
+
+        .studio-upload-center {
+            position: relative;
+            z-index: 1;
+            min-height: 360px;
+            display: grid;
+            align-content: start;
+            gap: 18px;
+            padding: 22px 22px 24px;
+        }
+
+        .studio-upload-zone.is-empty-state .studio-upload-center {
+            min-height: 420px;
+            padding: 0;
+            overflow: visible;
+        }
+
+        .studio-upload-empty {
+            position: relative;
+            min-height: 420px;
+            display: block;
+            padding: 0;
+        }
+
+        .studio-upload-trigger {
+            position: absolute;
+            left: 50%;
+            bottom: -30px;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: grid;
+            justify-items: center;
+            gap: 14px;
+            text-align: center;
+            color: #454545;
+            cursor: pointer;
+            pointer-events: auto;
+            white-space: nowrap;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .studio-upload-trigger svg {
+            width: 52px;
+            height: 52px;
+            color: #b2b2b2;
+        }
+
+        .studio-upload-trigger span {
+            display: inline-block;
+            min-width: 280px;
+            font-size: 28px;
+            line-height: 1.1;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        .studio-upload-preview {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .studio-upload-preview[hidden] {
+            display: none !important;
+        }
+
+        .studio-preview-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .studio-preview-toolbar[hidden],
+        .studio-empty-heading[hidden] {
+            display: none !important;
+        }
+
+        .studio-preview-stage {
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(220px, 0.8fr);
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .studio-upload-preview-frame,
+        .studio-backdrop-pane {
+            position: relative;
+            min-height: 296px;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #efefef;
+            display: grid;
+            place-items: center;
+        }
+
+        .studio-upload-preview-frame {
+            padding: 18px;
+        }
+
+        .studio-upload-preview-frame.is-empty {
+            cursor: pointer;
+        }
+
+        .studio-upload-preview-frame img {
+            width: 100%;
+            height: 100%;
+            max-height: 292px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .studio-upload-empty-slot {
+            display: grid;
+            gap: 8px;
+            justify-items: center;
+            text-align: center;
+            color: #535353;
+        }
+
+        .studio-upload-empty-slot span:first-child {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .studio-upload-empty-slot span:last-child {
+            font-size: 13px;
+            color: #737373;
+        }
+
+        .studio-scenario-chip,
+        .studio-category-select {
+            display: inline-flex;
+            align-items: center;
+            min-height: 32px;
+            padding: 0 14px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.94);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .studio-scenario-chip {
+            color: #666;
+        }
+
+        .studio-category-select {
+            appearance: none;
+            padding-right: 34px;
+            cursor: pointer;
+            background-image:
+                linear-gradient(45deg, transparent 50%, #666 50%),
+                linear-gradient(135deg, #666 50%, transparent 50%);
+            background-position:
+                calc(100% - 16px) calc(50% - 2px),
+                calc(100% - 11px) calc(50% - 2px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+        }
+
+        .studio-setup-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .studio-setup-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .studio-action-button {
+            min-height: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            background: #fff;
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #353535;
+            cursor: pointer;
+            transition: border-color 0.16s ease, color 0.16s ease, background-color 0.16s ease;
+        }
+
+        .studio-category-select:hover,
+        .studio-category-select:focus-visible,
+        .studio-action-button:hover,
+        .studio-action-button:focus-visible {
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #111;
+            outline: none;
+        }
+
+        .studio-action-button.is-primary {
+            border-color: #111;
+            background: #111;
+            color: #fff;
+        }
+
+        .studio-action-button.is-primary:hover,
+        .studio-action-button.is-primary:focus-visible {
+            border-color: #1f1f1f;
+            background: #1f1f1f;
+            color: #fff;
+        }
+
+        .studio-backdrop-pane {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: #f3f3f3;
+            padding: 16px;
+            align-content: center;
+            gap: 14px;
+            justify-items: center;
+            text-align: center;
+        }
+
+        .studio-backdrop-pane img {
+            width: 100%;
+            height: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .studio-backdrop-copy {
+            display: grid;
+            gap: 10px;
+            justify-items: center;
+            width: 100%;
+        }
+
+        .studio-backdrop-copy span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+
+        .studio-backdrop-pane[hidden],
+        .studio-upload-empty-slot[hidden] {
+            display: none !important;
+        }
+
+        .studio-backdrop-button {
+            min-height: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #353535;
+            cursor: pointer;
+            transition: border-color 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+        }
+
+        .studio-backdrop-button:hover,
+        .studio-backdrop-button:focus-visible {
+            border-color: rgba(0, 0, 0, 0.12);
+            background: #fff;
+            color: #111;
+            outline: none;
+        }
+
+        .studio-carousel-card,
+        .studio-panel {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            background: #fff;
+        }
+
+        .studio-carousel-panel {
+            display: grid;
+            gap: 16px;
+            padding: 18px;
+        }
+
+        .studio-carousel-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .studio-filter-select {
+            min-width: 132px;
+            min-height: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 999px;
+            background: #fff;
+            padding: 0 40px 0 14px;
+            font-size: 13px;
+            color: #111;
+            appearance: none;
+            background-image:
+                linear-gradient(45deg, transparent 50%, #666 50%),
+                linear-gradient(135deg, #666 50%, transparent 50%);
+            background-position:
+                calc(100% - 18px) calc(50% - 2px),
+                calc(100% - 13px) calc(50% - 2px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+        }
+
+        .studio-carousel-strip {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 132px;
+            gap: 14px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+            cursor: grab;
+        }
+
+        .studio-carousel-strip::-webkit-scrollbar {
+            display: none;
+        }
+
+        .studio-carousel-strip.is-dragging {
+            cursor: grabbing;
+            user-select: none;
+        }
+
+        .studio-carousel-card {
+            padding: 10px;
+            display: grid;
+            gap: 10px;
+            transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+            cursor: pointer;
+        }
+
+        .studio-carousel-card:hover,
+        .studio-carousel-card:focus-visible {
+            transform: scale(1.02);
+            border-color: rgba(0, 0, 0, 0.12);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+            outline: none;
+        }
+
+        .studio-carousel-media {
+            aspect-ratio: 1 / 1;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #f4f4f4;
+        }
+
+        .studio-carousel-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .studio-carousel-label {
+            font-size: 12px;
+            color: #444;
+        }
+
+        .studio-panel {
+            display: grid;
+            gap: 16px;
+            padding: 18px;
+        }
+
+        .studio-guide-panel[hidden],
+        .studio-category-panel[hidden],
+        .studio-carousel-panel[hidden],
+        .studio-setup-bar[hidden],
+        .studio-scenario-chip[hidden],
+        .studio-detected-chip[hidden] {
+            display: none !important;
+        }
+
+        .studio-panel-heading {
+            display: grid;
+            gap: 4px;
+        }
+
+        .studio-panel-heading h2 {
+            font-size: 18px;
+            line-height: 1.08;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .studio-panel-heading p,
+        .studio-guide-copy {
+            font-size: 13px;
+            line-height: 1.55;
+            color: #7b7b7b;
+        }
+
+        .studio-category-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .studio-category-card {
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            background: #fff;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 64px minmax(0, 1fr);
+            gap: 12px;
+            align-items: center;
+            cursor: pointer;
+            transition: border-color 0.16s ease, background-color 0.16s ease, transform 0.16s ease;
+        }
+
+        .studio-category-card:hover,
+        .studio-category-card:focus-visible {
+            border-color: rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .studio-category-card.is-active {
+            border-color: #111;
+            background: #fafafa;
+        }
+
+        .studio-category-thumb {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #f4f4f4;
+        }
+
+        .studio-category-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .studio-category-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .studio-guide-group {
+            display: grid;
+            gap: 10px;
+        }
+
+        .studio-guide-group h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .studio-guide-images {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .studio-guide-shot {
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f3f3f3;
+            position: relative;
+        }
+
+        .studio-guide-shot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .studio-guide-shot.is-avoid img {
+            filter: grayscale(0.5) contrast(0.9);
+        }
+
+        .studio-guide-shot.is-avoid::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, transparent calc(50% - 0.5px), rgba(17, 17, 17, 0.16) 50%, transparent calc(50% + 0.5px));
+        }
+
         @keyframes missingOutlineFade {
             0% {
                 opacity: 0;
@@ -854,6 +1581,10 @@
 
             .batch-preview-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .studio-detail-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -884,11 +1615,55 @@
             }
 
             .creative-section {
-                padding-inline: 20px;
+                --creative-inline-pad: 20px;
+                --creative-heading-optical-offset: 7px;
+                padding-inline: var(--creative-inline-pad);
             }
 
             .creative-card {
                 aspect-ratio: auto;
+            }
+
+            .studio-detail-section {
+                width: min(calc(100vw - 32px), 1440px);
+                padding: 0 16px 48px;
+            }
+
+            .studio-upload-zone,
+            .studio-upload-center {
+                min-height: 320px;
+            }
+
+            .studio-upload-preview-frame img {
+                max-height: 236px;
+            }
+
+            .studio-preview-stage {
+                grid-template-columns: 1fr;
+            }
+
+            .studio-carousel-strip {
+                grid-auto-columns: 124px;
+            }
+
+            .studio-setup-bar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .studio-setup-actions {
+                justify-content: flex-start;
+            }
+
+            .batch-back-inner.flatlay-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .flatlay-topbar .studio-step-nav {
+                width: 100%;
+                justify-content: flex-start;
             }
         }
 
@@ -910,6 +1685,23 @@
         <section class="batch-back-row account-view" data-account-view="creative" hidden>
             <div class="app-header-inner batch-back-inner">
                 <button class="batch-back" type="button" data-creative-back>Back to Projects</button>
+            </div>
+        </section>
+
+        <section class="batch-back-row account-view" data-account-view="creative-flatlay" hidden>
+            <div class="app-header-inner batch-back-inner flatlay-topbar">
+                <button class="batch-back" type="button" data-flatlay-back>Back to Studio</button>
+                <nav class="studio-step-nav" aria-label="Studio workflow">
+                    <button class="studio-step-button is-active" type="button" data-studio-step="Select Products" aria-current="step" aria-disabled="false">Select Products</button>
+                    <button class="studio-step-button" type="button" data-studio-step="Select Models" aria-disabled="true">Select Models</button>
+                    <button class="studio-step-button" type="button" data-studio-step="Customize Models" aria-disabled="true">Customize Models</button>
+                    <button class="studio-step-button" type="button" data-studio-step="Select Poses" aria-disabled="true">Select Poses</button>
+                    <button class="studio-step-button" type="button" data-studio-step="Select Background" aria-disabled="true">Select Background</button>
+                    <button class="studio-step-button" type="button" data-studio-step="Summary" aria-disabled="true">Summary</button>
+                </nav>
+            </div>
+            <div class="app-header-inner flatlay-heading-row">
+                <div class="studio-empty-heading" data-flatlay-empty-heading>Flat-Lay Photos</div>
             </div>
         </section>
 
@@ -1016,13 +1808,13 @@
             <section class="creative-section account-view" data-account-view="creative" hidden>
                 <div class="creative-shell">
                     <div class="creative-header">
-                        <h1>Choose a scenario</h1>
+                        <h1>Create your visuals</h1>
                     </div>
 
                     <section aria-labelledby="creative-scenarios-heading">
                         <h2 id="creative-scenarios-heading" hidden>Studio scenarios</h2>
                         <div class="creative-card-grid">
-                            <article class="creative-card">
+                            <article class="creative-card" data-scenario-trigger="flatlay" tabindex="0" role="button" aria-label="Open Flat-lay to Model scenario">
                                 <div class="creative-card-media">
                                     <img src="/assets/images/006.webp" alt="Flat-lay to Model scenario preview">
                                 </div>
@@ -1073,6 +1865,123 @@
                             </article>
                         </div>
                     </section>
+                </div>
+            </section>
+
+            <section class="studio-detail-section account-view" data-account-view="creative-flatlay" hidden>
+                <div class="studio-detail-shell">
+                    <div class="studio-detail-grid">
+                        <div class="studio-main-column">
+                            <label class="studio-upload-zone" data-flatlay-upload-zone>
+                                <input type="file" accept="image/*" data-flatlay-front-input>
+                                <div class="studio-upload-art" aria-hidden="true" data-flatlay-upload-art>
+                                    <div class="studio-upload-layer layer-one" data-flatlay-upload-trigger><img src="/assets/images/006.webp" alt=""></div>
+                                    <div class="studio-upload-layer layer-two" data-flatlay-upload-trigger><img src="/assets/images/007.webp" alt=""></div>
+                                    <div class="studio-upload-layer layer-three" data-flatlay-upload-trigger><img src="/assets/images/007d.webp" alt=""></div>
+                                </div>
+                                <div class="studio-upload-center" data-flatlay-upload-center>
+                                    <div class="studio-preview-toolbar" data-flatlay-preview-toolbar hidden>
+                                        <span class="studio-scenario-chip" data-flatlay-scenario-label>Flat-Lay Photos</span>
+                                        <div data-flatlay-category-slot></div>
+                                    </div>
+                                    <div class="studio-upload-empty" data-flatlay-empty-state>
+                                        <div class="studio-upload-trigger" aria-hidden="true" data-flatlay-upload-trigger>
+                                            <svg viewBox="0 0 32 32" fill="none">
+                                                <path d="M16 21V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.5 3.5"></path>
+                                                <path d="M11.5 13.5L16 9L20.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.5 3.5"></path>
+                                                <path d="M8 23.5C8 24.88 9.12 26 10.5 26H21.5C22.88 26 24 24.88 24 23.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2.5 3.5"></path>
+                                            </svg>
+                                            <span>Upload your image +</span>
+                                        </div>
+                                    </div>
+                                    <div class="studio-upload-preview" data-flatlay-preview hidden>
+                                        <div class="studio-preview-stage">
+                                            <div class="studio-upload-preview-frame" data-flatlay-main-frame>
+                                                <img src="" alt="Uploaded flat-lay preview" data-flatlay-preview-image>
+                                                <div class="studio-upload-empty-slot" data-flatlay-empty-slot hidden>
+                                                    <span data-flatlay-empty-slot-label>Bottom</span>
+                                                    <span>Upload or choose from presets</span>
+                                                </div>
+                                            </div>
+                                            <div class="studio-backdrop-pane" data-flatlay-back-pane hidden>
+                                                <img src="" alt="Uploaded back image preview" data-flatlay-back-preview-image hidden>
+                                                <div class="studio-backdrop-copy" data-flatlay-back-empty>
+                                                    <span>Back image (optional)</span>
+                                                    <button class="studio-backdrop-button" type="button" data-flatlay-add-back>Upload back image</button>
+                                                </div>
+                                                <button class="studio-backdrop-button" type="button" data-flatlay-replace-back hidden>Replace back image</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <div class="studio-setup-bar" data-flatlay-setup-bar hidden>
+                                <div class="studio-setup-actions">
+                                    <button class="studio-action-button" type="button" data-flatlay-clear>Clear All</button>
+                                    <button class="studio-action-button is-primary" type="button" data-flatlay-next>Next Step</button>
+                                </div>
+                                <input type="file" accept="image/*" data-flatlay-back-input hidden>
+                            </div>
+
+                            <section class="studio-carousel-panel" aria-labelledby="studio-products-heading" data-flatlay-carousel-panel hidden>
+                                <div class="studio-carousel-top">
+                                    <select class="studio-filter-select" aria-label="Product gender" data-flatlay-carousel-gender>
+                                        <option selected>Women</option>
+                                        <option>Men</option>
+                                    </select>
+                                </div>
+                                <h2 id="studio-products-heading" hidden>Product carousel</h2>
+                                <div class="studio-carousel-strip" data-studio-carousel data-flatlay-carousel></div>
+                            </section>
+                        </div>
+
+                        <aside class="studio-side-column">
+                            <section class="studio-panel studio-category-panel" aria-labelledby="studio-category-heading" data-flatlay-category-panel hidden>
+                                <div class="studio-panel-heading">
+                                    <h2 id="studio-category-heading">Category</h2>
+                                </div>
+                                <div class="studio-category-list" aria-label="Category selector">
+                                    <button class="studio-category-card is-active" type="button" data-flatlay-category="Top" aria-pressed="true">
+                                        <span class="studio-category-thumb"><img src="/assets/images/006.webp" alt=""></span>
+                                        <span class="studio-category-name">Top</span>
+                                    </button>
+                                    <button class="studio-category-card" type="button" data-flatlay-category="Bottom" aria-pressed="false">
+                                        <span class="studio-category-thumb"><img src="/assets/images/007f.webp" alt=""></span>
+                                        <span class="studio-category-name">Bottom</span>
+                                    </button>
+                                    <button class="studio-category-card" type="button" data-flatlay-category="Footwear" aria-pressed="false">
+                                        <span class="studio-category-thumb"><img src="/assets/images/fashn-export-1774564899950.png" alt=""></span>
+                                        <span class="studio-category-name">Footwear</span>
+                                    </button>
+                                </div>
+                            </section>
+
+                            <section class="studio-panel studio-guide-panel" aria-labelledby="studio-guide-heading" data-flatlay-guide-panel>
+                                <div class="studio-panel-heading">
+                                    <h2 id="studio-guide-heading">What works best</h2>
+                                </div>
+                                <div class="studio-guide-group">
+                                    <div class="studio-guide-images">
+                                        <div class="studio-guide-shot"><img src="/assets/images/006.webp" alt="Front-facing example"></div>
+                                        <div class="studio-guide-shot"><img src="/assets/images/007.webp" alt="Clean background example"></div>
+                                        <div class="studio-guide-shot"><img src="/assets/images/007d.webp" alt="Good lighting example"></div>
+                                    </div>
+                                    <p class="studio-guide-copy">Front-facing, clean background, good lighting</p>
+                                </div>
+
+                                <div class="studio-guide-group">
+                                    <h3>What to avoid</h3>
+                                    <div class="studio-guide-images">
+                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/007f.webp" alt="Wrinkles example"></div>
+                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/006.webp" alt="Shadows example"></div>
+                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/fashn-export-1774564899950.png" alt="Angled shot example"></div>
+                                    </div>
+                                    <p class="studio-guide-copy">Wrinkles, shadows, angled shots</p>
+                                </div>
+                            </section>
+                        </aside>
+                    </div>
                 </div>
             </section>
         </main>
@@ -1137,10 +2046,39 @@
             const PROJECTS_VIEW = 'projects';
             const BATCH_VIEW = 'batch';
             const CREATIVE_VIEW = 'creative';
+            const FLATLAY_VIEW = 'creative-flatlay';
+            const FLATLAY_CAROUSEL_ITEMS = {
+                Bottom: [
+                    { label: 'Pleated Skirt', image: '/assets/images/007f.webp' },
+                    { label: 'Wide Leg Trouser', image: '/assets/images/006.webp' },
+                    { label: 'Denim Straight', image: '/assets/images/007.webp' },
+                    { label: 'Soft Tailoring', image: '/assets/images/007d.webp' }
+                ],
+                Footwear: [
+                    { label: 'Leather Boot', image: '/assets/images/fashn-export-1774564899950.png' },
+                    { label: 'Minimal Heel', image: '/assets/images/007.webp' },
+                    { label: 'Clean Sneaker', image: '/assets/images/006.webp' },
+                    { label: 'Studio Loafer', image: '/assets/images/007d.webp' }
+                ]
+            };
             const state = {
                 currentView: PROJECTS_VIEW,
                 selectedGender: null,
-                files: []
+                files: [],
+                flatlayCategory: 'Top',
+                flatlayContext: 'Top',
+                flatlayUploads: {
+                    Top: {
+                        front: null,
+                        back: null
+                    },
+                    Bottom: {
+                        front: null
+                    },
+                    Footwear: {
+                        front: null
+                    }
+                }
             };
 
             function resolveViewFromUrl() {
@@ -1148,6 +2086,7 @@
                 const requestedView = params.get(VIEW_QUERY_KEY);
                 if (requestedView === BATCH_VIEW) return BATCH_VIEW;
                 if (requestedView === CREATIVE_VIEW) return CREATIVE_VIEW;
+                if (requestedView === FLATLAY_VIEW) return FLATLAY_VIEW;
                 return PROJECTS_VIEW;
             }
 
@@ -1190,6 +2129,7 @@
             function getTopNavForView(view) {
                 if (view === BATCH_VIEW) return '/batch';
                 if (view === CREATIVE_VIEW) return '/creative';
+                if (view === FLATLAY_VIEW) return '/creative';
                 return null;
             }
 
@@ -1201,6 +2141,8 @@
                     url.searchParams.set(VIEW_QUERY_KEY, BATCH_VIEW);
                 } else if (view === CREATIVE_VIEW) {
                     url.searchParams.set(VIEW_QUERY_KEY, CREATIVE_VIEW);
+                } else if (view === FLATLAY_VIEW) {
+                    url.searchParams.set(VIEW_QUERY_KEY, FLATLAY_VIEW);
                 } else {
                     url.searchParams.delete(VIEW_QUERY_KEY);
                 }
@@ -1283,6 +2225,312 @@
                 renderView();
             }
 
+            function showFlatlayView(replaceState = false) {
+                state.currentView = FLATLAY_VIEW;
+                syncUrlForView(FLATLAY_VIEW, replaceState);
+                renderView();
+                syncFlatlayUI();
+            }
+
+            function getFlatlayContextData(context = state.flatlayContext) {
+                return state.flatlayUploads[context];
+            }
+
+            function hasAnyFlatlayAsset() {
+                return ['Top', 'Bottom', 'Footwear'].some((context) => Boolean(state.flatlayUploads[context]?.front));
+            }
+
+            function revokeFlatlayUpload(context, slot = 'front') {
+                const current = state.flatlayUploads[context]?.[slot];
+                if (current?.url) {
+                    URL.revokeObjectURL(current.url);
+                }
+            }
+
+            function setFlatlayUpload(slot, file) {
+                if (!file) return;
+
+                const context = slot === 'back' ? 'Top' : state.flatlayContext;
+                revokeFlatlayUpload(context, slot);
+                state.flatlayUploads[context][slot] = {
+                    file,
+                    url: URL.createObjectURL(file)
+                };
+
+                if (slot === 'front') {
+                    state.flatlayCategory = context;
+                }
+
+                syncFlatlayUI();
+            }
+
+            function clearFlatlayContext(context, revokeAssets = false) {
+                const data = state.flatlayUploads[context];
+                if (!data) return;
+
+                Object.keys(data).forEach((slot) => {
+                    if (revokeAssets) {
+                        revokeFlatlayUpload(context, slot);
+                    }
+                    data[slot] = null;
+                });
+            }
+
+            function reassignFlatlayContext(nextContext) {
+                const currentContext = state.flatlayContext;
+                if (!['Top', 'Bottom', 'Footwear'].includes(nextContext)) return;
+                if (currentContext === nextContext) {
+                    state.flatlayCategory = nextContext;
+                    syncFlatlayUI();
+                    return;
+                }
+
+                const currentData = getFlatlayContextData(currentContext);
+                const hasCurrentAsset = Boolean(currentData?.front);
+
+                if (hasCurrentAsset) {
+                    clearFlatlayContext(nextContext, true);
+                    state.flatlayUploads[nextContext].front = currentData.front;
+                    if (nextContext === 'Top') {
+                        state.flatlayUploads[nextContext].back = currentContext === 'Top' ? currentData.back : null;
+                    } else if (currentContext === 'Top' && currentData.back) {
+                        revokeFlatlayUpload('Top', 'back');
+                    }
+
+                    Object.keys(currentData).forEach((slot) => {
+                        currentData[slot] = null;
+                    });
+                }
+
+                state.flatlayCategory = nextContext;
+                state.flatlayContext = nextContext;
+                syncFlatlayUI();
+            }
+
+            function clearFlatlayUploads() {
+                ['Top', 'Bottom', 'Footwear'].forEach((context) => {
+                    clearFlatlayContext(context, true);
+                });
+                state.flatlayCategory = 'Top';
+                state.flatlayContext = 'Top';
+
+                const frontInput = document.querySelector('[data-flatlay-front-input]');
+                const backInput = document.querySelector('[data-flatlay-back-input]');
+                if (frontInput) frontInput.value = '';
+                if (backInput) backInput.value = '';
+
+                syncFlatlayUI();
+            }
+
+            function shouldShowFlatlayCarousel() {
+                return hasAnyFlatlayAsset() && (state.flatlayContext === 'Bottom' || state.flatlayContext === 'Footwear');
+            }
+
+            function renderFlatlayCarousel() {
+                const carousel = document.querySelector('[data-flatlay-carousel]');
+                if (!carousel) return;
+
+                const items = FLATLAY_CAROUSEL_ITEMS[state.flatlayContext] || [];
+                carousel.innerHTML = '';
+
+                const fragment = document.createDocumentFragment();
+                items.forEach((item, index) => {
+                    const card = document.createElement('article');
+                    card.className = 'studio-carousel-card';
+                    card.tabIndex = 0;
+                    card.setAttribute('data-flatlay-preset-card', '');
+                    card.setAttribute('data-flatlay-preset-image', item.image);
+                    card.setAttribute('data-flatlay-preset-label', item.label);
+                    card.innerHTML = `
+                        <div class="studio-carousel-media"><img src="${item.image}" alt="${item.label} preset ${index + 1}"></div>
+                        <div class="studio-carousel-label">${item.label}</div>
+                    `;
+                    fragment.appendChild(card);
+                });
+
+                carousel.appendChild(fragment);
+            }
+
+            function setStudioActiveStep(stepLabel) {
+                document.querySelectorAll('[data-studio-step]').forEach((button) => {
+                    const isActive = button.getAttribute('data-studio-step') === stepLabel;
+                    button.classList.toggle('is-active', isActive);
+                    button.setAttribute('aria-current', isActive ? 'step' : 'false');
+                    button.setAttribute('aria-disabled', isActive ? 'false' : 'true');
+                });
+            }
+
+            function bindFlatlayUploadTriggers() {
+                document.querySelectorAll('[data-flatlay-upload-trigger]').forEach((trigger) => {
+                    if (trigger.dataset.flatlayUploadBound === 'true') return;
+                    trigger.dataset.flatlayUploadBound = 'true';
+                    trigger.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        const frontInput = document.querySelector('[data-flatlay-front-input]');
+                        frontInput?.click();
+                    });
+                });
+            }
+
+            function mountFlatlayCategorySelect(hasImage) {
+                const slot = document.querySelector('[data-flatlay-category-slot]');
+                if (!slot) return null;
+
+                if (!hasImage) {
+                    slot.innerHTML = '';
+                    return null;
+                }
+
+                let select = slot.querySelector('[data-flatlay-category-select]');
+                if (select) return select;
+
+                select = document.createElement('select');
+                select.className = 'studio-category-select';
+                select.setAttribute('aria-label', 'Detected category');
+                select.setAttribute('data-flatlay-category-select', '');
+                select.innerHTML = `
+                    <option>Top</option>
+                    <option>Bottom</option>
+                    <option>Footwear</option>
+                `;
+                slot.appendChild(select);
+                return select;
+            }
+
+            function syncFlatlayUI() {
+                const detailGrid = document.querySelector('.studio-detail-grid');
+                const uploadZone = document.querySelector('[data-flatlay-upload-zone]');
+                const emptyHeading = document.querySelector('[data-flatlay-empty-heading]');
+                const emptyState = document.querySelector('[data-flatlay-empty-state]');
+                const preview = document.querySelector('[data-flatlay-preview]');
+                const mainFrame = document.querySelector('[data-flatlay-main-frame]');
+                const previewImage = document.querySelector('[data-flatlay-preview-image]');
+                const scenarioLabel = document.querySelector('[data-flatlay-scenario-label]');
+                const previewToolbar = document.querySelector('[data-flatlay-preview-toolbar]');
+                const uploadArt = document.querySelector('[data-flatlay-upload-art]');
+                const setupBar = document.querySelector('[data-flatlay-setup-bar]');
+                const categoryPanel = document.querySelector('[data-flatlay-category-panel]');
+                const guidePanel = document.querySelector('[data-flatlay-guide-panel]');
+                const carouselPanel = document.querySelector('[data-flatlay-carousel-panel]');
+                const emptySlot = document.querySelector('[data-flatlay-empty-slot]');
+                const emptySlotLabel = document.querySelector('[data-flatlay-empty-slot-label]');
+                const backPane = document.querySelector('[data-flatlay-back-pane]');
+                const backPreviewImage = document.querySelector('[data-flatlay-back-preview-image]');
+                const backEmpty = document.querySelector('[data-flatlay-back-empty]');
+                const replaceBackButton = document.querySelector('[data-flatlay-replace-back]');
+                const activeData = getFlatlayContextData();
+                const hasCurrentFront = Boolean(activeData?.front);
+                const hasBack = Boolean(state.flatlayUploads.Top.back);
+                const hasImage = hasAnyFlatlayAsset();
+                const categorySelect = mountFlatlayCategorySelect(hasImage);
+                const showsTopContext = state.flatlayContext === 'Top';
+                const showCarousel = shouldShowFlatlayCarousel();
+
+                if (detailGrid) {
+                    detailGrid.classList.toggle('is-empty', !hasImage);
+                }
+
+                if (uploadZone) {
+                    uploadZone.classList.toggle('is-empty-state', !hasImage);
+                }
+
+                if (emptyState) emptyState.hidden = hasImage;
+                if (preview) preview.hidden = !hasImage;
+                if (uploadArt) uploadArt.hidden = hasImage;
+                if (emptyHeading) emptyHeading.hidden = hasImage;
+                if (previewToolbar) previewToolbar.hidden = !hasImage;
+                if (setupBar) setupBar.hidden = !hasImage;
+                if (categoryPanel) categoryPanel.hidden = !hasImage;
+                if (guidePanel) guidePanel.hidden = hasImage;
+                if (carouselPanel) carouselPanel.hidden = !showCarousel;
+                if (scenarioLabel) scenarioLabel.hidden = !hasImage;
+                if (backPane) backPane.hidden = !hasImage || !showsTopContext;
+                if (mainFrame) mainFrame.classList.toggle('is-empty', !hasCurrentFront);
+
+                if (previewImage && hasCurrentFront) {
+                    previewImage.hidden = false;
+                    previewImage.src = activeData.front.url;
+                    previewImage.alt = `${state.flatlayContext} item preview`;
+                } else if (previewImage) {
+                    previewImage.hidden = true;
+                    previewImage.removeAttribute('src');
+                }
+
+                if (emptySlot) {
+                    emptySlot.hidden = hasCurrentFront || !hasImage;
+                }
+
+                if (emptySlotLabel) {
+                    emptySlotLabel.textContent = state.flatlayContext;
+                }
+
+                if (backPreviewImage && hasBack && showsTopContext) {
+                    backPreviewImage.hidden = false;
+                    backPreviewImage.src = state.flatlayUploads.Top.back.url;
+                    backPreviewImage.alt = 'Uploaded back image preview';
+                } else if (backPreviewImage) {
+                    backPreviewImage.hidden = true;
+                    backPreviewImage.removeAttribute('src');
+                }
+
+                if (categorySelect) {
+                    categorySelect.value = state.flatlayCategory;
+                }
+
+                if (backEmpty) {
+                    backEmpty.hidden = hasBack || !showsTopContext;
+                }
+
+                if (replaceBackButton) {
+                    replaceBackButton.hidden = !hasBack || !showsTopContext;
+                }
+
+                document.querySelectorAll('[data-flatlay-category]').forEach((button) => {
+                    const category = button.getAttribute('data-flatlay-category');
+                    const isActive = category === state.flatlayContext;
+                    button.classList.toggle('is-active', isActive);
+                    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                });
+
+                if (showCarousel) {
+                    renderFlatlayCarousel();
+                }
+            }
+
+            function bindCarouselDrag() {
+                document.querySelectorAll('[data-studio-carousel]').forEach((strip) => {
+                    let pointerId = null;
+                    let startX = 0;
+                    let startScrollLeft = 0;
+
+                    strip.addEventListener('pointerdown', (event) => {
+                        pointerId = event.pointerId;
+                        startX = event.clientX;
+                        startScrollLeft = strip.scrollLeft;
+                        strip.classList.add('is-dragging');
+                        strip.setPointerCapture(pointerId);
+                    });
+
+                    strip.addEventListener('pointermove', (event) => {
+                        if (pointerId === null) return;
+                        const delta = event.clientX - startX;
+                        strip.scrollLeft = startScrollLeft - delta;
+                    });
+
+                    function releasePointer() {
+                        if (pointerId !== null && strip.hasPointerCapture(pointerId)) {
+                            strip.releasePointerCapture(pointerId);
+                        }
+                        pointerId = null;
+                        strip.classList.remove('is-dragging');
+                    }
+
+                    strip.addEventListener('pointerup', releasePointer);
+                    strip.addEventListener('pointercancel', releasePointer);
+                    strip.addEventListener('lostpointercapture', releasePointer);
+                });
+            }
+
             document.addEventListener('click', (event) => {
                 const wordmark = event.target.closest('.app-wordmark');
                 if (wordmark) {
@@ -1327,6 +2575,77 @@
                     return;
                 }
 
+                const flatlayBackButton = event.target.closest('[data-flatlay-back]');
+                if (flatlayBackButton) {
+                    event.preventDefault();
+                    showCreativeView();
+                    return;
+                }
+
+                const scenarioCard = event.target.closest('[data-scenario-trigger="flatlay"]');
+                if (scenarioCard) {
+                    event.preventDefault();
+                    showFlatlayView();
+                    return;
+                }
+
+                const stepButton = event.target.closest('[data-studio-step]');
+                if (stepButton) {
+                    if (stepButton.getAttribute('aria-disabled') === 'true') return;
+                    setStudioActiveStep(stepButton.getAttribute('data-studio-step') || 'Select Products');
+                    return;
+                }
+
+                const categoryButton = event.target.closest('[data-flatlay-category]');
+                if (categoryButton) {
+                    state.flatlayContext = categoryButton.getAttribute('data-flatlay-category') || 'Top';
+                    syncFlatlayUI();
+                    return;
+                }
+
+                const clearFlatlayButton = event.target.closest('[data-flatlay-clear]');
+                if (clearFlatlayButton) {
+                    clearFlatlayUploads();
+                    return;
+                }
+
+                const presetCard = event.target.closest('[data-flatlay-preset-card]');
+                if (presetCard) {
+                    const image = presetCard.getAttribute('data-flatlay-preset-image');
+                    if (image) {
+                        revokeFlatlayUpload(state.flatlayContext, 'front');
+                        state.flatlayUploads[state.flatlayContext].front = {
+                            file: null,
+                            url: image
+                        };
+                        state.flatlayCategory = state.flatlayContext;
+                        syncFlatlayUI();
+                    }
+                    return;
+                }
+
+                const addBackButton = event.target.closest('[data-flatlay-add-back]');
+                if (addBackButton) {
+                    event.preventDefault();
+                    const backInput = document.querySelector('[data-flatlay-back-input]');
+                    backInput?.click();
+                    return;
+                }
+
+                const replaceBackButton = event.target.closest('[data-flatlay-replace-back]');
+                if (replaceBackButton) {
+                    event.preventDefault();
+                    const backInput = document.querySelector('[data-flatlay-back-input]');
+                    backInput?.click();
+                    return;
+                }
+
+                const nextFlatlayButton = event.target.closest('[data-flatlay-next]');
+                if (nextFlatlayButton) {
+                    setStudioActiveStep('Select Models');
+                    return;
+                }
+
                 const genderButton = event.target.closest('[data-gender-option]');
                 if (genderButton) {
                     state.selectedGender = genderButton.getAttribute('data-gender-option');
@@ -1361,10 +2680,42 @@
 
             document.addEventListener('change', (event) => {
                 const input = event.target.closest('[data-batch-input]');
-                if (!input) return;
+                if (input) {
+                    state.files = Array.from(input.files || []);
+                    syncBatchUI();
+                    return;
+                }
 
-                state.files = Array.from(input.files || []);
-                syncBatchUI();
+                const frontInput = event.target.closest('[data-flatlay-front-input]');
+                if (frontInput) {
+                    const [file] = Array.from(frontInput.files || []);
+                    if (file) setFlatlayUpload('front', file);
+                    return;
+                }
+
+                const categorySelect = event.target.closest('[data-flatlay-category-select]');
+                if (categorySelect) {
+                    reassignFlatlayContext(categorySelect.value || 'Top');
+                    return;
+                }
+
+                const backInput = event.target.closest('[data-flatlay-back-input]');
+                if (backInput) {
+                    const [file] = Array.from(backInput.files || []);
+                    if (file) {
+                        setFlatlayUpload('back', file);
+                    }
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                const scenarioCard = event.target.closest('[data-scenario-trigger="flatlay"]');
+                if (!scenarioCard) return;
+
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    showFlatlayView();
+                }
             });
 
             const batchUploadZone = document.querySelector('.batch-upload-zone');
@@ -1387,9 +2738,13 @@
                 });
             }
 
+            bindCarouselDrag();
+            bindFlatlayUploadTriggers();
+
             window.addEventListener('popstate', () => {
                 state.currentView = resolveViewFromUrl();
                 renderView();
+                syncFlatlayUI();
             });
 
             const shell = document.querySelector('[data-app-shell]');
@@ -1405,6 +2760,7 @@
 
             state.currentView = resolveViewFromUrl();
             syncBatchUI();
+            syncFlatlayUI();
             syncUrlForView(state.currentView, true);
             renderView();
         }());
