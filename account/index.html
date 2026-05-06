@@ -1011,6 +1011,7 @@
             aspect-ratio: 4 / 5;
             border-radius: 18px;
             overflow: hidden;
+            background: linear-gradient(180deg, #f4f4f4 0%, #e7e7e7 100%);
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
             isolation: isolate;
             cursor: pointer;
@@ -1022,15 +1023,6 @@
             object-fit: cover;
             display: block;
             filter: grayscale(0.92) saturate(0.68) contrast(0.88) brightness(1.05);
-        }
-
-        .studio-upload-layer::after {
-            content: "";
-            position: absolute;
-            inset: auto 0 0 0;
-            height: 42%;
-            background: linear-gradient(180deg, rgba(247, 247, 247, 0), #f7f7f7 92%);
-            pointer-events: none;
         }
 
         .studio-upload-layer.layer-one {
@@ -1083,31 +1075,36 @@
             bottom: -30px;
             transform: translateX(-50%);
             z-index: 5;
-            display: grid;
-            justify-items: center;
-            gap: 14px;
+            width: fit-content;
+            min-height: 46px;
+            border: 1px solid #303030;
+            border-radius: 10px;
+            background: #303030;
+            padding: 0 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            color: #454545;
+            color: #fff;
+            font-size: 28px;
+            line-height: 1.1;
+            font-weight: 500;
+            letter-spacing: -0.02em;
             cursor: pointer;
             pointer-events: auto;
             white-space: nowrap;
             opacity: 1;
             visibility: visible;
+            appearance: none;
+            transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
         }
 
-        .studio-upload-trigger svg {
-            width: 52px;
-            height: 52px;
-            color: #b2b2b2;
-        }
-
-        .studio-upload-trigger span {
-            display: inline-block;
-            min-width: 280px;
-            font-size: 28px;
-            line-height: 1.1;
-            font-weight: 500;
-            letter-spacing: -0.02em;
+        .studio-upload-trigger:hover,
+        .studio-upload-trigger:focus-visible {
+            color: #fff;
+            border-color: #282828;
+            background: #282828;
+            outline: none;
         }
 
         .studio-upload-preview {
@@ -1875,9 +1872,9 @@
                             <label class="studio-upload-zone" data-flatlay-upload-zone>
                                 <input type="file" accept="image/*" data-flatlay-front-input>
                                 <div class="studio-upload-art" aria-hidden="true" data-flatlay-upload-art>
-                                    <div class="studio-upload-layer layer-one" data-flatlay-upload-trigger><img src="/assets/images/006.webp" alt=""></div>
-                                    <div class="studio-upload-layer layer-two" data-flatlay-upload-trigger><img src="/assets/images/007.webp" alt=""></div>
-                                    <div class="studio-upload-layer layer-three" data-flatlay-upload-trigger><img src="/assets/images/007d.webp" alt=""></div>
+                                    <div class="studio-upload-layer layer-one" data-flatlay-upload-trigger><img src="/assets/images/036_pants.webp" alt=""></div>
+                                    <div class="studio-upload-layer layer-two" data-flatlay-upload-trigger><img src="/assets/images/032_dress.webp" alt=""></div>
+                                    <div class="studio-upload-layer layer-three" data-flatlay-upload-trigger><img src="/assets/images/034_t-shirt.webp" alt=""></div>
                                 </div>
                                 <div class="studio-upload-center" data-flatlay-upload-center>
                                     <div class="studio-preview-toolbar" data-flatlay-preview-toolbar hidden>
@@ -1885,14 +1882,7 @@
                                         <div data-flatlay-category-slot></div>
                                     </div>
                                     <div class="studio-upload-empty" data-flatlay-empty-state>
-                                        <div class="studio-upload-trigger" aria-hidden="true" data-flatlay-upload-trigger>
-                                            <svg viewBox="0 0 32 32" fill="none">
-                                                <path d="M16 21V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.5 3.5"></path>
-                                                <path d="M11.5 13.5L16 9L20.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.5 3.5"></path>
-                                                <path d="M8 23.5C8 24.88 9.12 26 10.5 26H21.5C22.88 26 24 24.88 24 23.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2.5 3.5"></path>
-                                            </svg>
-                                            <span>Upload your image +</span>
-                                        </div>
+                                        <button class="studio-upload-trigger" type="button" data-flatlay-upload-trigger>Upload your image +</button>
                                     </div>
                                     <div class="studio-upload-preview" data-flatlay-preview hidden>
                                         <div class="studio-preview-stage">
@@ -1963,9 +1953,9 @@
                                 </div>
                                 <div class="studio-guide-group">
                                     <div class="studio-guide-images">
-                                        <div class="studio-guide-shot"><img src="/assets/images/006.webp" alt="Front-facing example"></div>
-                                        <div class="studio-guide-shot"><img src="/assets/images/007.webp" alt="Clean background example"></div>
-                                        <div class="studio-guide-shot"><img src="/assets/images/007d.webp" alt="Good lighting example"></div>
+                                        <div class="studio-guide-shot"><img src="/assets/images/033_dress.webp" alt="Front-facing example"></div>
+                                        <div class="studio-guide-shot"><img src="/assets/images/035_t-shirt.webp" alt="Clean background example"></div>
+                                        <div class="studio-guide-shot"><img src="/assets/images/037_pants.webp" alt="Good lighting example"></div>
                                     </div>
                                     <p class="studio-guide-copy">Front-facing, clean background, good lighting</p>
                                 </div>
@@ -1973,9 +1963,9 @@
                                 <div class="studio-guide-group">
                                     <h3>What to avoid</h3>
                                     <div class="studio-guide-images">
-                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/007f.webp" alt="Wrinkles example"></div>
-                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/006.webp" alt="Shadows example"></div>
-                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/fashn-export-1774564899950.png" alt="Angled shot example"></div>
+                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/039_jacket_bed.webp" alt="Wrinkles example"></div>
+                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/038_dress_bed.webp" alt="Shadows example"></div>
+                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/040_cap.webp" alt="Angled shot example"></div>
                                     </div>
                                     <p class="studio-guide-copy">Wrinkles, shadows, angled shots</p>
                                 </div>
