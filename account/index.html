@@ -7,6 +7,15 @@
     <title>VESTRA | Account</title>
     <link rel="stylesheet" href="/shared/app-shell.css">
     <style>
+        .app-shell {
+            --studio-capsule-surface: #f1f3f5;
+            --flatlay-band-offset: 18px;
+            --flatlay-capsule-block-size: 38px;
+            --flatlay-header-to-work-gap: 40px;
+            --flatlay-heading-inline-size: auto;
+            --flatlay-heading-block-size: 40px;
+        }
+
         .account-hero {
             gap: 20px;
             padding-block: clamp(32px, 6vw, 52px);
@@ -120,7 +129,7 @@
         }
 
         .access-copy span {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--vestra-muted);
         }
 
@@ -372,10 +381,14 @@
         .batch-back-inner.flatlay-topbar {
             justify-content: flex-start;
             gap: 14px;
+            padding: 8px 24px 18px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
 
         .flatlay-heading-row {
-            padding: 4px 24px 0;
+            display: block;
+            min-height: 0;
+            padding: var(--flatlay-band-offset) 24px 0;
         }
 
         .batch-section {
@@ -878,8 +891,8 @@
         .studio-step-nav {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 6px 0 2px;
+            gap: 8px;
+            padding: 4px 0 2px;
             overflow-x: auto;
             scrollbar-width: none;
         }
@@ -899,12 +912,12 @@
             border: 0;
             border-radius: 10px;
             background: transparent;
-            min-height: 40px;
-            padding: 0 2px;
-            font-size: 14px;
+            min-height: 38px;
+            padding: 0 4px;
+            font-size: 13px;
             font-weight: 600;
             letter-spacing: 0.01em;
-            color: #9a9a9a;
+            color: #80868d;
             cursor: default;
             white-space: nowrap;
             transition: color 0.16s ease, background-color 0.16s ease;
@@ -917,20 +930,20 @@
 
         .studio-step-button.is-active {
             color: #111;
-            min-height: 40px;
+            min-height: 38px;
             padding: 0 14px;
-            background: #f1f1f1;
+            background: var(--studio-capsule-surface);
         }
 
         .studio-step-button[aria-disabled="true"] {
-            color: #a3a3a3;
+            color: #91979e;
             pointer-events: none;
         }
 
         .studio-detail-grid {
             display: grid;
-            grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);
-            gap: 24px;
+            grid-template-columns: minmax(0, 7fr) minmax(320px, 3.24fr);
+            gap: 20px;
             align-items: start;
         }
 
@@ -941,24 +954,32 @@
             min-width: 0;
         }
 
+        .studio-side-column {
+            margin-top: calc(-1 * (var(--flatlay-capsule-block-size) + var(--flatlay-header-to-work-gap)));
+            padding-right: 10px;
+        }
+
         .studio-empty-heading {
             display: inline-flex;
             align-items: center;
-            width: fit-content;
-            min-height: 40px;
+            justify-content: center;
+            width: var(--flatlay-heading-inline-size);
+            min-height: var(--flatlay-heading-block-size);
+            height: var(--flatlay-heading-block-size);
             padding: 0 14px;
             border-radius: 10px;
-            background: #f1f1f1;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.3px;
-            text-transform: uppercase;
+            background: var(--studio-capsule-surface);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            text-transform: none;
             color: #111;
             margin-left: 0;
+            text-align: center;
         }
 
         .studio-detail-grid.is-empty {
-            grid-template-columns: minmax(0, 7fr) minmax(300px, 3fr);
+            grid-template-columns: minmax(0, 7fr) minmax(332px, 3.24fr);
         }
 
         .studio-upload-zone {
@@ -1001,49 +1022,87 @@
         .studio-upload-art {
             position: absolute;
             inset: 0;
+            overflow: visible;
             pointer-events: auto;
+            z-index: 1;
+        }
+
+        .studio-upload-cluster {
+            position: absolute;
+            inset: 0;
             z-index: 1;
         }
 
         .studio-upload-layer {
             position: absolute;
-            width: clamp(218px, 24vw, 278px);
-            aspect-ratio: 4 / 5;
+            width: clamp(198px, 21.1vw, 248px);
+            height: clamp(270px, 29vw, 338px);
+            box-sizing: border-box;
+            padding: clamp(14px, 1.7vw, 18px);
             border-radius: 18px;
             overflow: hidden;
-            background: linear-gradient(180deg, #f4f4f4 0%, #e7e7e7 100%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            background: linear-gradient(180deg, #c7c5c3 0%, #d3d1cf 18%, #e0dfdd 30%, #e7e6e4 64%, #efeeec 100%);
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
             isolation: isolate;
+            display: grid;
             cursor: pointer;
         }
 
         .studio-upload-layer img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            object-position: center;
             display: block;
             filter: grayscale(0.92) saturate(0.68) contrast(0.88) brightness(1.05);
         }
 
+        .studio-upload-layer .studio-upload-garment-base,
+        .studio-upload-layer .studio-upload-garment-lift {
+            grid-area: 1 / 1;
+        }
+
+        .studio-upload-layer .studio-upload-garment-base {
+            position: relative;
+            z-index: 1;
+            -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0.84) 72%, rgba(0, 0, 0, 0.46) 84%, rgba(0, 0, 0, 0.06) 100%);
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0.84) 72%, rgba(0, 0, 0, 0.46) 84%, rgba(0, 0, 0, 0.06) 100%);
+        }
+
+        .studio-upload-layer .studio-upload-garment-lift {
+            display: none;
+        }
+
         .studio-upload-layer.layer-one {
-            top: 7%;
-            left: 8%;
-            transform: rotate(-12deg);
+            top: calc(7% + 4px);
+            left: 16.2%;
+            width: clamp(178px, 19.1vw, 222px);
+            height: clamp(258px, 27.7vw, 322px);
+            transform: rotate(-16deg);
             z-index: 1;
         }
 
         .studio-upload-layer.layer-two {
-            top: 4%;
-            right: 8%;
-            transform: rotate(10deg);
+            top: calc(4% + 14px);
+            right: 15%;
+            width: clamp(190px, 20.3vw, 236px);
+            height: clamp(262px, 28.2vw, 326px);
+            transform: rotate(17deg);
             z-index: 1;
         }
 
         .studio-upload-layer.layer-three {
             top: 8%;
             left: 50%;
-            transform: translateX(-50%) rotate(-4deg);
+            width: clamp(186px, 19.9vw, 232px);
+            transform: translateX(-50%) scale(1.09) rotate(-4deg);
             z-index: 2;
+        }
+
+        .studio-upload-layer.layer-three img {
+            transform: scale(1.12);
+            transform-origin: center;
         }
 
         .studio-upload-center {
@@ -1067,44 +1126,6 @@
             min-height: 420px;
             display: block;
             padding: 0;
-        }
-
-        .studio-upload-trigger {
-            position: absolute;
-            left: 50%;
-            bottom: -30px;
-            transform: translateX(-50%);
-            z-index: 5;
-            width: fit-content;
-            min-height: 46px;
-            border: 1px solid #303030;
-            border-radius: 10px;
-            background: #303030;
-            padding: 0 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
-            font-size: 28px;
-            line-height: 1.1;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-            cursor: pointer;
-            pointer-events: auto;
-            white-space: nowrap;
-            opacity: 1;
-            visibility: visible;
-            appearance: none;
-            transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
-        }
-
-        .studio-upload-trigger:hover,
-        .studio-upload-trigger:focus-visible {
-            color: #fff;
-            border-color: #282828;
-            background: #282828;
-            outline: none;
         }
 
         .studio-upload-preview {
@@ -1195,7 +1216,7 @@
             padding: 0 14px;
             border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.94);
+            background: rgba(247, 248, 250, 0.96);
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 1.3px;
@@ -1204,7 +1225,7 @@
         }
 
         .studio-scenario-chip {
-            color: #666;
+            color: #5d6670;
         }
 
         .studio-category-select {
@@ -1432,6 +1453,21 @@
             padding: 18px;
         }
 
+        .studio-guide-panel {
+            --guide-panel-gap: 12px;
+            --guide-card-radius: 14px;
+            --guide-card-padding-inline: 8px;
+            --guide-card-padding-top: 4px;
+            --guide-card-padding-bottom: 0;
+            --guide-card-aspect: 0.78 / 1;
+            gap: 14px;
+            padding: 18px 16px 16px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--studio-capsule-surface);
+            box-shadow: none;
+        }
+
         .studio-guide-panel[hidden],
         .studio-category-panel[hidden],
         .studio-carousel-panel[hidden],
@@ -1446,9 +1482,15 @@
             gap: 4px;
         }
 
+        .studio-guide-panel .studio-panel-heading {
+            gap: 0;
+            justify-items: center;
+            text-align: center;
+        }
+
         .studio-panel-heading h2 {
-            font-size: 18px;
-            line-height: 1.08;
+            font-size: 17px;
+            line-height: 1.12;
             font-weight: 600;
             letter-spacing: -0.03em;
         }
@@ -1456,8 +1498,15 @@
         .studio-panel-heading p,
         .studio-guide-copy {
             font-size: 13px;
-            line-height: 1.55;
-            color: #7b7b7b;
+            line-height: 1.48;
+            color: #72767c;
+        }
+
+        .studio-guide-panel .studio-guide-copy,
+        .studio-guide-panel .studio-panel-heading p {
+            max-width: 28ch;
+            text-align: center;
+            justify-self: center;
         }
 
         .studio-category-list {
@@ -1517,10 +1566,19 @@
             gap: 10px;
         }
 
+        .studio-guide-group + .studio-guide-group {
+            padding-top: 8px;
+        }
+
+        .studio-guide-panel .studio-panel-heading h2,
         .studio-guide-group h3 {
-            font-size: 13px;
+            font-size: 17px;
             font-weight: 600;
+            line-height: 1.12;
+            letter-spacing: -0.03em;
             color: #111;
+            text-align: center;
+            justify-self: center;
         }
 
         .studio-guide-images {
@@ -1530,22 +1588,28 @@
         }
 
         .studio-guide-shot {
-            aspect-ratio: 1 / 1;
-            border-radius: 12px;
+            aspect-ratio: var(--guide-card-aspect);
+            border-radius: var(--guide-card-radius);
             overflow: hidden;
-            background: #f3f3f3;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: linear-gradient(180deg, #ededeb 0%, #f6f5f3 100%);
             position: relative;
+            display: grid;
+            align-items: start;
+            justify-items: center;
+            padding: var(--guide-card-padding-top) var(--guide-card-padding-inline) var(--guide-card-padding-bottom);
         }
 
         .studio-guide-shot img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            object-position: center top;
             display: block;
         }
 
         .studio-guide-shot.is-avoid img {
-            filter: grayscale(0.5) contrast(0.9);
+            filter: grayscale(0.58) contrast(0.9) brightness(0.98);
         }
 
         .studio-guide-shot.is-avoid::after {
@@ -1582,6 +1646,11 @@
 
             .studio-detail-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .studio-side-column {
+                margin-top: 0;
+                padding-right: 0;
             }
         }
 
@@ -1872,18 +1941,27 @@
                             <label class="studio-upload-zone" data-flatlay-upload-zone>
                                 <input type="file" accept="image/*" data-flatlay-front-input>
                                 <div class="studio-upload-art" aria-hidden="true" data-flatlay-upload-art>
-                                    <div class="studio-upload-layer layer-one" data-flatlay-upload-trigger><img src="/assets/images/036_pants.webp" alt=""></div>
-                                    <div class="studio-upload-layer layer-two" data-flatlay-upload-trigger><img src="/assets/images/032_dress.webp" alt=""></div>
-                                    <div class="studio-upload-layer layer-three" data-flatlay-upload-trigger><img src="/assets/images/034_t-shirt.webp" alt=""></div>
+                                    <div class="studio-upload-cluster">
+                                        <div class="studio-upload-layer layer-one" data-flatlay-upload-trigger>
+                                            <img class="studio-upload-garment-base" src="/assets/images/036_pants.webp" alt="">
+                                            <img class="studio-upload-garment-lift" src="/assets/images/036_pants.webp" alt="" aria-hidden="true">
+                                        </div>
+                                        <div class="studio-upload-layer layer-two" data-flatlay-upload-trigger>
+                                            <img class="studio-upload-garment-base" src="/assets/images/034_t-shirt.webp" alt="">
+                                            <img class="studio-upload-garment-lift" src="/assets/images/034_t-shirt.webp" alt="" aria-hidden="true">
+                                        </div>
+                                        <div class="studio-upload-layer layer-three" data-flatlay-upload-trigger>
+                                            <img class="studio-upload-garment-base" src="/assets/images/032_dress.webp" alt="">
+                                            <img class="studio-upload-garment-lift" src="/assets/images/032_dress.webp" alt="" aria-hidden="true">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="studio-upload-center" data-flatlay-upload-center>
                                     <div class="studio-preview-toolbar" data-flatlay-preview-toolbar hidden>
                                         <span class="studio-scenario-chip" data-flatlay-scenario-label>Flat-Lay Photos</span>
                                         <div data-flatlay-category-slot></div>
                                     </div>
-                                    <div class="studio-upload-empty" data-flatlay-empty-state>
-                                        <button class="studio-upload-trigger" type="button" data-flatlay-upload-trigger>Upload your image +</button>
-                                    </div>
+                                    <div class="studio-upload-empty" data-flatlay-empty-state></div>
                                     <div class="studio-upload-preview" data-flatlay-preview hidden>
                                         <div class="studio-preview-stage">
                                             <div class="studio-upload-preview-frame" data-flatlay-main-frame>
@@ -2114,6 +2192,7 @@
                 const onProjectsView = state.currentView === PROJECTS_VIEW;
                 setProjectsChromeVisible(onProjectsView);
                 setTopNavActive(getTopNavForView(state.currentView));
+                syncFlatlayHeadingGeometry();
             }
 
             function getTopNavForView(view) {
@@ -2350,6 +2429,21 @@
                 });
             }
 
+            function syncFlatlayHeadingGeometry() {
+                if (state.currentView !== FLATLAY_VIEW) return;
+
+                const shell = document.querySelector('[data-app-shell]');
+                const backButton = document.querySelector('[data-flatlay-back]');
+                const heading = document.querySelector('[data-flatlay-empty-heading]');
+                if (!shell || !backButton || !heading) return;
+
+                const backRect = backButton.getBoundingClientRect();
+                if (!backRect.width || !backRect.height) return;
+
+                shell.style.setProperty('--flatlay-heading-inline-size', `${backRect.width}px`);
+                shell.style.setProperty('--flatlay-heading-block-size', `${backRect.height}px`);
+            }
+
             function bindFlatlayUploadTriggers() {
                 document.querySelectorAll('[data-flatlay-upload-trigger]').forEach((trigger) => {
                     if (trigger.dataset.flatlayUploadBound === 'true') return;
@@ -2485,6 +2579,8 @@
                 if (showCarousel) {
                     renderFlatlayCarousel();
                 }
+
+                syncFlatlayHeadingGeometry();
             }
 
             function bindCarouselDrag() {
@@ -2735,6 +2831,10 @@
                 state.currentView = resolveViewFromUrl();
                 renderView();
                 syncFlatlayUI();
+            });
+
+            window.addEventListener('resize', () => {
+                syncFlatlayHeadingGeometry();
             });
 
             const shell = document.querySelector('[data-app-shell]');
