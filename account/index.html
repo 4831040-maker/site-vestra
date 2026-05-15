@@ -1506,14 +1506,17 @@
 
         .studio-panel-heading p,
         .studio-guide-copy {
-            font-size: 13px;
-            line-height: 1.48;
-            color: #72767c;
+            font-size: 11px;
+            line-height: 1.2;
+            font-weight: 500;
+            letter-spacing: 0.035em;
+            color: #7f8285;
+            white-space: nowrap;
         }
 
         .studio-guide-panel .studio-guide-copy,
         .studio-guide-panel .studio-panel-heading p {
-            max-width: 28ch;
+            max-width: none;
             text-align: center;
             justify-self: center;
         }
@@ -1572,19 +1575,19 @@
 
         .studio-guide-group {
             display: grid;
-            gap: 10px;
+            gap: 9px;
         }
 
         .studio-guide-group + .studio-guide-group {
-            padding-top: 8px;
+            padding-top: 24px;
         }
 
         .studio-guide-panel .studio-panel-heading h2,
         .studio-guide-group h3 {
-            font-size: 17px;
-            font-weight: 600;
-            line-height: 1.12;
-            letter-spacing: -0.03em;
+            font-size: 15px;
+            font-weight: 560;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
             color: #111;
             text-align: center;
             justify-self: center;
@@ -2081,7 +2084,7 @@
 
                             <section class="studio-panel studio-guide-panel" aria-labelledby="studio-guide-heading" data-flatlay-guide-panel>
                                 <div class="studio-panel-heading">
-                                    <h2 id="studio-guide-heading">What works best</h2>
+                                    <h2 id="studio-guide-heading">Best Input</h2>
                                 </div>
                                 <div class="studio-guide-group">
                                     <div class="studio-guide-images is-wall-lit">
@@ -2089,17 +2092,17 @@
                                         <div class="studio-guide-shot" style="--wall-highlight: 0.18;"><img class="is-tone-lifted" src="/assets/images/035_t-shirt.webp" alt="Clean background example"></div>
                                         <div class="studio-guide-shot" style="--wall-highlight: 0.08;"><img src="/assets/images/037_pants.webp" alt="Good lighting example"></div>
                                     </div>
-                                    <p class="studio-guide-copy">Front-facing, clean background, good lighting</p>
+                                    <p class="studio-guide-copy">Front-Facing · Clean Background · Even Lighting</p>
                                 </div>
 
                                 <div class="studio-guide-group">
-                                    <h3>What to avoid</h3>
+                                    <h3>Avoid Poor Inputs</h3>
                                     <div class="studio-guide-images">
                                         <div class="studio-guide-shot is-avoid"><img src="/assets/images/039_jacket_bed.webp" alt="Wrinkles example"></div>
                                         <div class="studio-guide-shot is-avoid"><img src="/assets/images/038_dress_bed.webp" alt="Shadows example"></div>
                                         <div class="studio-guide-shot is-avoid"><img src="/assets/images/040_cap.webp" alt="Angled shot example"></div>
                                     </div>
-                                    <p class="studio-guide-copy">Wrinkles, shadows, angled shots</p>
+                                    <p class="studio-guide-copy">Wrinkles · Harsh Shadows · Angled Shots</p>
                                 </div>
                             </section>
                         </aside>
