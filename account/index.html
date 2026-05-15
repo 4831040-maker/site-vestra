@@ -880,7 +880,7 @@
         .studio-detail-section {
             width: min(calc(100vw - 48px), 1440px);
             margin: 0 auto;
-            padding: 0 24px 64px;
+            padding: 0 24px var(--flatlay-band-offset);
         }
 
         .studio-detail-shell {
@@ -1461,7 +1461,7 @@
             --guide-card-padding-bottom: 0;
             --guide-card-aspect: 0.70 / 1;
             --guide-panel-viewport-top: 168px;
-            --guide-panel-bottom-gap: 32px;
+            --guide-panel-bottom-gap: var(--flatlay-band-offset);
             width: calc(100% + clamp(6px, 0.9vw, 16px));
             min-height: 0;
             height: max(0px, calc(100vh - var(--guide-panel-viewport-top) - var(--guide-panel-bottom-gap)));
@@ -1753,7 +1753,7 @@
 
             .studio-detail-section {
                 width: min(calc(100vw - 32px), 1440px);
-                padding: 0 16px 48px;
+                padding: 0 16px var(--flatlay-band-offset);
             }
 
             .studio-upload-zone,
