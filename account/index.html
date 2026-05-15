@@ -1460,9 +1460,12 @@
             --guide-card-padding-top: 4px;
             --guide-card-padding-bottom: 0;
             --guide-card-aspect: 0.70 / 1;
+            --guide-panel-viewport-top: 168px;
+            --guide-panel-bottom-gap: 24px;
             width: calc(100% + clamp(6px, 0.9vw, 16px));
             min-height: 0;
-            height: max(0px, calc(100dvh - 168px));
+            height: max(0px, calc(100vh - var(--guide-panel-viewport-top) - var(--guide-panel-bottom-gap)));
+            height: max(0px, calc(100dvh - var(--guide-panel-viewport-top) - var(--guide-panel-bottom-gap)));
             box-sizing: border-box;
             overflow: hidden;
             align-content: center;
@@ -2244,6 +2247,7 @@
                 setProjectsChromeVisible(onProjectsView);
                 setTopNavActive(getTopNavForView(state.currentView));
                 syncFlatlayHeadingGeometry();
+                syncFlatlayGuidePanelFrame();
             }
 
             function getTopNavForView(view) {
@@ -2495,6 +2499,20 @@
                 shell.style.setProperty('--flatlay-heading-block-size', `${backRect.height}px`);
             }
 
+            function syncFlatlayGuidePanelFrame() {
+                if (state.currentView !== FLATLAY_VIEW) return;
+
+                const guidePanel = document.querySelector('[data-flatlay-guide-panel]');
+                if (!guidePanel || guidePanel.hidden) return;
+
+                window.requestAnimationFrame(() => {
+                    const rect = guidePanel.getBoundingClientRect();
+                    if (!rect.width) return;
+
+                    guidePanel.style.setProperty('--guide-panel-viewport-top', `${Math.max(0, Math.round(rect.top))}px`);
+                });
+            }
+
             function bindFlatlayUploadTriggers() {
                 document.querySelectorAll('[data-flatlay-upload-trigger]').forEach((trigger) => {
                     if (trigger.dataset.flatlayUploadBound === 'true') return;
@@ -2632,6 +2650,7 @@
                 }
 
                 syncFlatlayHeadingGeometry();
+                syncFlatlayGuidePanelFrame();
             }
 
             function bindCarouselDrag() {
@@ -2886,6 +2905,7 @@
 
             window.addEventListener('resize', () => {
                 syncFlatlayHeadingGeometry();
+                syncFlatlayGuidePanelFrame();
             });
 
             const shell = document.querySelector('[data-app-shell]');
