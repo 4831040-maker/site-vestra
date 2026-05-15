@@ -1600,6 +1600,29 @@
             padding: var(--guide-card-padding-top) var(--guide-card-padding-inline) var(--guide-card-padding-bottom);
         }
 
+        .studio-guide-images.is-wall-lit {
+            gap: 0;
+            overflow: hidden;
+            border-radius: var(--guide-card-radius);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background:
+                radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.38) 24%, rgba(255, 255, 255, 0) 55%),
+                linear-gradient(105deg, #f7f6f3 0%, #eeeeeb 48%, #e5e4e0 100%);
+        }
+
+        .studio-guide-images.is-wall-lit .studio-guide-shot {
+            border: 0;
+            border-radius: 0;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0) 46%),
+                linear-gradient(90deg, rgba(255, 255, 255, var(--wall-highlight, 0.24)) 0%, rgba(255, 255, 255, 0) 100%),
+                rgba(255, 255, 255, 0);
+        }
+
+        .studio-guide-images.is-wall-lit .studio-guide-shot + .studio-guide-shot {
+            box-shadow: inset 1px 0 rgba(255, 255, 255, 0.36);
+        }
+
         .studio-guide-shot img {
             width: 100%;
             height: 100%;
@@ -1608,8 +1631,20 @@
             display: block;
         }
 
+        .studio-guide-images.is-wall-lit .studio-guide-shot img {
+            filter: drop-shadow(10px 14px 12px rgba(56, 54, 48, 0.18));
+        }
+
         .studio-guide-shot img.is-tone-lifted {
             filter: brightness(1.12) contrast(0.96) saturate(0.96);
+        }
+
+        .studio-guide-images.is-wall-lit .studio-guide-shot img.is-tone-lifted {
+            filter:
+                brightness(1.12)
+                contrast(0.96)
+                saturate(0.96)
+                drop-shadow(10px 14px 12px rgba(56, 54, 48, 0.18));
         }
 
         .studio-guide-shot.is-avoid img {
@@ -2034,10 +2069,10 @@
                                     <h2 id="studio-guide-heading">What works best</h2>
                                 </div>
                                 <div class="studio-guide-group">
-                                    <div class="studio-guide-images">
-                                        <div class="studio-guide-shot"><img src="/assets/images/033_dress.webp" alt="Front-facing example"></div>
-                                        <div class="studio-guide-shot"><img class="is-tone-lifted" src="/assets/images/035_t-shirt.webp" alt="Clean background example"></div>
-                                        <div class="studio-guide-shot"><img src="/assets/images/037_pants.webp" alt="Good lighting example"></div>
+                                    <div class="studio-guide-images is-wall-lit">
+                                        <div class="studio-guide-shot" style="--wall-highlight: 0.34;"><img src="/assets/images/033_dress.webp" alt="Front-facing example"></div>
+                                        <div class="studio-guide-shot" style="--wall-highlight: 0.18;"><img class="is-tone-lifted" src="/assets/images/035_t-shirt.webp" alt="Clean background example"></div>
+                                        <div class="studio-guide-shot" style="--wall-highlight: 0.08;"><img src="/assets/images/037_pants.webp" alt="Good lighting example"></div>
                                     </div>
                                     <p class="studio-guide-copy">Front-facing, clean background, good lighting</p>
                                 </div>
