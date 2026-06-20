@@ -1158,9 +1158,6 @@
                 transform: translateX(-24px);
             }
 
-            .studio-upload-hero-title {
-                transform: translate(calc(-50% - 24px), -50%);
-            }
         }
 
         .studio-upload-layer.layer-three img {
@@ -1205,6 +1202,12 @@
 
         .studio-upload-hero-title[hidden] {
             display: none !important;
+        }
+
+        @media (min-width: 901px) {
+            .studio-upload-hero-title {
+                transform: translate(calc(-50% - 24px), -50%);
+            }
         }
 
         .studio-upload-action-block {
