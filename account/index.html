@@ -16,6 +16,12 @@
             --flatlay-heading-block-size: 40px;
         }
 
+        html.is-flatlay-scroll-locked,
+        body.is-flatlay-scroll-locked {
+            overflow-y: hidden;
+            overscroll-behavior-y: none;
+        }
+
         .account-hero {
             gap: 20px;
             padding-block: clamp(32px, 6vw, 52px);
@@ -381,14 +387,18 @@
         .batch-back-inner.flatlay-topbar {
             justify-content: flex-start;
             gap: 14px;
-            padding: 8px 24px 18px;
+            padding: 13px 24px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .batch-back-inner.flatlay-topbar > * {
+            transform: translateY(-4px);
         }
 
         .flatlay-heading-row {
             display: block;
             min-height: 0;
-            padding: var(--flatlay-band-offset) 24px 0;
+            padding: 17px 24px 0;
         }
 
         .batch-section {
@@ -878,9 +888,10 @@
         }
 
         .studio-detail-section {
-            width: min(calc(100vw - 48px), 1440px);
-            margin: 0 auto;
-            padding: 0 24px var(--flatlay-band-offset);
+            width: calc(100vw - 48px);
+            margin-left: calc(50% - 50vw + 24px);
+            margin-right: calc(50% - 50vw + 24px);
+            padding: 0 24px 24px;
         }
 
         .studio-detail-shell {
@@ -1098,6 +1109,58 @@
             width: clamp(186px, 19.9vw, 232px);
             transform: translateX(-50%) scale(1.09) rotate(-4deg);
             z-index: 2;
+        }
+
+        @media (min-width: 1490px) {
+            .studio-detail-grid,
+            .studio-detail-grid.is-empty {
+                grid-template-columns: minmax(944px, 1fr) 430px;
+            }
+
+            .studio-main-column {
+                width: 944px;
+                justify-self: center;
+            }
+
+            .studio-side-column {
+                width: 430px;
+                justify-self: end;
+            }
+
+            .studio-upload-layer {
+                width: 248px;
+                height: 338px;
+                padding: 18px;
+            }
+
+            .studio-upload-layer.layer-one {
+                width: 222px;
+                height: 322px;
+            }
+
+            .studio-upload-layer.layer-two {
+                width: 236px;
+                height: 326px;
+            }
+
+            .studio-upload-layer.layer-three {
+                width: 232px;
+            }
+
+            .studio-guide-panel {
+                width: calc(100% + 16px);
+            }
+        }
+
+        @media (min-width: 901px) {
+            .studio-upload-art,
+            .studio-upload-action-block {
+                transform: translateX(-24px);
+            }
+
+            .studio-upload-hero-title {
+                transform: translate(calc(-50% - 24px), -50%);
+            }
         }
 
         .studio-upload-layer.layer-three img {
@@ -1545,8 +1608,8 @@
             --guide-card-padding-top: 4px;
             --guide-card-padding-bottom: 0;
             --guide-card-aspect: 0.70 / 1;
-            --guide-panel-viewport-top: 168px;
-            --guide-panel-bottom-gap: var(--flatlay-band-offset);
+            --guide-panel-viewport-top: 171px;
+            --guide-panel-bottom-gap: 24px;
             width: calc(100% + clamp(6px, 0.9vw, 16px));
             min-height: 0;
             height: max(0px, calc(100vh - var(--guide-panel-viewport-top) - var(--guide-panel-bottom-gap)));
@@ -1604,6 +1667,7 @@
         .studio-guide-panel .studio-panel-heading p {
             max-width: none;
             text-align: center;
+            transform: translateY(2px);
         }
 
         .studio-guide-copy.is-spaced {
@@ -1875,6 +1939,7 @@
 
             .studio-detail-section {
                 width: min(calc(100vw - 32px), 1440px);
+                margin: 0 auto;
                 padding: 0 16px var(--flatlay-band-offset);
             }
 
@@ -2422,6 +2487,35 @@
                 if (contextRow) contextRow.hidden = !isVisible;
             }
 
+            function syncFlatlayScrollLock() {
+                const lockClass = 'is-flatlay-scroll-locked';
+                document.documentElement.classList.remove(lockClass);
+                document.body.classList.remove(lockClass);
+
+                if (state.currentView !== FLATLAY_VIEW) return;
+
+                requestAnimationFrame(() => {
+                    document.documentElement.classList.remove(lockClass);
+                    document.body.classList.remove(lockClass);
+
+                    if (state.currentView !== FLATLAY_VIEW) return;
+
+                    const scrollHeight = Math.max(
+                        document.documentElement.scrollHeight,
+                        document.body.scrollHeight
+                    );
+                    const overflow = scrollHeight - window.innerHeight;
+                    const shouldLock = overflow > 0 && overflow <= 12;
+
+                    document.documentElement.classList.toggle(lockClass, shouldLock);
+                    document.body.classList.toggle(lockClass, shouldLock);
+
+                    if (shouldLock && window.scrollY > 0) {
+                        window.scrollTo({ top: 0, left: window.scrollX, behavior: 'auto' });
+                    }
+                });
+            }
+
             function renderView() {
                 document.querySelectorAll('[data-account-view]').forEach((section) => {
                     section.hidden = section.getAttribute('data-account-view') !== state.currentView;
@@ -2431,6 +2525,7 @@
                 setProjectsChromeVisible(onProjectsView);
                 setTopNavActive(getTopNavForView(state.currentView));
                 syncFlatlayHeadingGeometry();
+                syncFlatlayScrollLock();
             }
 
             function getTopNavForView(view) {
@@ -2823,6 +2918,7 @@
                 }
 
                 syncFlatlayHeadingGeometry();
+                syncFlatlayScrollLock();
             }
 
             function bindCarouselDrag() {
@@ -3077,6 +3173,7 @@
 
             window.addEventListener('resize', () => {
                 syncFlatlayHeadingGeometry();
+                syncFlatlayScrollLock();
             });
 
             const shell = document.querySelector('[data-app-shell]');
