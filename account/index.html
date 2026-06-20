@@ -1469,11 +1469,11 @@
             box-sizing: border-box;
             overflow: hidden;
             align-content: center;
-            gap: 14px;
+            gap: 0;
             padding: 18px 16px 16px;
             border: 0;
             border-radius: 10px;
-            background: var(--studio-capsule-surface);
+            background: #F3F4F7;
             box-shadow: none;
         }
 
@@ -1492,7 +1492,7 @@
         }
 
         .studio-guide-panel .studio-panel-heading {
-            gap: 0;
+            gap: 4px;
             justify-items: center;
             text-align: center;
         }
@@ -1507,11 +1507,11 @@
         .studio-panel-heading p,
         .studio-guide-copy {
             width: 100%;
-            font-size: 15px;
-            line-height: 1.2;
-            font-weight: 500;
+            font-size: 13px;
+            line-height: 1.15;
+            font-weight: 450;
             letter-spacing: 0;
-            color: #7f8285;
+            color: #8a8d90;
             white-space: nowrap;
         }
 
@@ -1522,7 +1522,7 @@
         }
 
         .studio-guide-copy.is-spaced {
-            letter-spacing: 0.035em;
+            letter-spacing: 0.025em;
         }
 
         .studio-category-list {
@@ -1579,19 +1579,20 @@
 
         .studio-guide-group {
             display: grid;
-            gap: 9px;
+            gap: 11px;
         }
 
         .studio-guide-group + .studio-guide-group {
-            padding-top: 24px;
+            padding-top: 30px;
         }
 
         .studio-guide-panel .studio-panel-heading h2,
+        .studio-guide-group h2,
         .studio-guide-group h3 {
             font-size: 17px;
-            font-weight: 560;
+            font-weight: 600;
             line-height: 1.1;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.012em;
             color: #111;
             text-align: center;
             justify-self: center;
@@ -1601,19 +1602,54 @@
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 8px;
+            margin-bottom: 8px;
         }
 
         .studio-guide-shot {
             aspect-ratio: var(--guide-card-aspect);
             border-radius: var(--guide-card-radius);
-            overflow: hidden;
+            overflow: visible;
             border: 1px solid rgba(0, 0, 0, 0.06);
-            background: linear-gradient(180deg, #ededeb 0%, #f6f5f3 100%);
+            background: linear-gradient(180deg, #eceff1 0%, #f5f6f7 100%);
             position: relative;
             display: grid;
             align-items: start;
             justify-items: center;
             padding: var(--guide-card-padding-top) var(--guide-card-padding-inline) var(--guide-card-padding-bottom);
+        }
+
+        .studio-guide-marker {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            z-index: 2;
+            width: clamp(30px, 31%, 50px);
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, 50%);
+            background: #55B58B;
+            box-shadow: 0 7px 16px rgba(35, 77, 54, 0.16), 0 0 0 3px rgba(255, 255, 255, 0.96);
+            pointer-events: none;
+        }
+
+        .studio-guide-marker svg {
+            width: 58%;
+            height: 58%;
+            display: block;
+            overflow: visible;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 3.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .studio-guide-marker.is-negative {
+            background: #E94D3C;
+            box-shadow: 0 7px 16px rgba(106, 47, 45, 0.17), 0 0 0 3px rgba(255, 255, 255, 0.96);
         }
 
         .studio-guide-images.is-wall-lit {
@@ -1626,7 +1662,7 @@
                 radial-gradient(circle at 18% 10%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.28) 24%, rgba(255, 255, 255, 0) 50%),
                 linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0) 46%),
                 linear-gradient(90deg, rgba(255, 255, 255, var(--wall-highlight, 0.24)) 0%, rgba(255, 255, 255, 0) 100%),
-                linear-gradient(105deg, #f7f6f3 0%, #e9e7e2 42%, #c8c5be 100%);
+                linear-gradient(105deg, #f6f7f8 0%, #e7eaed 42%, #c8cdd2 100%);
         }
 
         .studio-guide-images.is-wall-lit .studio-guide-shot:nth-child(2) {
@@ -1634,7 +1670,7 @@
                 radial-gradient(circle at 8% 10%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.18) 22%, rgba(255, 255, 255, 0) 48%),
                 linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 46%),
                 linear-gradient(90deg, rgba(255, 255, 255, var(--wall-highlight, 0.18)) 0%, rgba(255, 255, 255, 0) 100%),
-                linear-gradient(105deg, #e9e7e2 0%, #dedbd4 48%, #d4d1ca 100%);
+                linear-gradient(105deg, #eef0f2 0%, #e1e4e7 48%, #d2d7dc 100%);
         }
 
         .studio-guide-images.is-wall-lit .studio-guide-shot:nth-child(3) {
@@ -1642,7 +1678,7 @@
                 radial-gradient(circle at 4% 10%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 22%, rgba(255, 255, 255, 0) 48%),
                 linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 46%),
                 linear-gradient(90deg, rgba(255, 255, 255, var(--wall-highlight, 0.08)) 0%, rgba(255, 255, 255, 0) 100%),
-                linear-gradient(105deg, #d8d5ce 0%, #d0cdc6 48%, #c8c5be 100%);
+                linear-gradient(105deg, #dde1e5 0%, #d3d8dd 48%, #c8cdd2 100%);
         }
 
         .studio-guide-shot img {
@@ -1651,6 +1687,7 @@
             object-fit: contain;
             object-position: center top;
             display: block;
+            border-radius: calc(var(--guide-card-radius) - 1px);
         }
 
         .studio-guide-images.is-wall-lit .studio-guide-shot img {
@@ -1678,7 +1715,7 @@
         .studio-guide-shot.is-avoid {
             padding: 0;
             border-color: rgba(255, 255, 255, 0.82);
-            background: #f1f0ed;
+            background: #eceff1;
         }
 
         @keyframes missingOutlineFade {
@@ -2087,24 +2124,71 @@
                             </section>
 
                             <section class="studio-panel studio-guide-panel" aria-labelledby="studio-guide-heading" data-flatlay-guide-panel>
-                                <div class="studio-panel-heading">
-                                    <h2 id="studio-guide-heading">Best Input</h2>
-                                </div>
                                 <div class="studio-guide-group">
+                                    <div class="studio-panel-heading">
+                                        <h2 id="studio-guide-heading">Best Input</h2>
+                                    </div>
                                     <div class="studio-guide-images is-wall-lit">
-                                        <div class="studio-guide-shot" style="--wall-highlight: 0.34;"><img src="/assets/images/033_dress.webp" alt="Front-facing example"></div>
-                                        <div class="studio-guide-shot" style="--wall-highlight: 0.18;"><img class="is-tone-lifted" src="/assets/images/035_t-shirt.webp" alt="Clean background example"></div>
-                                        <div class="studio-guide-shot" style="--wall-highlight: 0.08;"><img src="/assets/images/037_pants.webp" alt="Good lighting example"></div>
+                                        <div class="studio-guide-shot" style="--wall-highlight: 0.34;">
+                                            <img src="/assets/images/033_dress.webp" alt="Front-facing example">
+                                            <span class="studio-guide-marker" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" focusable="false">
+                                                    <path d="M5.5 12.6l4.2 4.2 8.8-9.6"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="studio-guide-shot" style="--wall-highlight: 0.18;">
+                                            <img class="is-tone-lifted" src="/assets/images/035_t-shirt.webp" alt="Clean background example">
+                                            <span class="studio-guide-marker" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" focusable="false">
+                                                    <path d="M5.5 12.6l4.2 4.2 8.8-9.6"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="studio-guide-shot" style="--wall-highlight: 0.08;">
+                                            <img src="/assets/images/037_pants.webp" alt="Good lighting example">
+                                            <span class="studio-guide-marker" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" focusable="false">
+                                                    <path d="M5.5 12.6l4.2 4.2 8.8-9.6"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
                                     </div>
                                     <p class="studio-guide-copy">Front-Facing · Clean Background · Even Lighting</p>
                                 </div>
 
                                 <div class="studio-guide-group">
-                                    <h3>Avoid Poor Inputs</h3>
+                                    <div class="studio-panel-heading">
+                                        <h3>Avoid Poor Inputs</h3>
+                                    </div>
                                     <div class="studio-guide-images">
-                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/039_jacket_bed.webp" alt="Wrinkles example"></div>
-                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/038_dress_bed.webp" alt="Shadows example"></div>
-                                        <div class="studio-guide-shot is-avoid"><img src="/assets/images/040_cap.webp" alt="Angled shot example"></div>
+                                        <div class="studio-guide-shot is-avoid">
+                                            <img src="/assets/images/039_jacket_bed.webp" alt="Wrinkles example">
+                                            <span class="studio-guide-marker is-negative" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" focusable="false">
+                                                    <path d="M7 7l10 10"></path>
+                                                    <path d="M17 7L7 17"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="studio-guide-shot is-avoid">
+                                            <img src="/assets/images/038_dress_bed.webp" alt="Shadows example">
+                                            <span class="studio-guide-marker is-negative" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" focusable="false">
+                                                    <path d="M7 7l10 10"></path>
+                                                    <path d="M17 7L7 17"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="studio-guide-shot is-avoid">
+                                            <img src="/assets/images/040_cap.webp" alt="Angled shot example">
+                                            <span class="studio-guide-marker is-negative" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" focusable="false">
+                                                    <path d="M7 7l10 10"></path>
+                                                    <path d="M17 7L7 17"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
                                     </div>
                                     <p class="studio-guide-copy is-spaced">Wrinkles · Harsh Shadows · Angled Shots</p>
                                 </div>
