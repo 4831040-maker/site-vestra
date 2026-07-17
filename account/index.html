@@ -1012,6 +1012,20 @@
             overflow: visible;
         }
 
+        .studio-upload-zone:not(.is-empty-state) {
+            min-height: 0;
+            border-color: transparent;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            overflow: visible;
+        }
+
+        .studio-upload-zone:not(.is-empty-state) .studio-upload-center {
+            min-height: 0;
+            padding: 0;
+        }
+
         .studio-upload-zone:hover,
         .studio-upload-zone:focus-within {
             transform: scale(1.01);
@@ -1020,7 +1034,9 @@
         }
 
         .studio-upload-zone.is-empty-state:hover,
-        .studio-upload-zone.is-empty-state:focus-within {
+        .studio-upload-zone.is-empty-state:focus-within,
+        .studio-upload-zone:not(.is-empty-state):hover,
+        .studio-upload-zone:not(.is-empty-state):focus-within {
             transform: none;
             border-color: transparent;
             box-shadow: none;
@@ -1193,7 +1209,7 @@
             font-size: 22px;
             line-height: 1.08;
             font-weight: 600;
-            letter-spacing: -0.024em;
+            letter-spacing: 0.01em;
             color: #111;
             text-align: center;
             white-space: nowrap;
@@ -1279,6 +1295,10 @@
             padding: 0;
         }
 
+        .studio-upload-empty[hidden] {
+            display: none !important;
+        }
+
         .studio-upload-preview {
             width: 100%;
             height: 100%;
@@ -1305,7 +1325,7 @@
 
         .studio-preview-stage {
             display: grid;
-            grid-template-columns: minmax(0, 1.45fr) minmax(220px, 0.8fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 16px;
             align-items: stretch;
         }
@@ -1330,12 +1350,16 @@
         }
 
         .studio-upload-preview-frame img {
-            width: 100%;
-            height: 100%;
+            width: auto;
+            height: auto;
+            max-width: 100%;
             max-height: 292px;
             object-fit: contain;
             display: block;
             margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 12px;
+            box-sizing: border-box;
         }
 
         .studio-upload-empty-slot {
@@ -1458,9 +1482,38 @@
         .studio-backdrop-pane img {
             width: 100%;
             height: 100%;
-            max-height: 220px;
+            max-width: none;
+            max-height: none;
             object-fit: contain;
             display: block;
+            border: 0;
+            border-radius: inherit;
+        }
+
+        .studio-back-image-shell {
+            position: relative;
+            width: min(100%, 292px);
+            height: 292px;
+            max-width: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 12px;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: width 0.16s ease, height 0.16s ease;
+        }
+
+        .studio-back-image-shell * {
+            cursor: pointer;
+        }
+
+        .studio-back-image-shell.is-placeholder {
+            background:
+                radial-gradient(circle at 8% 10%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.18) 22%, rgba(255, 255, 255, 0) 48%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 46%),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 100%),
+                linear-gradient(105deg, #eef0f2 0%, #e1e4e7 48%, #d2d7dc 100%);
+            filter: drop-shadow(3px 5px 4px rgba(58, 55, 48, 0.16));
         }
 
         .studio-backdrop-copy {
@@ -1482,6 +1535,11 @@
         }
 
         .studio-backdrop-button {
+            position: absolute;
+            left: 50%;
+            bottom: 12px;
+            z-index: 3;
+            transform: translateX(-50%);
             min-height: 40px;
             border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 10px;
@@ -1492,6 +1550,27 @@
             color: #353535;
             cursor: pointer;
             transition: border-color 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+            white-space: nowrap;
+        }
+
+        .studio-backdrop-button::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 9px);
+            transform: translate(-50%, 4px);
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: rgba(17, 17, 17, 0.92);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 1.2;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+            white-space: nowrap;
         }
 
         .studio-backdrop-button:hover,
@@ -1500,6 +1579,14 @@
             background: #fff;
             color: #111;
             outline: none;
+        }
+
+        .studio-backdrop-button:hover::after,
+        .studio-backdrop-button:focus-visible::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, 0);
+            transition-delay: 0s;
         }
 
         .studio-carousel-card,
@@ -2224,12 +2311,11 @@
                                                 </div>
                                             </div>
                                             <div class="studio-backdrop-pane" data-flatlay-back-pane hidden>
-                                                <img src="" alt="Uploaded back image preview" data-flatlay-back-preview-image hidden>
-                                                <div class="studio-backdrop-copy" data-flatlay-back-empty>
-                                                    <span>Back image (optional)</span>
-                                                    <button class="studio-backdrop-button" type="button" data-flatlay-add-back>Upload back image</button>
+                                                <div class="studio-back-image-shell is-placeholder" data-flatlay-back-image-shell>
+                                                    <img src="/assets/images/034_a_t-shirt_back.webp" alt="Back-view garment placeholder" data-flatlay-back-preview-image>
+                                                    <button class="studio-backdrop-button" type="button" data-tooltip="Back image (optional)" data-flatlay-add-back>Upload back image</button>
+                                                    <button class="studio-backdrop-button" type="button" data-tooltip="Back image (optional)" data-flatlay-replace-back hidden>Replace back image</button>
                                                 </div>
-                                                <button class="studio-backdrop-button" type="button" data-flatlay-replace-back hidden>Replace back image</button>
                                             </div>
                                         </div>
                                     </div>
@@ -2838,6 +2924,7 @@
                 const emptySlotLabel = document.querySelector('[data-flatlay-empty-slot-label]');
                 const backPane = document.querySelector('[data-flatlay-back-pane]');
                 const backPreviewImage = document.querySelector('[data-flatlay-back-preview-image]');
+                const backImageShell = document.querySelector('[data-flatlay-back-image-shell]');
                 const backEmpty = document.querySelector('[data-flatlay-back-empty]');
                 const replaceBackButton = document.querySelector('[data-flatlay-replace-back]');
                 const activeData = getFlatlayContextData();
@@ -2892,9 +2979,12 @@
                     backPreviewImage.hidden = false;
                     backPreviewImage.src = state.flatlayUploads.Top.back.url;
                     backPreviewImage.alt = 'Uploaded back image preview';
+                    backImageShell?.classList.remove('is-placeholder');
                 } else if (backPreviewImage) {
-                    backPreviewImage.hidden = true;
-                    backPreviewImage.removeAttribute('src');
+                    backPreviewImage.hidden = !showsTopContext;
+                    backPreviewImage.src = '/assets/images/034_a_t-shirt_back.webp';
+                    backPreviewImage.alt = 'Back-view garment placeholder';
+                    backImageShell?.classList.add('is-placeholder');
                 }
 
                 if (categorySelect) {
@@ -2922,6 +3012,19 @@
 
                 syncFlatlayHeadingGeometry();
                 syncFlatlayScrollLock();
+                requestAnimationFrame(syncFlatlayBackGeometry);
+            }
+
+            function syncFlatlayBackGeometry() {
+                const frontImage = document.querySelector('[data-flatlay-preview-image]');
+                const backImageShell = document.querySelector('[data-flatlay-back-image-shell]');
+                if (!frontImage || !backImageShell || frontImage.hidden) return;
+
+                const frontRect = frontImage.getBoundingClientRect();
+                if (!frontRect.width || !frontRect.height) return;
+
+                backImageShell.style.width = `${frontRect.width}px`;
+                backImageShell.style.height = `${frontRect.height}px`;
             }
 
             function bindCarouselDrag() {
@@ -3168,6 +3271,8 @@
             bindCarouselDrag();
             bindFlatlayUploadTriggers();
 
+            document.querySelector('[data-flatlay-preview-image]')?.addEventListener('load', syncFlatlayBackGeometry);
+
             window.addEventListener('popstate', () => {
                 state.currentView = resolveViewFromUrl();
                 renderView();
@@ -3177,6 +3282,7 @@
             window.addEventListener('resize', () => {
                 syncFlatlayHeadingGeometry();
                 syncFlatlayScrollLock();
+                syncFlatlayBackGeometry();
             });
 
             const shell = document.querySelector('[data-app-shell]');
